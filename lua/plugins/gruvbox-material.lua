@@ -3,6 +3,7 @@
 return {
   'sainnhe/gruvbox-material',
   priority = 900,
+  enabled = false,
   config = function()
     local color_table = require('core.custom-style').color_table
     local set_hl_with_gruvbox = require('theme.telescope').set_hl_with_gruvbox

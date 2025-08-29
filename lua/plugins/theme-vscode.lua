@@ -3,6 +3,7 @@
 return {
   'YaQia/darkplus.nvim',
   priority = 1000,
+  enabled = false,
   config = function()
     local registe_default_hl_reset = require('theme.common-hl-reset')
     registe_default_hl_reset()

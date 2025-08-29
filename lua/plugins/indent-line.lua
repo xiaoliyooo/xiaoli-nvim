@@ -5,6 +5,7 @@ return {
   main = 'ibl',
   lazy = true,
   event = { 'BufReadPost', 'BufNewFile' },
+  enabled = false,
   config = function()
     require('ibl').setup({
       scope = {

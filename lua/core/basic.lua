@@ -13,8 +13,8 @@ opt.jumpoptions = 'stack' -- gd ctrl+o 跳转模型
 opt.swapfile = false
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.opt.cursorcolumn = true
-vim.opt.cursorline = true
+vim.opt.cursorcolumn = false
+vim.opt.cursorline = false
 vim.api.nvim_create_autocmd('FileType', {
   pattern = special_filetypes,
   callback = function()
