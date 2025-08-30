@@ -13,7 +13,7 @@ return function()
         return string.format('%s', diagnostic.message)
       end,
     },
-    underline = false,
+    underline = true,
     update_in_insert = false, -- 在插入模式下不更新diagnostic
     float = {
       border = border,
@@ -32,12 +32,6 @@ return function()
         [vim.diagnostic.severity.HINT] = '',
       },
       texthl = {
-        [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
-        [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
-        [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
-        [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
-      },
-      numhl = {
         [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
         [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
         [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',

@@ -11,6 +11,8 @@ return {
       current_line_blame = true,
       current_line_blame_opts = { delay = 0 },
       current_line_blame_formatter = 'commit: <abbrev_sha>, <author>, <author_time:%R> - <summary>',
+      numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
+      linehl = false,
       preview_config = {
         border = border,
         style = 'minimal',
