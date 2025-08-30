@@ -11,6 +11,7 @@ M.theme_map = {
 M.filename_map = {
   default = color_table.light_green,
   ['gruvbox-material'] = color_table.gruvbox_material_background,
+  gruvbuddy = '#ffffff',
 }
 
 local function get_filename_color()
@@ -19,15 +20,6 @@ local function get_filename_color()
 end
 
 function M.get_lualine_config()
-  local diagnostics = {
-    'diagnostics',
-    sources = { 'nvim_diagnostic' },
-    sections = { 'error', 'warn' },
-    symbols = { error = ' ', warn = ' ' },
-    colored = false,
-    always_visible = true,
-  }
-
   local lsp_server = {
     'lsp_status',
     icon = ' ',
@@ -46,13 +38,16 @@ function M.get_lualine_config()
     file_status = true,
     path = 1, -- 0: Just the filename 1: Relative path 2: Absolute path
     color = { fg = file_name_color, gui = 'bold' },
-    shorting_target = 40,
+    shorting_target = 0,
     symbols = {
       modified = '[+]',
       readonly = '[-]',
       unnamed = '[No Name]',
     },
     separator = { left = '', right = '' },
+    fmt = function(str)
+      return '[' .. str .. ']'
+    end,
   }
 
   local filetype = {
@@ -100,7 +95,7 @@ function M.get_lualine_config()
           table.insert(formatterNames, formatter)
         end
 
-        return '󰷈 ' .. table.concat(formatterNames, ' ')
+        return 'fmt:[' .. table.concat(formatterNames) .. ']'
       end
 
       -- Check if there's an LSP formatter
@@ -108,7 +103,7 @@ function M.get_lualine_config()
       local lsp_clients = lsp_format.get_format_clients({ bufnr = bufnr })
 
       if not vim.tbl_isempty(lsp_clients) then
-        return '󰷈 LSP Formatter'
+        return '[No formatter]'
       end
 
       return ''
@@ -146,8 +141,8 @@ function M.get_lualine_config()
     },
     sections = {
       lualine_a = { branch },
-      lualine_b = {},
-      lualine_c = { file_name, venn_indicator },
+      lualine_b = { file_name },
+      lualine_c = { venn_indicator },
       lualine_x = {
         line_count,
         filetype,
@@ -159,8 +154,8 @@ function M.get_lualine_config()
     },
     inactive_sections = {
       lualine_a = {},
-      lualine_b = {},
-      lualine_c = { file_name },
+      lualine_b = { file_name },
+      lualine_c = {},
       lualine_x = {},
       lualine_y = {},
       lualine_z = {},
