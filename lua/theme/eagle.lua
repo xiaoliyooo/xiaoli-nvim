@@ -28,6 +28,7 @@ end
 
 M.border_hl_map = {
   ['gruvbox-material'] = style.color_table.gruvbox_material_background,
+  ['gruvbuddy'] = '#ffffff',
   default = '#8AAAE5',
 }
 
