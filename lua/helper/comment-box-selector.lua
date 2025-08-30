@@ -50,9 +50,6 @@ local comment_styles = {
 local function generate_all_previews()
   local previews = {}
 
-  local current_buf = vim.api.nvim_get_current_buf()
-  local current_pos = vim.api.nvim_win_get_cursor(0)
-
   for _, style in ipairs(comment_styles) do
     local preview_lines = {}
 
@@ -74,24 +71,24 @@ local function generate_all_previews()
       vim.api.nvim_buf_set_lines(temp_buf, 0, -1, false, { sample_text })
     end
 
-    -- 临时切换到预览缓冲区
-    vim.api.nvim_set_current_buf(temp_buf)
-
-    -- 执行命令生成预览
+    -- 生成预览
     local success = pcall(function()
-      if style.type == 'box' then
-        -- 对于box样式，需要选择所有行然后执行命令
-        vim.cmd('normal! ggVG') -- 选择所有行
-        vim.cmd(style.command)
-      else
-        -- 对于line样式，直接执行命令
-        vim.cmd(style.command)
-      end
+      vim.api.nvim_buf_call(temp_buf, function()
+        if style.type == 'box' then
+          -- 对于box样式，需要选择所有行然后执行命令
+          vim.cmd('normal! ggVG') -- 选择所有行
+          vim.cmd(style.command)
+        else
+          -- 对于line样式，直接执行命令
+          vim.cmd(style.command)
+        end
+      end)
+
+      -- 获取预览内容
+      preview_lines = vim.api.nvim_buf_get_lines(temp_buf, 0, -1, false)
     end)
 
-    if success then
-      preview_lines = vim.api.nvim_buf_get_lines(temp_buf, 0, -1, false)
-    else
+    if not success then
       preview_lines = {
         '// 预览生成失败: ' .. style.name,
         '// 命令: ' .. style.command,
@@ -104,10 +101,6 @@ local function generate_all_previews()
     -- 清理临时缓冲区
     vim.api.nvim_buf_delete(temp_buf, { force = true })
   end
-
-  -- 恢复原始状态
-  vim.api.nvim_set_current_buf(current_buf)
-  vim.api.nvim_win_set_cursor(0, current_pos)
 
   return previews
 end
@@ -205,20 +198,31 @@ function M.comment_box_selector()
             local style = selection.value
 
             if had_selection and start_line and end_line then
-              -- 使用行号直接执行命令
-              local cmd = string.format('%d,%d%s', start_line, end_line, style.command)
-              vim.cmd(cmd)
-              print('已应用 ' .. style.name .. ' 样式到第 ' .. start_line .. '-' .. end_line .. ' 行')
+              if style.type == 'box' then
+                -- box样式使用范围命令
+                local cmd = string.format('%d,%d%s', start_line, end_line, style.command)
+                vim.cmd(cmd)
+              else
+                local current_line = vim.api.nvim_get_current_line()
+                vim.api.nvim_win_set_cursor(0, {start_line, 0})
+                
+                -- 逐行应用line样式
+                for line_num = start_line, end_line do
+                  vim.api.nvim_win_set_cursor(0, {line_num, 0})
+                  vim.cmd(style.command)
+                end
+                
+                -- 恢复光标位置
+                vim.api.nvim_win_set_cursor(0, {start_line, #current_line})
+              end
             else
-              -- 没有选中文本的处理逻辑
+              -- 没有选中文本处理光标所在行
               local current_line = vim.api.nvim_get_current_line()
               if current_line:match('%S') then
                 vim.cmd(style.command)
-                print('已应用 ' .. style.name .. ' 样式到当前行')
               else
                 vim.api.nvim_set_current_line('示例注释框')
                 vim.cmd(style.command)
-                print('已创建 ' .. style.name .. ' 样式的示例注释框')
               end
             end
           end
