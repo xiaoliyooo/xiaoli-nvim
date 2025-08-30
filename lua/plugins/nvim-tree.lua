@@ -16,12 +16,10 @@ return {
       -- default mappings
       api.config.mappings.default_on_attach(bufnr)
       local function open()
-        vim.cmd('WindowsDisableAutowidth')
         api.node.open.edit()
       end
 
       vim.keymap.set('n', '<C-v>', function()
-        vim.cmd('WindowsDisableAutowidth')
         api.node.open.vertical()
       end, opts('Open: Vertical Split'))
       vim.keymap.set('n', '<leader>nn', api.tree.toggle)
@@ -29,7 +27,6 @@ return {
       -- mini.files like mappings
       vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('nav parent'))
       vim.keymap.set('n', 'l', function()
-        vim.cmd('WindowsDisableAutowidth')
         api.node.open.preview()
       end, opts('open / preview'))
 
@@ -37,7 +34,6 @@ return {
       vim.keymap.set('n', 'tt', api.node.navigate.sibling.first, opts('Go to First Sibling'))
       -- 跳转到当前文件夹的最后一个
       vim.keymap.set('n', 'tb', api.node.navigate.sibling.last, opts('Go to Last Sibling'))
-      vim.cmd('WindowsDisableAutowidth')
       vim.keymap.set('n', '<CR>', open, opts('open'))
       vim.keymap.set('n', 'o', open, opts('open'))
       vim.keymap.del('n', '-', { buffer = bufnr })

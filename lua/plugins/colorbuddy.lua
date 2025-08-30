@@ -13,22 +13,21 @@ return {
       callback = function()
         vim.api.nvim_set_hl(0, 'FlashMatch', { fg = 'gold' })
         vim.api.nvim_set_hl(0, 'FlashCurrent', { fg = color_table.light_green })
-        vim.api.nvim_set_hl(0, 'IlluminatedWordBase', {
-          bold = true,
-          underline = false,
-        })
         vim.api.nvim_set_hl(0, '@comment', { link = 'Comment' })
         vim.api.nvim_set_hl(0, 'CustomYankHighlight', { link = 'PmenuKindSel' })
         vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'NONE' })
         vim.api.nvim_set_hl(0, 'FloatTitle', { bg = 'NONE' })
-        -- 设置滚动条颜色
         vim.api.nvim_set_hl(0, 'ScrollView', { link = 'Search' })
 
-        -- visual-whitespace color
-        local visual_hl = vim.api.nvim_get_hl(0, {
-          name = 'Visual',
+        -- 光标行高亮与关键字高亮叠加消除
+        vim.api.nvim_set_hl(0, '@variable.builtin', {
+          fg = '#c5b5dd',
+          bg = 'NONE',
         })
-        vim.api.nvim_set_hl(0, 'VisualNonText', { fg = '#716d62', bg = visual_hl.bg }) -- best
+        vim.api.nvim_set_hl(0, 'IlluminatedWordBase', {
+          bold = true,
+          bg = '#6e7681',
+        })
       end,
     })
 

@@ -40,14 +40,6 @@ function M.get_lualine_config()
     ignore_lsp = {},
   }
 
-  local current_time = {
-    function()
-      return os.date('%H:%M')
-    end,
-    color = { fg = '#98c379' },
-    icon = '󰥔',
-  }
-
   local file_name_color = get_filename_color()
   local file_name = {
     'filename',
@@ -154,7 +146,7 @@ function M.get_lualine_config()
     },
     sections = {
       lualine_a = { branch },
-      lualine_b = { current_time },
+      lualine_b = {},
       lualine_c = { file_name, venn_indicator },
       lualine_x = {
         line_count,

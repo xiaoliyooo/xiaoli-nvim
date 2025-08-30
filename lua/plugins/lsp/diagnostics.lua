@@ -13,7 +13,7 @@ return function()
         return string.format('%s', diagnostic.message)
       end,
     },
-    underline = true,
+    underline = false,
     update_in_insert = false, -- 在插入模式下不更新diagnostic
     float = {
       border = border,

@@ -1,6 +1,7 @@
 return {
   'nvzone/showkeys',
   event = 'VeryLazy',
+  enabled = false,
   config = function()
     local showkeys = require('showkeys')
     showkeys.setup({

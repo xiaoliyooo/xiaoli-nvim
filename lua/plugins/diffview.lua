@@ -74,7 +74,6 @@ return {
             'n',
             '-',
             function()
-              vim.cmd('WindowsDisableAutowidth')
               vim.cmd('vertical resize -2')
             end,
             { desc = '左右宽度减少' },

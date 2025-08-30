@@ -21,8 +21,6 @@ map('n', '<leader>s', require('helper.smart-select-block'))
 map('n', '<leader>a', 'za')
 
 map('n', '<leader>nh', ':nohl<CR>') -- 取消高亮
-map('n', '<leader>hh', '<C-w>v') -- 水平新增窗口
-map('n', '<leader>vv', '<C-w>s') -- 垂直新增窗口
 map('n', '<leader>ll', '"ayiwoconsole.log(\'<C-R>a:\', <C-R>a);<Esc>') -- Auto log
 -- map('n', '<leader>e', vim.diagnostic.open_float)
 
@@ -38,19 +36,15 @@ map({ 'n', 'i' }, '<D-s>', function()
 end)
 
 vim.keymap.set('n', '=', function()
-  vim.cmd('WindowsDisableAutowidth')
   vim.cmd('vertical resize +2')
 end, { desc = '增加窗口左右宽度' })
 vim.keymap.set('n', '-', function()
-  vim.cmd('WindowsDisableAutowidth')
   vim.cmd('vertical resize -2')
 end, { desc = '减少左右宽度' })
 vim.keymap.set('n', '<C-=>', function()
-  vim.cmd('WindowsDisableAutowidth')
   vim.cmd('resize +2')
 end, { desc = '增加窗口上下高度' })
 vim.keymap.set('n', '<C-->', function()
-  vim.cmd('WindowsDisableAutowidth')
   vim.cmd('resize -2')
 end, { desc = '减少窗口上下高度' })
 

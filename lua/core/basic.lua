@@ -14,7 +14,8 @@ opt.swapfile = false
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.opt.cursorcolumn = false
-vim.opt.cursorline = false
+vim.opt.cursorline = true
+vim.opt.showtabline = 2
 vim.api.nvim_create_autocmd('FileType', {
   pattern = special_filetypes,
   callback = function()

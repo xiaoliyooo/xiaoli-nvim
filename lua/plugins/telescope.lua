@@ -136,12 +136,12 @@ return {
         keymap.set({ 'n', 'v' }, '<leader>fb', function()
           require('helper.comment-box-selector').comment_box_selector()
         end, { desc = 'Fuzzy find highlights' })
-        keymap.set(
-          'n',
-          '<leader>ft',
-          require('helper.switcher').preview_theme_selector,
-          { desc = 'Fuzzy find themes with preview' }
-        )
+        -- keymap.set(
+        --   'n',
+        --   '<leader>ft',
+        --   require('helper.switcher').preview_theme_selector,
+        --   { desc = 'Fuzzy find themes with preview' }
+        -- )
         keymap.set({ 'n', 'i' }, '<C-Tab>', function()
           tele_builtin.buffers({
             sort_lastused = true,
