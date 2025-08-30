@@ -55,17 +55,25 @@ return {
           vim.g.gitsigns_blame_open = true
           gitsigns.blame()
         end)
-        map('n', 'rh', gitsigns.reset_hunk)
+
+        -- hunk reset
+        map('n', 'hr', gitsigns.reset_hunk)
+        map('v', 'hr', function()
+          gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end)
+
+        -- hunk stage
+        map('n', '<leader>hs', gitsigns.stage_hunk)
+        map('v', '<leader>hs', function()
+          gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end)
+
         -- Navigation
         map('n', ']c', function()
           gitsigns.nav_hunk('next')
         end)
         map('n', '[c', function()
           gitsigns.nav_hunk('prev')
-        end)
-        map('n', 'rl', function()
-          local cursor_line = vim.fn.line('.')
-          gitsigns.reset_hunk({ cursor_line, cursor_line })
         end)
         map('n', '<leader>hk', function()
           gitsigns.select_hunk()
