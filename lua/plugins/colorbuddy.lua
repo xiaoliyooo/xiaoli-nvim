@@ -33,19 +33,6 @@ return {
       end,
     })
 
-    local error_hl = vim.api.nvim_get_hl(0, {
-      name = 'DiagnosticError',
-    })
-    local warn_hl = vim.api.nvim_get_hl(0, {
-      name = 'DiagnosticWarn',
-    })
-    local info_hl = vim.api.nvim_get_hl(0, {
-      name = 'DiagnosticInfo',
-    })
-    local hint_hl = vim.api.nvim_get_hl(0, {
-      name = 'DiagnosticHint',
-    })
-
     vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { undercurl = true, sp = color_table.error_color })
     vim.api.nvim_set_hl(0, 'DiagnosticUnderlineWarn', { undercurl = true, sp = color_table.warn_color })
     vim.api.nvim_set_hl(0, 'DiagnosticUnderlineInfo', { undercurl = true, sp = color_table.info_color })
