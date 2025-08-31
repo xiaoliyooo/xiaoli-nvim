@@ -57,8 +57,8 @@ return {
         end)
 
         -- hunk reset
-        map('n', 'hr', gitsigns.reset_hunk)
-        map('v', 'hr', function()
+        map('n', '<leader>hr', gitsigns.reset_hunk)
+        map('v', '<leader>hr', function()
           gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
         end)
 
