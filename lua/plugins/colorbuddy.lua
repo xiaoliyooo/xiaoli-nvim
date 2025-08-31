@@ -13,7 +13,9 @@ return {
       callback = function()
         vim.api.nvim_set_hl(0, 'FlashMatch', { fg = 'gold' })
         vim.api.nvim_set_hl(0, 'FlashCurrent', { fg = color_table.light_green })
-        vim.api.nvim_set_hl(0, '@comment', { link = 'Comment' })
+        vim.api.nvim_set_hl(0, '@comment', {
+          fg = color_table.light_green,
+        })
         vim.api.nvim_set_hl(0, 'CustomYankHighlight', { link = 'PmenuKindSel' })
         vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'NONE' })
         vim.api.nvim_set_hl(0, 'FloatTitle', { bg = 'NONE' })
