@@ -25,6 +25,10 @@ return {
           bg = '#6e7681',
         })
 
+        vim.api.nvim_set_hl(0, 'MiniIndentscopeSymbol', {
+          link = 'NonText',
+        })
+
         -- 光标行高亮与关键字高亮叠加消除
         vim.api.nvim_set_hl(0, '@variable.builtin', {
           fg = '#c5b5dd',
