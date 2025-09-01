@@ -50,6 +50,14 @@ return {
         },
         sorting_strategy = 'ascending',
         file_ignore_patterns = { 'node_modules', 'public/', 'dist', 'js%-debug' },
+        mappings = {
+          i = {
+            ['<C-;>'] = require('telescope.actions').send_to_qflist,
+          },
+          n = {
+            ['<C-;>'] = require('telescope.actions').send_to_qflist,
+          },
+        },
       },
       extensions = {
         file_browser = {

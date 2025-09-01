@@ -19,10 +19,8 @@ return {
       },
       -- make `drop` and `tab drop` to become preferred
       func_map = {
-        drop = '<CR>',
-        openc = '',
-        split = '<C-v>',
-        tabdrop = '',
+        open = '<CR>',
+        vsplit = '<C->',
         -- set to empty string to disable
         tabc = '',
         ptogglemode = 'z,',
