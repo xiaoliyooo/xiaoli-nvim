@@ -52,10 +52,18 @@ return {
         file_ignore_patterns = { 'node_modules', 'public/', 'dist', 'js%-debug' },
         mappings = {
           i = {
-            ['<C-;>'] = require('telescope.actions').send_to_qflist,
+            ['<C-;>'] = function(args)
+              local actions = require('telescope.actions')
+              actions.smart_send_to_loclist(args)
+              actions.open_loclist(args)
+            end,
           },
           n = {
-            ['<C-;>'] = require('telescope.actions').send_to_qflist,
+            ['<C-;>'] = function(args)
+              local actions = require('telescope.actions')
+              actions.smart_send_to_loclist(args)
+              actions.open_loclist(args)
+            end,
           },
         },
       },
