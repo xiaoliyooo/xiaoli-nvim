@@ -2,6 +2,7 @@
 
 return {
   'AckslD/nvim-neoclip.lua',
+  enabled = false,
   config = function()
     require('neoclip').setup({
       content_spec_column = true,
@@ -30,6 +31,6 @@ return {
         },
       },
     })
-    vim.keymap.set('n', '<space>y', '<cmd>Telescope neoclip<cr>', { silent = true }) -- neoclip粘贴列表
+    -- vim.keymap.set('n', '<space>y', '<cmd>Telescope neoclip<cr>', { silent = true }) -- neoclip粘贴列表
   end,
 }
