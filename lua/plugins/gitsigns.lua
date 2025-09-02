@@ -80,5 +80,49 @@ return {
         end)
       end,
     })
+
+    -- 创建自定义命令 Diffthis
+    vim.api.nvim_create_user_command('Diffthis', function(opts)
+      local gitsigns = require('gitsigns')
+      local args = opts.args
+      if args and args ~= '' then
+        gitsigns.diffthis(args)
+      else
+        gitsigns.diffthis()
+      end
+    end, {
+      nargs = '?', -- 可选参数
+      desc = '执行 Gitsigns diffthis 命令，可接收可选参数',
+      complete = function(arglead, cmdline, cursorpos)
+        -- 补全
+        local completions = {}
+
+        -- 获取本地分支
+        local branches = vim.fn.systemlist('git branch --format="%(refname:short)" 2>/dev/null')
+        if vim.v.shell_error == 0 then
+          for _, branch in ipairs(branches) do
+            table.insert(completions, branch)
+          end
+        end
+
+        -- 获取标签
+        local tags = vim.fn.systemlist('git tag -l 2>/dev/null')
+        if vim.v.shell_error == 0 then
+          for _, tag in ipairs(tags) do
+            table.insert(completions, tag)
+          end
+        end
+
+        -- 过滤匹配的选项
+        local filtered = {}
+        for _, completion in ipairs(completions) do
+          if completion:match('^' .. vim.pesc(arglead)) then
+            table.insert(filtered, completion)
+          end
+        end
+
+        return filtered
+      end,
+    })
   end,
 }
