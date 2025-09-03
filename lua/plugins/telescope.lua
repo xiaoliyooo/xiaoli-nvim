@@ -161,11 +161,21 @@ return {
         keymap.set({ 'n', 'i' }, '<C-Tab>', function()
           tele_builtin.buffers({
             sort_lastused = true,
+            ignore_current_buffer = true,
           })
         end, { desc = 'Lists open buffers in current neovim instance' })
         keymap.set('n', '<leader>fs', tele_builtin.lsp_document_symbols, { desc = 'Search symbols in current file' })
+        keymap.set('n', '<leader>jl', function()
+          tele_builtin.jumplist({
+            trim_text = true,
+          })
+        end, { desc = 'Lists items from Vims jumplist, jumps to location on CR' })
         --  +-------------------------------+ cmd +-------------------------------+
-        keymap.set({ 'n', 'i' }, '<D-l>', tele_builtin.oldfiles, { desc = 'Fuzzy find recent files' })
+        keymap.set({ 'n', 'i' }, '<D-l>', function()
+          tele_builtin.oldfiles({
+            cwd_only = true,
+          })
+        end, { desc = 'Fuzzy find recent files' })
         keymap.set(
           { 'n', 'i' },
           '<D-p>',
