@@ -165,11 +165,6 @@ return {
           })
         end, { desc = 'Lists open buffers in current neovim instance' })
         keymap.set('n', '<leader>fs', tele_builtin.lsp_document_symbols, { desc = 'Search symbols in current file' })
-        keymap.set('n', '<leader>jl', function()
-          tele_builtin.jumplist({
-            trim_text = true,
-          })
-        end, { desc = 'Lists items from Vims jumplist, jumps to location on CR' })
         --  +-------------------------------+ cmd +-------------------------------+
         keymap.set({ 'n', 'i' }, '<D-l>', function()
           tele_builtin.oldfiles({
