@@ -176,11 +176,6 @@ return {
         end, { desc = 'Lists open buffers in current neovim instance' })
         keymap.set('n', '<leader>fs', tele_builtin.lsp_document_symbols, { desc = 'Search symbols in current file' })
         --  +-------------------------------+ cmd +-------------------------------+
-        -- keymap.set({ 'n', 'i' }, '<D-l>', function()
-        --   tele_builtin.oldfiles({
-        --     cwd_only = true,
-        --   })
-        -- end, { desc = 'Fuzzy find recent files' })
         keymap.set({ 'n', 'i' }, '<D-l>', function()
           require('telescope').extensions.frecency.frecency({
             workspace = 'CWD',
@@ -195,12 +190,7 @@ return {
           { desc = 'Fuzzy find files (' .. toggle_key .. '切换范围)' }
         )
 
-        keymap.set(
-          { 'n', 'i' },
-          '<D-S-f>',
-          live_grep_with_toggle,
-          { desc = 'Find string with args (' .. toggle_key .. '切换范围)' }
-        )
+        keymap.set({ 'n', 'i' }, '<D-S-f>', require('helper.multi-ripgrep'), { desc = 'Find string with shortcuts' })
         --  +-----------------------------+ cmd end +-----------------------------+
       end,
     })
