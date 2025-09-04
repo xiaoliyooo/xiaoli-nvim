@@ -10,6 +10,7 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope-ui-select.nvim',
     'nvim-telescope/telescope-live-grep-args.nvim',
+    'nvim-telescope/telescope-frecency.nvim',
   },
   build = 'brew install ripgrep',
   event = 'VimEnter',
@@ -95,6 +96,7 @@ return {
 
     telescope.load_extension('live_grep_args')
     telescope.load_extension('ui-select')
+    telescope.load_extension('frecency')
     local tele_builtin = require('telescope.builtin')
 
     local function get_search_dir()
@@ -166,17 +168,25 @@ return {
         end, { desc = 'Lists open buffers in current neovim instance' })
         keymap.set('n', '<leader>fs', tele_builtin.lsp_document_symbols, { desc = 'Search symbols in current file' })
         --  +-------------------------------+ cmd +-------------------------------+
+        -- keymap.set({ 'n', 'i' }, '<D-l>', function()
+        --   tele_builtin.oldfiles({
+        --     cwd_only = true,
+        --   })
+        -- end, { desc = 'Fuzzy find recent files' })
         keymap.set({ 'n', 'i' }, '<D-l>', function()
-          tele_builtin.oldfiles({
-            cwd_only = true,
+          require('telescope').extensions.frecency.frecency({
+            workspace = 'CWD',
+            hide_current_buffer = true,
           })
-        end, { desc = 'Fuzzy find recent files' })
+        end, { desc = 'Find recent files with frecency algorithm' })
+
         keymap.set(
           { 'n', 'i' },
           '<D-p>',
           find_files_with_toggle,
           { desc = 'Fuzzy find files (' .. toggle_key .. '切换范围)' }
         )
+
         keymap.set(
           { 'n', 'i' },
           '<D-S-f>',
