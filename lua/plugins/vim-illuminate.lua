@@ -16,18 +16,18 @@ return {
 
     local function illuminate_goto(direction)
       if direction == 'next' then
-        illuminate.goto_next_reference(false)
+        illuminate.goto_next_reference(true)
       else
-        illuminate.goto_prev_reference(false)
+        illuminate.goto_prev_reference(true)
       end
 
       vim.cmd('normal! zz') -- 居中显示
     end
 
-    vim.keymap.set('n', ']]', function()
+    vim.keymap.set('n', ']r', function()
       illuminate_goto('next')
     end, { desc = '下一个引用' })
-    vim.keymap.set('n', '[[', function()
+    vim.keymap.set('n', '[r', function()
       illuminate_goto('prev')
     end, { desc = '上一个引用' })
   end,
