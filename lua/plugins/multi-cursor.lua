@@ -5,9 +5,8 @@ return {
   event = 'VeryLazy',
   init = function()
     vim.g.VM_maps = {
-      ['Add Cursor Down'] = '<C-n>',
-      ['Add Cursor Up'] = '<C-u>',
-      ['Find Under'] = 'gb',
+      ['Add Cursor Down'] = '<C-]>',
+      ['Add Cursor Up'] = '<C-[>',
     }
   end,
 }
