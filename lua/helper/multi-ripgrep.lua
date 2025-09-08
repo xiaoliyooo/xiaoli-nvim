@@ -58,7 +58,7 @@ return function(opts)
           '--with-filename',
           '--line-number',
           '--column',
-          '--smart-case',
+          '--ignore-case',
         },
       })
     end,
