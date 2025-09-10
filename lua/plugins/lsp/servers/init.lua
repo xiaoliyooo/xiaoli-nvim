@@ -25,4 +25,7 @@ return function()
 
   -- Json
   require('plugins.lsp.servers.json')()
+
+  -- Spell Checker
+  require('plugins.lsp.servers.spell')()
 end

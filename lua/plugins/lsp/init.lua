@@ -22,6 +22,7 @@ return {
     'npm i -g vscode-langservers-extracted',
     'npm i -g eslint',
     'npm i -g yaml-language-server',
+    'npm install -g @vlabo/cspell-lsp',
   },
   config = function()
     require('plugins.lsp.mason')()
