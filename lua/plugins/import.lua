@@ -3,7 +3,7 @@ local function get_insert_line()
     return 1
   end
 
-  local script_end_line = vim.fn.search('</script>', 'n') -- >= 1
+  local script_end_line = vim.fn.search('<script', 'n') + 1 -- >= 1
 
   return math.max(script_end_line, 1)
 end
