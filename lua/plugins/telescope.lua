@@ -12,6 +12,7 @@ return {
     'nvim-telescope/telescope-live-grep-args.nvim',
     'nvim-telescope/telescope-frecency.nvim',
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+    'nvim-telescope/telescope-node-modules.nvim',
   },
   build = 'brew install ripgrep',
   event = 'VimEnter',
@@ -105,6 +106,7 @@ return {
     telescope.load_extension('live_grep_args')
     telescope.load_extension('ui-select')
     telescope.load_extension('frecency')
+    telescope.load_extension('node_modules')
     local tele_builtin = require('telescope.builtin')
 
     local function get_search_dir()
@@ -175,6 +177,7 @@ return {
           })
         end, { desc = 'Lists open buffers in current neovim instance' })
         keymap.set('n', '<leader>fs', tele_builtin.lsp_document_symbols, { desc = 'Search symbols in current file' })
+        keymap.set('n', '<leader>dp', '<CMD>Telescope node_modules list<CR>', { desc = 'node_modules', silent = true })
         --  +-------------------------------+ cmd +-------------------------------+
         keymap.set({ 'n', 'i' }, '<D-l>', function()
           require('telescope').extensions.frecency.frecency({
