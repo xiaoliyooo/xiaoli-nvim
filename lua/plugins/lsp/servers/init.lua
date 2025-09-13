@@ -28,4 +28,7 @@ return function()
 
   -- Spell Checker
   require('plugins.lsp.servers.spell')()
+
+  -- Pyright
+  require('plugins.lsp.servers.pyright')()
 end
