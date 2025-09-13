@@ -9,6 +9,7 @@ return {
     'brew install shfmt',
     'brew install shellcheck',
     'brew install taplo',
+    'brew install ruff',
   },
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
@@ -34,6 +35,13 @@ return {
         bash = { 'shfmt' },
         zsh = { 'shfmt' },
         toml = { 'taplo' },
+        python = {
+          'ruff_fix',
+          -- To run the Ruff formatter.
+          'ruff_format',
+          -- To organize the imports.
+          'ruff_organize_imports',
+        },
       },
       format_on_save = {
         lsp_fallback = true,

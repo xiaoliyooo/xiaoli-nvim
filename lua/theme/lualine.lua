@@ -95,7 +95,14 @@ function M.get_lualine_config()
           table.insert(formatterNames, formatter)
         end
 
-        return 'fmt:[' .. table.concat(formatterNames) .. ']'
+        local formatterStr = table.concat(formatterNames)
+
+        -- python: ruff_fix + ruff_format + ruff_organize_imports
+        if string.match(formatterStr, '^ruff') then
+          formatterStr = 'ruff'
+        end
+
+        return 'fmt:[' .. formatterStr .. ']'
       end
 
       -- Check if there's an LSP formatter

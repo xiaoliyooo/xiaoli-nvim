@@ -31,4 +31,7 @@ return function()
 
   -- Pyright
   require('plugins.lsp.servers.pyright')()
+
+  -- Ruff
+  require('plugins.lsp.servers.ruff')()
 end
