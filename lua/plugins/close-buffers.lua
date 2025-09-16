@@ -23,6 +23,7 @@ return {
       callback = function()
         vim.keymap.set('n', '<leader><S-q>', function()
           require('close_buffers').wipe({ type = 'other' })
+          vim.cmd('buffers')
         end, {
           noremap = true,
         })
