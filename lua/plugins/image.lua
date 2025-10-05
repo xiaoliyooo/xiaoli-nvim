@@ -17,6 +17,16 @@ return {
           only_render_image_at_cursor_mode = 'popup',
           floating_windows = false, -- if true, images will be rendered in floating markdown windows
           filetypes = { 'markdown', 'vimwiki' }, -- markdown extensions (ie. quarto) can go here
+          resolve_image_path = function(document_path, image_path, fallback)
+            local working_dir = vim.fn.getcwd()
+            -- obsidian format
+            if working_dir:find('.*%/obsidian%/notes%/xiaoli%-notes') then
+              return working_dir .. '/assets/' .. image_path
+            end
+
+            -- Fallback to the default behavior
+            return fallback(document_path, image_path)
+          end,
         },
         neorg = {
           enabled = true,
