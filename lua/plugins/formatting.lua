@@ -27,7 +27,7 @@ return {
         json = { 'prettier' },
         yaml = { 'prettier' },
         yml = { 'prettier' },
-        markdown = { 'prettier' },
+        -- markdown = { 'prettier' },
         graphql = { 'prettier' },
         lua = { 'stylua' }, -- cargo install stylua
         -- glsl = { 'clang_format' },
