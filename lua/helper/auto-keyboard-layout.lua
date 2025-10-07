@@ -175,23 +175,23 @@ function M.register_auto_keyboard_layout()
     desc = 'Vim获得焦点且在Normal模式时切换输入法',
   })
 
-  -- 监听插入模式文本改变，检测注释
-  vim.api.nvim_create_autocmd('TextChangedI', {
-    callback = on_text_changed,
-    desc = '检测注释输入并自动切换输入法',
-  })
-
-  -- 监听光标移动，检测注释
-  vim.api.nvim_create_autocmd('CursorMovedI', {
-    callback = on_text_changed,
-    desc = '光标移动时检测注释并自动切换输入法',
-  })
-
-  -- 监听进入插入模式，检测注释
-  vim.api.nvim_create_autocmd('InsertEnter', {
-    callback = on_text_changed,
-    desc = '进入插入模式时检测注释并自动切换输入法',
-  })
+  -- -- 监听插入模式文本改变，检测注释
+  -- vim.api.nvim_create_autocmd('TextChangedI', {
+  --   callback = on_text_changed,
+  --   desc = '检测注释输入并自动切换输入法',
+  -- })
+  --
+  -- -- 监听光标移动，检测注释
+  -- vim.api.nvim_create_autocmd('CursorMovedI', {
+  --   callback = on_text_changed,
+  --   desc = '光标移动时检测注释并自动切换输入法',
+  -- })
+  --
+  -- -- 监听进入插入模式，检测注释
+  -- vim.api.nvim_create_autocmd('InsertEnter', {
+  --   callback = on_text_changed,
+  --   desc = '进入插入模式时检测注释并自动切换输入法',
+  -- })
 end
 
 return M
