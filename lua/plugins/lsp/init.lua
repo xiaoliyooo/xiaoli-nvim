@@ -23,6 +23,7 @@ return {
     'npm i -g eslint',
     'npm i -g yaml-language-server',
     'npm install -g @vlabo/cspell-lsp',
+    'brew install rust-analyzer',
   },
   config = function()
     require('plugins.lsp.mason')()

@@ -34,4 +34,7 @@ return function()
 
   -- Ruff
   require('plugins.lsp.servers.ruff')()
+
+  -- Rust
+  require('plugins.lsp.servers.rust')()
 end
