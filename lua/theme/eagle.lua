@@ -23,6 +23,7 @@ function M.get_eagle_config()
     title_pos = 'center',
     title_color = '#8AAAE5',
     border_color = '#8AAAE5',
+    diagnostic_content_color = style.color_table.error_color,
   }
 end
 
