@@ -117,7 +117,14 @@ return {
       },
 
       ---@type lc.highlights
-      theme = {},
+      theme = {
+        -- Inspect 功能的高亮设置
+        normal = {
+          -- 主文本颜色
+          fg = '#d4d4d4',
+          bg = 'NONE',
+        },
+      },
 
       ---@type boolean
       image_support = false,
