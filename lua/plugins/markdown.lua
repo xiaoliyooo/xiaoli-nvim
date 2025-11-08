@@ -4,7 +4,7 @@ return {
   config = function()
     local render_modes = { 'n', 'c', 'i', 'v', 'V', 's', 'S' }
     require('render-markdown').setup({
-      file_types = { 'markdown', 'codecompanion', 'telekasten' },
+      file_types = { 'markdown', 'codecompanion', 'telekasten', 'leetcode' },
       render_modes = render_modes,
       heading = {
         width = 'block',
@@ -39,24 +39,6 @@ return {
         enable = true,
         position = 'inline',
       },
-    })
-
-    vim.api.nvim_create_autocmd({ 'FileType', 'BufEnter', 'ColorScheme' }, {
-      pattern = { 'markdown', 'codecompanion', 'telekasten' },
-      callback = function()
-        -- 延迟执行确保插件完全加载
-        vim.schedule(function()
-          if vim.bo.filetype == 'markdown' or vim.bo.filetype == 'codecompanion' or vim.bo.filetype == 'telekasten' then
-            -- require('theme.plugins.render-markdown').reset()
-          end
-        end)
-      end,
-    })
-
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        -- require('theme.plugins.render-markdown').reset()
-      end,
     })
   end,
 }
