@@ -4,7 +4,7 @@ return {
   config = function()
     local render_modes = { 'n', 'c', 'i', 'v', 'V', 's', 'S' }
     require('render-markdown').setup({
-      file_types = { 'markdown', 'codecompanion', 'telekasten', 'leetcode' },
+      file_types = { 'markdown', 'codecompanion', 'telekasten', 'leetcode.nvim' },
       render_modes = render_modes,
       heading = {
         width = 'block',

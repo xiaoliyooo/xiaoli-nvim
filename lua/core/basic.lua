@@ -56,6 +56,31 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 -- 防止包裹
 opt.wrap = false
 
+local is_leetcode = require('helper.is-leetcode')
+if is_leetcode() then
+  vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile', 'BufEnter' }, {
+    pattern = '*',
+    callback = function()
+      vim.schedule(function()
+        for _, winid in ipairs(vim.api.nvim_list_wins()) do
+          local bufnr = vim.api.nvim_win_get_buf(winid)
+          local filetype = vim.bo[bufnr].filetype
+
+          if filetype == 'leetcode.nvim' then
+            vim.api.nvim_win_call(winid, function()
+              vim.wo[winid].wrap = true
+              vim.wo[winid].linebreak = true
+              vim.wo[winid].colorcolumn = ''
+            end)
+            vim.bo[bufnr].textwidth = 0
+          end
+        end
+      end)
+    end,
+    desc = 'Set wrap options for leetcode.nvim windows when in leetcode context',
+  })
+end
+
 -- 启用鼠标
 opt.mouse:append('a')
 
