@@ -68,11 +68,14 @@ if is_leetcode() then
 
           if filetype == 'leetcode.nvim' then
             vim.api.nvim_win_call(winid, function()
-              vim.wo[winid].wrap = true
-              vim.wo[winid].linebreak = true
-              vim.wo[winid].colorcolumn = ''
+              vim.wo[winid].wrap = true -- 启用换行
+              vim.wo[winid].linebreak = false -- 在单词边界换行，不截断单词
+              vim.wo[winid].colorcolumn = '' -- 隐藏列指示线
+              -- vim.wo[winid].breakindent = true -- 换行后保持缩进
+              vim.wo[winid].breakindentopt = 'shift:2,min:20' -- 换行缩进设置
+              vim.wo[winid].showbreak = '↳ ' -- 换行标识符
             end)
-            vim.bo[bufnr].textwidth = 0
+            vim.bo[bufnr].textwidth = 0 -- 不限制文本宽度
           end
         end
       end)
