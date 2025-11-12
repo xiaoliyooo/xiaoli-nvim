@@ -4,7 +4,7 @@ return {
   'stevearc/conform.nvim',
   build = {
     'npm i -g prettier',
-    'npm i -g @biomejs/biome@1.9.4',
+    'npm i -g @biomejs/biome@2.3.5',
     'brew install stylua',
     'brew install shfmt',
     'brew install shellcheck',
