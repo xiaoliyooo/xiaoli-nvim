@@ -25,6 +25,10 @@ return {
         ptogglemode = 'z,',
         pscrollup = '<S-k>',
         pscrolldown = '<S-j>',
+        filterr = 'zN',
+        filter = 'zn',
+        prevhist = '<Left>', -- 回到上一个 quickfix 列表
+        nexthist = '<Right>', -- 前进到下一个 quickfix 列表
       },
       filter = {
         fzf = {
