@@ -192,3 +192,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 require('helper.auto-keyboard-layout').register_auto_keyboard_layout()
+
+vim.api.nvim_create_user_command('Cfp', function()
+  local path = vim.fn.expand('%:p')
+  vim.fn.setreg('+', path) -- 写剪贴板
+  vim.notify('📋 ' .. path)
+end, { desc = 'Copy file absolute path' })
+
+vim.api.nvim_create_user_command('Cfd', function()
+  local path = vim.fn.expand('%:p:h')
+  vim.fn.setreg('+', path)
+  vim.notify('📋 ' .. path)
+end, { desc = 'Copy dir absolute path' })
