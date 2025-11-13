@@ -35,6 +35,10 @@ map({ 'n', 'i' }, '<D-s>', function()
   vim.cmd('w')
 end)
 
+-- 交换搜索方向
+map('n', '#', '*')
+map('n', '*', '#')
+
 vim.keymap.set('n', '=', function()
   vim.cmd('vertical resize +2')
 end, { desc = '增加窗口左右宽度' })
