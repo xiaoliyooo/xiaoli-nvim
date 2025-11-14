@@ -1,28 +1,7 @@
 local M = {}
 
--- 动态获取背景色的函数
-local function get_adaptive_bg()
-  -- 检查是否在浮动窗口中
-  local win_config = vim.api.nvim_win_get_config(0)
-  if win_config.relative ~= '' then
-    -- 在浮动窗口中，尝试获取 NormalFloat 背景
-    local float_hl = vim.api.nvim_get_hl(0, { name = 'NormalFloat' })
-    if float_hl.bg then
-      return string.format('#%06x', float_hl.bg)
-    end
-  end
-
-  -- 普通窗口，获取 Normal 背景
-  local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal' })
-  if normal_hl.bg then
-    return string.format('#%06x', normal_hl.bg)
-  end
-
-  -- 默认背景色
-  return '#1e1e1e'
-end
-
 function M.reset()
+  local get_adaptive_bg = require('helper.color').get_adaptive_bg
   local current_bg = get_adaptive_bg()
   vim.api.nvim_set_hl(0, 'NormalFloat', { bg = current_bg }) -- 影响 global-note 渲染markdown header 后空白部分颜色
 

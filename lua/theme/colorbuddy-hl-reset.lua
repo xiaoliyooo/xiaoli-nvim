@@ -15,6 +15,7 @@ local diffview = import('diffview')
 local lsp = import('lsp')
 local nvim_cmp = import('nvim-cmp')
 local render_markdown = import('render-markdown')
+local tabline = import('tabline')
 
 local function reset_plugins_hl()
   rainbow_delimiters.reset()
@@ -27,6 +28,7 @@ local function reset_plugins_hl()
   lsp.reset()
   nvim_cmp.reset()
   render_markdown.reset()
+  tabline.reset()
 end
 
 local function registe_default_hl_reset()
