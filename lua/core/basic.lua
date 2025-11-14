@@ -209,3 +209,9 @@ vim.api.nvim_create_user_command('Cfd', function()
   vim.fn.setreg('+', path)
   vim.notify('📋 ' .. path)
 end, { desc = 'Copy dir absolute path' })
+
+-- 删除js语法 log
+vim.api.nvim_create_user_command('Dll', function()
+  vim.cmd('%g/console.log/,/);*s*$/d')
+  vim.cmd('nohl')
+end, { desc = 'delete current file console.log' })
