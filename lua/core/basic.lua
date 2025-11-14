@@ -56,6 +56,9 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 -- 防止包裹
 opt.wrap = false
 
+vim.opt.encoding = 'utf-8'
+vim.opt.fileencoding = 'utf-8'
+
 local is_leetcode = require('helper.is-leetcode')
 if is_leetcode() then
   vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile', 'BufEnter' }, {
@@ -172,6 +175,8 @@ opt.signcolumn = 'yes'
 -- 完全禁用窗口自动跳转
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
+    vim.cmd('language message zh_CN.UTF-8')
+
     vim.cmd([[
       nnoremap <silent> <Esc> <Esc>
       vnoremap <silent> <Esc> <Esc>
