@@ -26,6 +26,19 @@ return {
     end
 
     local lga_actions = require('telescope-live-grep-args.actions')
+
+    local mapping = {
+      ['<C-;>'] = function(args)
+        local actions = require('telescope.actions')
+        actions.smart_send_to_loclist(args)
+        actions.open_loclist(args)
+      end,
+      ['<C-s>'] = function(prompt_bufnr)
+        local actions = require('telescope.actions')
+        actions.select_horizontal(prompt_bufnr)
+      end,
+    }
+
     telescope.setup({
       pickers = {
         colorscheme = {
@@ -54,20 +67,8 @@ return {
         sorting_strategy = 'ascending',
         file_ignore_patterns = { 'node_modules', 'public/', 'dist', 'js%-debug' },
         mappings = {
-          i = {
-            ['<C-;>'] = function(args)
-              local actions = require('telescope.actions')
-              actions.smart_send_to_loclist(args)
-              actions.open_loclist(args)
-            end,
-          },
-          n = {
-            ['<C-;>'] = function(args)
-              local actions = require('telescope.actions')
-              actions.smart_send_to_loclist(args)
-              actions.open_loclist(args)
-            end,
-          },
+          i = mapping,
+          n = mapping,
         },
       },
       extensions = {
@@ -75,14 +76,6 @@ return {
           theme = 'ivy',
           -- disables netrw and use telescope-file-browser in its place
           hijack_netrw = true,
-          mappings = {
-            ['i'] = {
-              -- your custom insert mode mappings
-            },
-            ['n'] = {
-              -- your custom normal mode mappings
-            },
-          },
         },
         live_grep_args = {
           auto_quoting = true,

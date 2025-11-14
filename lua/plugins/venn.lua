@@ -1,5 +1,6 @@
 return {
   'jbyuki/venn.nvim',
+  enabled = false,
   config = function()
     -- venn.nvim: enable or disable keymappings
     function _G.Toggle_venn()
