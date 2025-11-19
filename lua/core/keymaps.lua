@@ -64,3 +64,11 @@ vim.keymap.set('t', '<Esc>', function()
   end
   return '<C-\\><C-n>' -- 退到normal模式
 end, { desc = 'Exit terminal mode', expr = true })
+
+-- 保持剪贴板内容的粘贴替换
+-- 替换时不覆盖剪贴板
+map('v', 'p', '"_dP') 
+map('v', 'P', '"_dP')
+-- 删除字符时不覆盖剪贴板
+map('n', 'x', '"_x')
+map('n', 'X', '"_X')  
