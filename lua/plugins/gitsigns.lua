@@ -81,8 +81,7 @@ return {
       end,
     })
 
-    -- 创建自定义命令 Diffthis
-    vim.api.nvim_create_user_command('Diffthis', function(opts)
+    local function diffthis(opts)
       local gitsigns = require('gitsigns')
       local args = opts.args
       if args and args ~= '' then
@@ -90,7 +89,8 @@ return {
       else
         gitsigns.diffthis()
       end
-    end, {
+    end
+    local diffthis_opts = {
       nargs = '?', -- 可选参数
       desc = '执行 Gitsigns diffthis 命令，可接收可选参数',
       complete = function(arglead, cmdline, cursorpos)
@@ -123,6 +123,8 @@ return {
 
         return filtered
       end,
-    })
+    }
+    vim.api.nvim_create_user_command('Dt', diffthis, diffthis_opts)
+    vim.api.nvim_create_user_command('DiffThis', diffthis, diffthis_opts)
   end,
 }

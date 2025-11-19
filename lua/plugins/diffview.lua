@@ -89,6 +89,13 @@ return {
         map('n', '<leader>gh', '<CMD>DiffviewFileHistory %<CR>') -- 当前文件历史
         map('n', '<leader>gd', '<CMD>DiffviewOpen<CR>')
         map('n', '<leader>bh', '<CMD>DiffviewFileHistory<CR>') -- 当前分支
+
+        vim.api.nvim_create_user_command('FileHistory', function()
+          vim.cmd('DiffviewFileHistory %')
+        end, { desc = 'current file history' })
+        vim.api.nvim_create_user_command('BranchHistory', function()
+          vim.cmd('DiffviewFileHistory')
+        end, { desc = 'current branch history' })
       end,
     })
 
