@@ -11,7 +11,11 @@ local flatten = vim.tbl_flatten
 
 return function(opts)
   opts = opts or {}
-  opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+  local cwd_helper = require('helper.cwd')
+  local get_package_json_root = cwd_helper.get_package_json_root
+  opts.cwd = get_package_json_root()
+  -- opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+
   opts.shortcuts = opts.shortcuts
     or {
       ['v'] = '*.vue',
