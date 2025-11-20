@@ -5,7 +5,7 @@ return {
       modes = {
         diagnostics = {
           filter = {
-            severity = vim.diagnostic.severity.ERROR,
+            severity = { vim.diagnostic.severity.ERROR },
             function(item)
               local message = item.message:lower()
               if message:match('translation:') then
