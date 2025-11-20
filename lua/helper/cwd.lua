@@ -8,10 +8,7 @@ local function get_project_root()
 end
 
 local function get_package_json_root()
-  local current_dir = vim.fn.expand('%:p:h')
-  if current_dir == '' then
-    current_dir = vim.fn.getcwd()
-  end
+  local current_dir = vim.fn.getcwd()
 
   -- 向上查找 package.json
   local path = vim.fn.findfile('package.json', current_dir .. ';')
