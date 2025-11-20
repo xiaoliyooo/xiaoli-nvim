@@ -26,6 +26,7 @@ return {
     end
 
     local lga_actions = require('telescope-live-grep-args.actions')
+    local open_with_trouble = require('trouble.sources.telescope').open
 
     local mapping = {
       ['<C-;>'] = function(args)
@@ -37,6 +38,7 @@ return {
         local actions = require('telescope.actions')
         actions.select_horizontal(prompt_bufnr)
       end,
+      ['<C-t>'] = open_with_trouble,
     }
 
     telescope.setup({
@@ -112,7 +114,7 @@ return {
       local scope_name = use_package_json_root and 'package.json目录' or 'git目录'
       print('搜索范围切换为: ' .. scope_name)
     end
-    local toggle_key = '<C-t>'
+    local toggle_key = '<C-p>'
     local function live_grep_with_toggle()
       telescope.extensions.live_grep_args.live_grep_args({
         cwd = get_search_dir(),
