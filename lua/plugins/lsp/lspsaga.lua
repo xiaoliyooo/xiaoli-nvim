@@ -5,6 +5,7 @@ return function()
   require('lspsaga').setup({
     ui = {
       border = border, -- 非圆角边框
+      code_action = ' ',
     },
     diagnostic = {
       keys = {
@@ -33,3 +34,4 @@ return function()
     end,
   })
 end
+
