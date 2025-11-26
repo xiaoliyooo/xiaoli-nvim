@@ -87,7 +87,8 @@ return {
     vim.api.nvim_create_autocmd('VimEnter', {
       callback = function()
         map('n', '<leader>gh', '<CMD>DiffviewFileHistory %<CR>') -- 当前文件历史
-        map('n', '<leader>gd', '<CMD>DiffviewOpen<CR>')
+        -- map('n', '<leader>gd', '<CMD>DiffviewOpen<CR>')
+        map('n', '<leader>gd', '<CMD>CodeDiff<CR>')
         map('n', '<leader>bh', '<CMD>DiffviewFileHistory<CR>') -- 当前分支
 
         vim.api.nvim_create_user_command('FileHistory', function()

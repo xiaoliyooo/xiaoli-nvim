@@ -2,6 +2,7 @@
 
 return {
   'tadaa/vimade',
+  enabled = false,
   config = function()
     require('vimade').setup({
       recipe = { 'default', { animate = true } },
