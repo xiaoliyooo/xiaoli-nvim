@@ -41,5 +41,24 @@ return {
         },
       },
     })
+
+    local create_git_completion = require('helper.git').create_git_completion
+
+    vim.api.nvim_create_user_command('DiffThisBranch', function(opts)
+      local args = opts.args
+      if args and args ~= '' then
+        vim.cmd('CodeDiff ' .. args)
+      else
+        vim.cmd('CodeDiff')
+      end
+    end, {
+      nargs = '?', -- 可选参数
+      desc = '调用 CodeDiff 命令，可接收可选参数',
+      complete = create_git_completion({
+        include_remote = false,
+        include_tags = true,
+        remote_prefix_pattern = '^origin/',
+      }),
+    })
   end,
 }

@@ -5,6 +5,8 @@ return {
   event = 'BufRead',
   config = function()
     local border = require('core.custom-style').border
+    local create_git_completion = require('helper.git').create_git_completion
+
     local addChar = '┃'
     local deleteChar = '_'
     require('gitsigns').setup({
@@ -90,39 +92,15 @@ return {
         gitsigns.diffthis()
       end
     end
+
     local diffthis_opts = {
       nargs = '?', -- 可选参数
       desc = '执行 Gitsigns diffthis 命令，可接收可选参数',
-      complete = function(arglead, cmdline, cursorpos)
-        -- 补全
-        local completions = {}
-
-        -- 获取本地分支
-        local branches = vim.fn.systemlist('git branch --format="%(refname:short)" 2>/dev/null')
-        if vim.v.shell_error == 0 then
-          for _, branch in ipairs(branches) do
-            table.insert(completions, branch)
-          end
-        end
-
-        -- 获取标签
-        local tags = vim.fn.systemlist('git tag -l 2>/dev/null')
-        if vim.v.shell_error == 0 then
-          for _, tag in ipairs(tags) do
-            table.insert(completions, tag)
-          end
-        end
-
-        -- 过滤匹配的选项
-        local filtered = {}
-        for _, completion in ipairs(completions) do
-          if completion:match('^' .. vim.pesc(arglead)) then
-            table.insert(filtered, completion)
-          end
-        end
-
-        return filtered
-      end,
+      complete = create_git_completion({
+        include_remote = false,
+        include_tags = true,
+        remote_prefix_pattern = '^origin/',
+      }),
     }
     vim.api.nvim_create_user_command('Dt', diffthis, diffthis_opts)
     vim.api.nvim_create_user_command('DiffThis', diffthis, diffthis_opts)
