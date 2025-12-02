@@ -5,7 +5,7 @@ local M = {}
 M.theme_map = {
   darkplus = 'powerline_dark',
   ['gruvbox-material'] = 'gruvbox-material',
-  default = 'powerline_dark',
+  default = 'base16',
 }
 
 M.filename_map = {
