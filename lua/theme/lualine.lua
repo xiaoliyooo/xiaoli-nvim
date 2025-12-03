@@ -170,11 +170,10 @@ function M.get_lualine_config()
       always_divide_middle = true,
     },
     sections = {
-      lualine_a = { branch },
+      lualine_a = { git_conflict, branch },
       lualine_b = { file_name },
       lualine_c = { venn_indicator },
       lualine_x = {
-        git_conflict,
         line_count,
         filetype,
         lsp_server,
