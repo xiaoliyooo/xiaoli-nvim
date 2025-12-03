@@ -117,6 +117,29 @@ function M.get_lualine_config()
     end,
   }
 
+  local git_conflict = {
+    function()
+      local status_ok, git_conflict = pcall(require, 'git-conflict')
+      if not status_ok then
+        return ''
+      end
+
+      local conflict_count = git_conflict.conflict_count()
+      if conflict_count > 0 then
+        return '⚠️ ' .. conflict_count .. ' conflicts'
+      end
+      return ''
+    end,
+    color = { fg = '#ff6b6b', bg = '#3c1518', gui = 'bold' },
+    cond = function()
+      local status_ok, git_conflict = pcall(require, 'git-conflict')
+      if not status_ok then
+        return false
+      end
+      return git_conflict.conflict_count() > 0
+    end,
+  }
+
   local line_count = {
     function()
       local total_lines = vim.api.nvim_buf_line_count(0)
@@ -151,6 +174,7 @@ function M.get_lualine_config()
       lualine_b = { file_name },
       lualine_c = { venn_indicator },
       lualine_x = {
+        git_conflict,
         line_count,
         filetype,
         lsp_server,
