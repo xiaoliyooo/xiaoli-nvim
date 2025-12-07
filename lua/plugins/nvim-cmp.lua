@@ -173,7 +173,7 @@ return {
           fallback()
         end
       end, { 'c' })
-    end, 100)
+    end)
 
     cmp.setup.cmdline({ '/', '?' }, {
       mapping = cmdline_mapping,

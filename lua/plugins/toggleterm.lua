@@ -37,12 +37,6 @@ return {
             silent = true,
             desc = '切换 Lazygit',
           })
-
-          vim.keymap.set({ 'n', 't' }, '<C-z>', '<cmd>lua _YAZI_TOGGLE()<CR>', {
-            noremap = true,
-            silent = true,
-            desc = '切换 yazi',
-          })
         end,
       })
     end,

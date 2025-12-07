@@ -44,28 +44,6 @@ local terminal_configs = {
       end,
     },
   },
-  yazi = {
-    count = 3,
-    cmd = 'yazi',
-    extra_opts = {
-      float_opts = {
-        width = function()
-          return math.floor(vim.o.columns * 0.9)
-        end,
-        height = function()
-          return math.floor(vim.o.lines * 0.9)
-        end,
-      },
-      close_on_exit = true,
-      on_exit = function(term)
-        vim.schedule(function()
-          if term:is_open() then
-            term:close()
-          end
-        end)
-      end,
-    },
-  },
   right = {
     count = 4,
     cmd = nil,
@@ -102,10 +80,6 @@ end
 
 terminal_configs.lazygit.before_toggle = function()
   close_all_float_terminals('lazygit')
-end
-
-terminal_configs.yazi.before_toggle = function()
-  close_all_float_terminals('yazi')
 end
 
 terminal_configs.right.before_toggle = function()
@@ -200,11 +174,6 @@ function M.toggle_lazygit()
   toggle_terminal('lazygit')
 end
 
--- Yazi 终端
-function M.toggle_yazi()
-  toggle_terminal('yazi')
-end
-
 -- 右侧终端
 function M.toggle_right_term()
   toggle_terminal('right')
@@ -215,7 +184,6 @@ function M.setup_global_functions()
   M.recreate_all_terminals()
   _G._NORMAL_TERM_TOGGLE = M.toggle_normal_term
   _G._LAZYGIT_TOGGLE = M.toggle_lazygit
-  _G._YAZI_TOGGLE = M.toggle_yazi
   _G._RIGHT_TERM_TOGGLE = M.toggle_right_term
 end
 

@@ -2,6 +2,7 @@
 
 return {
   'echasnovski/mini.files',
+  enabled = false,
   config = function()
     local files = require('mini.files')
     files.setup({
