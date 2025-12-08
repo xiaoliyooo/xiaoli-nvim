@@ -36,11 +36,37 @@ return {
       end,
     })
 
+    local function is_file_in_workspace()
+      local current_file = vim.fn.expand('%:p')
+      local cwd = vim.fn.getcwd()
+
+      if current_file == '' or current_file == vim.fn.getcwd() then
+        return false
+      end
+
+      local normalized_cwd = vim.fn.resolve(cwd)
+      local normalized_file = vim.fn.resolve(current_file)
+
+      -- 确保路径以 / 结尾进行比较
+      if not normalized_cwd:match('/$') then
+        normalized_cwd = normalized_cwd .. '/'
+      end
+
+      return normalized_file:sub(1, #normalized_cwd) == normalized_cwd
+    end
+
+    local function smart_open_yazi()
+      if is_file_in_workspace() then
+        -- 当前文件属于workspace，以当前文件路径打开
+        vim.cmd('Yazi')
+      else
+        -- 当前文件不属于workspace，打开workspace根目录
+        vim.cmd('Yazi cwd')
+      end
+    end
     vim.api.nvim_create_autocmd('VimEnter', {
       callback = function()
-        vim.keymap.set('n', '<leader>mm', function()
-          vim.cmd('Yazi')
-        end)
+        vim.keymap.set('n', '<leader>mm', smart_open_yazi)
       end,
     })
   end,
