@@ -26,6 +26,14 @@ return {
         change_working_directory = '<c-\\>',
         open_and_pick_window = false,
       },
+      set_keymappings_function = function(yazi_buffer_id, config, context)
+        vim.keymap.set('t', '<D-S-f>', function()
+          vim.api.nvim_feedkeys('S', 't', true)
+        end, { buffer = yazi_buffer_id, desc = 'Search files with rg' })
+        vim.keymap.set('t', '<D-p>', function()
+          vim.api.nvim_feedkeys('s', 't', true)
+        end, { buffer = yazi_buffer_id, desc = 'Search content with fd' })
+      end,
     })
 
     vim.api.nvim_create_autocmd('VimEnter', {
