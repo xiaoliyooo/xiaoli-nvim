@@ -4,6 +4,7 @@ local is_leetcode_context = require('helper.is-leetcode')
 
 return {
   'olimorris/codecompanion.nvim',
+  tag = 'v17.33.0',  -- 锁定版本以避免破坏性更改
   opts = {},
   dependencies = {
     'nvim-lua/plenary.nvim',
