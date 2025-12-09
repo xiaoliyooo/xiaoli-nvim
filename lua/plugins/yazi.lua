@@ -8,7 +8,7 @@ return {
     local border = require('core.custom-style').border
     require('yazi').setup({
       open_for_directories = true,
-      floating_window_scaling_factor = 0.9,
+      floating_window_scaling_factor = 0.8,
       yazi_floating_window_border = border,
       open_file_function = function(chosen_file, config, state)
         vim.cmd('edit ' .. chosen_file)
