@@ -10,7 +10,7 @@ local style = {
     cursor_line_color = '#3E4452',
     gruvbox_material_background = '#a59a86',
   },
-  border = 'double',
+  border = 'single',
 }
 
 return style

@@ -20,6 +20,8 @@ return {
     local cwd_helper = require('helper.cwd')
     local get_package_json_root = cwd_helper.get_package_json_root
     local get_project_root = cwd_helper.get_project_root
+    local border = require('core.custom-style').border
+
     local status, telescope = pcall(require, 'telescope')
     if not status then
       return
@@ -41,6 +43,14 @@ return {
       ['<C-t>'] = open_with_trouble,
     }
 
+    -- 根据 border 值设置 borderchars
+    local borderchars
+    if border == 'single' then
+      borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' }
+    else
+      borderchars = { '═', '║', '═', '║', '╔', '╗', '╝', '╚' }
+    end
+
     telescope.setup({
       pickers = {
         colorscheme = {
@@ -49,7 +59,7 @@ return {
       },
       defaults = {
         prompt_prefix = '   ',
-        borderchars = { '═', '║', '═', '║', '╔', '╗', '╝', '╚' },
+        borderchars = borderchars,
         winblend = 30,
         layout_strategy = 'vertical',
         layout_config = {
