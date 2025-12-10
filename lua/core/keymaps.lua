@@ -52,6 +52,10 @@ vim.keymap.set('n', '<C-->', function()
   vim.cmd('resize -2')
 end, { desc = '减少窗口上下高度' })
 
+vim.keymap.set('n', '<leader>q', function()
+  vim.cmd('qa!')
+end, { desc = '退出' })
+
 vim.keymap.set('t', '<Esc>', function()
   local current_buf = vim.api.nvim_get_current_buf()
   local buf_type = vim.api.nvim_buf_get_option(current_buf, 'buftype')
@@ -67,8 +71,8 @@ end, { desc = 'Exit terminal mode', expr = true })
 
 -- 保持剪贴板内容的粘贴替换
 -- 替换时不覆盖剪贴板
-map('v', 'p', '"_dP') 
+map('v', 'p', '"_dP')
 map('v', 'P', '"_dP')
 -- 删除字符时不覆盖剪贴板
 map('n', 'x', '"_x')
-map('n', 'X', '"_X')  
+map('n', 'X', '"_X')
