@@ -215,3 +215,12 @@ vim.api.nvim_create_user_command('Dll', function()
   vim.cmd('%g/console.log/,/);*s*$/d')
   vim.cmd('nohl')
 end, { desc = 'delete current file console.log' })
+
+-- 设置 gitconfig 文件类型
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { 'gitconfig', '.gitconfig', '*gitconfig*' },
+  callback = function()
+    vim.bo.filetype = 'gitconfig'
+  end,
+  desc = 'Set filetype to gitconfig for gitconfig files',
+})
