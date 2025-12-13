@@ -50,6 +50,7 @@
   "mason.nvim": { "branch": "main", "commit": "57e5a8addb8c71fb063ee4acda466c7cf6ad2800" },
   "mini.files": { "branch": "main", "commit": "dce9a4e4f14b3bf469e83c78aef393a090f4d057" },
   "mini.nvim": { "branch": "main", "commit": "e27fcecf6cbffd8ed391bdf0eb746fdb5b9bfa44" },
+  "multicursor.nvim": { "branch": "1.0", "commit": "a0ea3303a6c4b233cf3272fb1e358d4c842e5260" },
   "neovim-session-manager": { "branch": "master", "commit": "3409dc920d40bec4c901c0a122a80bee03d6d1e1" },
   "noice.nvim": { "branch": "main", "commit": "7bfd942445fb63089b59f97ca487d605e715f155" },
   "nui.nvim": { "branch": "main", "commit": "de740991c12411b663994b2860f1a4fd0937c130" },
