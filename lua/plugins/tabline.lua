@@ -3,6 +3,7 @@
 return {
   'crispgm/nvim-tabline',
   dependencies = { 'nvim-tree/nvim-web-devicons' }, -- optional
+  enabled = false,
   config = function()
     require('tabline').setup({
       show_index = true, -- show tab index

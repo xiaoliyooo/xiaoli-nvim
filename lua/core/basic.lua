@@ -224,3 +224,49 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   end,
   desc = 'Set filetype to gitconfig for gitconfig files',
 })
+
+function _G.rename_tabline()
+  local s = ''
+  for index = 1, vim.fn.tabpagenr('$') do
+    local tab_handle = vim.api.nvim_list_tabpages()[index]
+    local is_selected = index == vim.fn.tabpagenr()
+    s = s .. (is_selected and '%#TabLineSel#' or '%#TabLine#')
+    s = s .. '%' .. index .. 'T'
+    local success, title = pcall(vim.api.nvim_tabpage_get_var, tab_handle, 'tab_title')
+    if success and title and title ~= '' then
+      -- 有自定义名称，只显示自定义名称
+      s = s .. ' ' .. title .. ' '
+    else
+      -- 没有自定义名称，显示完整路径
+      local win_handle = vim.api.nvim_tabpage_get_win(tab_handle)
+      local buf_handle = vim.api.nvim_win_get_buf(win_handle)
+      local buf_name = vim.api.nvim_buf_get_name(buf_handle)
+      -- 显示工作区相对路径
+      local path = vim.fn.fnamemodify(buf_name, ':.')
+      if path == '' then
+        path = '[No Name]'
+      end
+      s = s .. ' ' .. path .. ' '
+    end
+  end
+  s = s .. '%#TabLineFill#%T'
+  return s
+end
+vim.opt.tabline = '%!v:lua.rename_tabline()'
+
+vim.api.nvim_create_user_command('RenameTab', function(opts)
+  if opts.args == '' then
+    pcall(vim.api.nvim_tabpage_del_var, 0, 'tab_title')
+  else
+    vim.api.nvim_tabpage_set_var(0, 'tab_title', opts.args)
+  end
+  vim.cmd('redrawtabline')
+end, { nargs = '?', desc = 'Rename current tab. Usage: RenameTab <name>' })
+
+vim.api.nvim_create_user_command('RenameTabClearAll', function()
+  for _, tab_handle in ipairs(vim.api.nvim_list_tabpages()) do
+    pcall(vim.api.nvim_tabpage_del_var, tab_handle, 'tab_title')
+  end
+  vim.cmd('redrawtabline')
+  vim.notify('已清除所有 tab 自定义名称')
+end, { desc = 'Clear all tab custom names' })
