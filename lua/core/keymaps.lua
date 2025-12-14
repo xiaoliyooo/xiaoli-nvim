@@ -31,8 +31,27 @@ map('n', 't', '<Nop>')
 map('n', 'T', '<Nop>')
 
 map('i', 'jk', '<Esc>')
+
+-- ESLint 支持的文件类型
+local eslint_filetypes = {
+  'javascript',
+  'javascriptreact',
+  'typescript',
+  'typescriptreact',
+  'vue',
+  'html',
+  'json',
+  'jsonc',
+  'yaml',
+  'markdown',
+}
+
 map({ 'n', 'i' }, '<D-s>', function()
   vim.cmd('w')
+  local ft = vim.bo.filetype
+  if vim.tbl_contains(eslint_filetypes, ft) then
+    vim.cmd('EslintFixAll')
+  end
 end)
 
 -- 交换搜索方向
