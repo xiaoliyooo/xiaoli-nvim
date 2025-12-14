@@ -1,6 +1,6 @@
 # Introduction
 
-This repo is my Neovim Configuration for macOs. It is based on [LazyVim](https://github.com/LazyVim/LazyVim).`init.lua` is the config entry point file.
+This repo is my Neovim Configuration for macOS. It is based on [LazyVim](https://github.com/LazyVim/LazyVim).`init.lua` is the config entry point file.
 
 # Feature
 
