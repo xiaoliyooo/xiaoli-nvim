@@ -17,23 +17,19 @@ return {
 
     -- 设置 jsdoc_lehre_path
     vim.g.jsdoc_lehre_path = get_lehre_path()
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        -- vim.keymap.set('n', '<leader>dc', '<CMD>JsDoc<CR>', {
-        --   desc = 'JsDoc Normal',
-        --   noremap = true,
-        -- })
-        vim.keymap.set('n', '<leader>df', '<CMD>JsDocFormat<CR>', {
-          desc = 'JsDocFormat',
-          noremap = true,
-        })
+    -- vim.keymap.set('n', '<leader>dc', '<CMD>JsDoc<CR>', {
+    --   desc = 'JsDoc Normal',
+    --   noremap = true,
+    -- })
+    vim.keymap.set('n', '<leader>df', '<CMD>JsDocFormat<CR>', {
+      desc = 'JsDocFormat',
+      noremap = true,
+    })
 
-        vim.keymap.set('v', '<leader>dc', ':\'<,\'>JsDoc<CR>', {
-          desc = 'JsDoc Motion',
-          noremap = true,
-          silent = true,
-        })
-      end,
+    vim.keymap.set('v', '<leader>dc', ':\'<,\'>JsDoc<CR>', {
+      desc = 'JsDoc Motion',
+      noremap = true,
+      silent = true,
     })
   end,
 }

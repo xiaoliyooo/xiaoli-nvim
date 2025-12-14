@@ -57,15 +57,8 @@ return {
       },
     })
 
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.schedule(function()
-          vim.keymap.set('n', '<leader>mm', '<CMD>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', {
-            silent = true,
-          })
-        end)
-      end,
-      desc = 'Description of the autocmd',
+    vim.keymap.set('n', '<leader>mm', '<CMD>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>', {
+      silent = true,
     })
   end,
 }

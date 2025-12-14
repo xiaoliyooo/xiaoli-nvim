@@ -15,7 +15,6 @@ return {
     'nvim-telescope/telescope-node-modules.nvim',
   },
   build = 'brew install ripgrep',
-  event = 'VimEnter',
   config = function()
     local cwd_helper = require('helper.cwd')
     local get_package_json_root = cwd_helper.get_package_json_root
@@ -162,45 +161,41 @@ return {
       })
     end
     local keymap = vim.keymap
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        keymap.set('n', '<leader>fm', tele_builtin.marks, { desc = 'show all marks' })
-        keymap.set('n', '<leader>fh', tele_builtin.highlights, { desc = 'Fuzzy find highlights' })
-        keymap.set({ 'n', 'v' }, '<leader>fb', function()
-          require('helper.comment-box-selector').comment_box_selector()
-        end, { desc = 'Fuzzy find highlights' })
-        -- keymap.set(
-        --   'n',
-        --   '<leader>ft',
-        --   require('helper.switcher').preview_theme_selector,
-        --   { desc = 'Fuzzy find themes with preview' }
-        -- )
-        keymap.set({ 'n', 'i' }, '<C-Tab>', function()
-          tele_builtin.buffers({
-            sort_lastused = true,
-            ignore_current_buffer = true,
-          })
-        end, { desc = 'Lists open buffers in current neovim instance' })
-        keymap.set('n', '<leader>fs', tele_builtin.lsp_document_symbols, { desc = 'Search symbols in current file' })
-        keymap.set('n', '<leader>dp', '<CMD>Telescope node_modules list<CR>', { desc = 'node_modules', silent = true })
-        --  +-------------------------------+ cmd +-------------------------------+
-        keymap.set({ 'n', 'i' }, '<D-l>', function()
-          require('telescope').extensions.frecency.frecency({
-            workspace = 'CWD',
-            hide_current_buffer = true,
-          })
-        end, { desc = 'Find recent files with frecency algorithm' })
+    keymap.set('n', '<leader>fm', tele_builtin.marks, { desc = 'show all marks' })
+    keymap.set('n', '<leader>fh', tele_builtin.highlights, { desc = 'Fuzzy find highlights' })
+    keymap.set({ 'n', 'v' }, '<leader>fb', function()
+      require('helper.comment-box-selector').comment_box_selector()
+    end, { desc = 'Fuzzy find highlights' })
+    -- keymap.set(
+    --   'n',
+    --   '<leader>ft',
+    --   require('helper.switcher').preview_theme_selector,
+    --   { desc = 'Fuzzy find themes with preview' }
+    -- )
+    keymap.set({ 'n', 'i' }, '<C-Tab>', function()
+      tele_builtin.buffers({
+        sort_lastused = true,
+        ignore_current_buffer = true,
+      })
+    end, { desc = 'Lists open buffers in current neovim instance' })
+    keymap.set('n', '<leader>fs', tele_builtin.lsp_document_symbols, { desc = 'Search symbols in current file' })
+    keymap.set('n', '<leader>dp', '<CMD>Telescope node_modules list<CR>', { desc = 'node_modules', silent = true })
+    --  +-------------------------------+ cmd +-------------------------------+
+    keymap.set({ 'n', 'i' }, '<D-l>', function()
+      require('telescope').extensions.frecency.frecency({
+        workspace = 'CWD',
+        hide_current_buffer = true,
+      })
+    end, { desc = 'Find recent files with frecency algorithm' })
 
-        keymap.set(
-          { 'n', 'i' },
-          '<D-p>',
-          find_files_with_toggle,
-          { desc = 'Fuzzy find files (' .. toggle_key .. '切换范围)' }
-        )
+    keymap.set(
+      { 'n', 'i' },
+      '<D-p>',
+      find_files_with_toggle,
+      { desc = 'Fuzzy find files (' .. toggle_key .. '切换范围)' }
+    )
 
-        keymap.set({ 'n', 'i' }, '<D-S-f>', require('helper.multi-ripgrep'), { desc = 'Find string with shortcuts' })
-        --  +-----------------------------+ cmd end +-----------------------------+
-      end,
-    })
+    keymap.set({ 'n', 'i' }, '<D-S-f>', require('helper.multi-ripgrep'), { desc = 'Find string with shortcuts' })
+    --  +-----------------------------+ cmd end +-----------------------------+
   end,
 }

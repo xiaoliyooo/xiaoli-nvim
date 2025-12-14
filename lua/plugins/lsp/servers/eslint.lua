@@ -31,12 +31,8 @@ return function()
     desc = '修复当前文件的所有可修复 ESLint 错误',
   })
 
-  vim.api.nvim_create_autocmd('VimEnter', {
-    callback = function()
-      vim.keymap.set('n', '<leader>fe', ':EslintFixAll<CR>', {
-        desc = '修复当前文件的所有 ESLint 错误',
-        noremap = true,
-      })
-    end,
+  vim.keymap.set('n', '<leader>fe', ':EslintFixAll<CR>', {
+    desc = '修复当前文件的所有 ESLint 错误',
+    noremap = true,
   })
 end

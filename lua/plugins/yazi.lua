@@ -64,10 +64,6 @@ return {
         vim.cmd('Yazi cwd')
       end
     end
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('n', '<leader>mm', smart_open_yazi)
-      end,
-    })
+    vim.keymap.set('n', '<leader>mm', smart_open_yazi)
   end,
 }

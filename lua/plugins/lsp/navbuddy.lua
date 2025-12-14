@@ -159,9 +159,5 @@ return function()
     },
     custom_hl_group = nil, -- "Visual" or any other hl group to use instead of inverted colors
   })
-  vim.api.nvim_create_autocmd('VimEnter', {
-    callback = function()
-      vim.keymap.set('n', '<leader>nv', '<CMD>Navbuddy<CR>', { desc = '打开代码大纲', silent = true })
-    end,
-  })
+  vim.keymap.set('n', '<leader>nv', '<CMD>Navbuddy<CR>', { desc = '打开代码大纲', silent = true })
 end

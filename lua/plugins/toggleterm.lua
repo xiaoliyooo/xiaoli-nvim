@@ -23,21 +23,16 @@ return {
         desc = '切换右侧终端',
       })
 
-      -- 设置键位映射
-      vim.api.nvim_create_autocmd('VimEnter', {
-        callback = function()
-          vim.keymap.set({ 'n', 'i', 't' }, '<D-j>', '<cmd>lua _NORMAL_TERM_TOGGLE()<CR>', {
-            noremap = true,
-            silent = true,
-            desc = '切换普通终端',
-          })
+      vim.keymap.set({ 'n', 'i', 't' }, '<D-j>', '<cmd>lua _NORMAL_TERM_TOGGLE()<CR>', {
+        noremap = true,
+        silent = true,
+        desc = '切换普通终端',
+      })
 
-          vim.keymap.set({ 'n', 'i', 't' }, '<D-S-g>', '<cmd>lua _LAZYGIT_TOGGLE()<CR>', {
-            noremap = true,
-            silent = true,
-            desc = '切换 Lazygit',
-          })
-        end,
+      vim.keymap.set({ 'n', 'i', 't' }, '<D-S-g>', '<cmd>lua _LAZYGIT_TOGGLE()<CR>', {
+        noremap = true,
+        silent = true,
+        desc = '切换 Lazygit',
       })
     end,
   },

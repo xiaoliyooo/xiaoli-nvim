@@ -31,12 +31,8 @@ return {
       },
     })
 
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('n', '<leader>fi', function()
-          require('import').pick()
-        end, { desc = 'Import' })
-      end,
-    })
+    vim.keymap.set('n', '<leader>fi', function()
+      require('import').pick()
+    end, { desc = 'Import' })
   end,
 }

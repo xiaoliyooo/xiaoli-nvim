@@ -17,11 +17,6 @@ return {
       },
     })
 
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('n', '<leader>y', '<CMD>YankBank<CR>', { silent = true })
-      end,
-      desc = 'Description of the autocmd',
-    })
+    vim.keymap.set('n', '<leader>y', '<CMD>YankBank<CR>', { silent = true })
   end,
 }

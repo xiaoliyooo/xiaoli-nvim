@@ -40,13 +40,9 @@ return {
       end,
     })
 
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('n', '<leader>e', function()
-          global_note.toggle_note()
-        end, { desc = '全局note' })
-      end,
-    })
+    vim.keymap.set('n', '<leader>e', function()
+      global_note.toggle_note()
+    end, { desc = '全局note' })
 
     -- Functions to toggle notes:
     -- require('global-note').toggle_note()

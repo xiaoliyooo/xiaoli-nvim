@@ -207,17 +207,13 @@ return {
       vim.b[bufnr]._vue_ts_cached_is_in_start_tag = nil
     end)
 
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('i', '<Tab>', function()
-          -- 执行代码片段跳转or缩进
-          execute_jump_or_indentation(luasnip)
-        end, { noremap = true, silent = true })
+    vim.keymap.set('i', '<Tab>', function()
+      -- 执行代码片段跳转or缩进
+      execute_jump_or_indentation(luasnip)
+    end, { noremap = true, silent = true })
 
-        vim.keymap.set('i', '<S-Tab>', function()
-          luasnip.jump(-1)
-        end, { noremap = true, silent = true })
-      end,
-    })
+    vim.keymap.set('i', '<S-Tab>', function()
+      luasnip.jump(-1)
+    end, { noremap = true, silent = true })
   end,
 }

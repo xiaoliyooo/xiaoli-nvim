@@ -84,21 +84,18 @@ return {
     local function map(m, k, v)
       vim.keymap.set(m, k, v, { silent = true })
     end
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        map('n', '<leader>gh', '<CMD>DiffviewFileHistory %<CR>') -- 当前文件历史
-        -- map('n', '<leader>gd', '<CMD>DiffviewOpen<CR>')
-        map('n', '<leader>gd', '<CMD>CodeDiff<CR>')
-        map('n', '<leader>bh', '<CMD>DiffviewFileHistory<CR>') -- 当前分支
 
-        vim.api.nvim_create_user_command('FileHistory', function()
-          vim.cmd('DiffviewFileHistory %')
-        end, { desc = 'current file history' })
-        vim.api.nvim_create_user_command('BranchHistory', function()
-          vim.cmd('DiffviewFileHistory')
-        end, { desc = 'current branch history' })
-      end,
-    })
+    map('n', '<leader>gh', '<CMD>DiffviewFileHistory %<CR>') -- 当前文件历史
+    -- map('n', '<leader>gd', '<CMD>DiffviewOpen<CR>')
+    map('n', '<leader>gd', '<CMD>CodeDiff<CR>')
+    map('n', '<leader>bh', '<CMD>DiffviewFileHistory<CR>') -- 当前分支
+
+    vim.api.nvim_create_user_command('FileHistory', function()
+      vim.cmd('DiffviewFileHistory %')
+    end, { desc = 'current file history' })
+    vim.api.nvim_create_user_command('BranchHistory', function()
+      vim.cmd('DiffviewFileHistory')
+    end, { desc = 'current branch history' })
 
     vim.api.nvim_create_autocmd({
       'User',

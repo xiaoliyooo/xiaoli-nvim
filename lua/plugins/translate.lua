@@ -49,35 +49,31 @@ return {
       desc = '翻译文本（Pantran 的别名）',
     })
 
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('n', '<leader>tr', '<CMD>Pantran<CR>', { desc = '翻译文本窗口' })
+    vim.keymap.set('n', '<leader>tr', '<CMD>Pantran<CR>', { desc = '翻译文本窗口' })
 
-        vim.keymap.set(
-          'v',
-          '<leader>tr',
-          ':\'<,\'>Pantran target=zh-CN<CR>',
-          { desc = '翻译选中文本', silent = true, noremap = true }
-        )
+    vim.keymap.set(
+      'v',
+      '<leader>tr',
+      ':\'<,\'>Pantran target=zh-CN<CR>',
+      { desc = '翻译选中文本', silent = true, noremap = true }
+    )
 
-        vim.api.nvim_create_user_command('TranslateCN', function()
-          require('pantran').range_translate({
-            target = 'zh-CN',
-          })
-        end, { desc = '翻译为中文' })
+    vim.api.nvim_create_user_command('TranslateCN', function()
+      require('pantran').range_translate({
+        target = 'zh-CN',
+      })
+    end, { desc = '翻译为中文' })
 
-        vim.api.nvim_create_user_command('TranslateEN', function()
-          require('pantran').range_translate({
-            target = 'en',
-          })
-        end, { desc = '翻译为英语' })
+    vim.api.nvim_create_user_command('TranslateEN', function()
+      require('pantran').range_translate({
+        target = 'en',
+      })
+    end, { desc = '翻译为英语' })
 
-        vim.api.nvim_create_user_command('TranslateKO', function()
-          require('pantran').range_translate({
-            target = 'ko',
-          })
-        end, { desc = '翻译为韩语' })
-      end,
-    })
+    vim.api.nvim_create_user_command('TranslateKO', function()
+      require('pantran').range_translate({
+        target = 'ko',
+      })
+    end, { desc = '翻译为韩语' })
   end,
 }

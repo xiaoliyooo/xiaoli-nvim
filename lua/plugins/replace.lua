@@ -63,22 +63,18 @@ return {
       },
     })
 
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.api.nvim_create_user_command('FindCwd', function()
-          vim.cmd('wa!')
-          require('grug-far').open({ windowCreationCommand = 'below split' })
-        end, { desc = 'Find and replace current cwd' })
+    vim.api.nvim_create_user_command('FindCwd', function()
+      vim.cmd('wa!')
+      require('grug-far').open({ windowCreationCommand = 'below split' })
+    end, { desc = 'Find and replace current cwd' })
 
-        vim.api.nvim_create_user_command('FindCurFile', function()
-          vim.cmd('w!')
-          require('grug-far').open({ prefills = { paths = vim.fn.expand('%') }, windowCreationCommand = 'below split' })
-        end, { desc = 'Find and replace current file' })
+    vim.api.nvim_create_user_command('FindCurFile', function()
+      vim.cmd('w!')
+      require('grug-far').open({ prefills = { paths = vim.fn.expand('%') }, windowCreationCommand = 'below split' })
+    end, { desc = 'Find and replace current file' })
 
-        vim.keymap.set('n', '<leader>fc', '<CMD>FindCwd<CR>', { noremap = true })
-        vim.keymap.set('n', '<leader>ff', '<CMD>FindCurFile<CR>', { noremap = true })
-      end,
-    })
+    vim.keymap.set('n', '<leader>fc', '<CMD>FindCwd<CR>', { noremap = true })
+    vim.keymap.set('n', '<leader>ff', '<CMD>FindCurFile<CR>', { noremap = true })
 
     vim.api.nvim_create_autocmd('FileType', {
       group = vim.api.nvim_create_augroup('custom-keybinds', { clear = true }),

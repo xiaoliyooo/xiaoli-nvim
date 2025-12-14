@@ -18,17 +18,5 @@ return {
     vim.api.nvim_create_user_command('Bdo', function()
       vim.cmd('lua require(\'close_buffers\').delete({type = \'other\'})')
     end, { desc = 'Delete hidden buffers' })
-
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('n', '<leader><S-q>', function()
-          require('close_buffers').wipe({ type = 'other' })
-          vim.cmd('buffers')
-        end, {
-          noremap = true,
-        })
-      end,
-      desc = 'Description of the autocmd',
-    })
   end,
 }

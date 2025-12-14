@@ -56,11 +56,6 @@ return {
         require('dashboard').setup(get_dashboard_config())
       end,
     })
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('n', '<leader>ls', ':SessionManager load_session<CR>', { desc = '加载会话', silent = true })
-      end,
-      desc = 'Description of the autocmd',
-    })
+    vim.keymap.set('n', '<leader>ls', ':SessionManager load_session<CR>', { desc = '加载会话', silent = true })
   end,
 }

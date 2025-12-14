@@ -4,7 +4,7 @@ local is_leetcode_context = require('helper.is-leetcode')
 
 return {
   'olimorris/codecompanion.nvim',
-  tag = 'v17.33.0',  -- 锁定版本以避免破坏性更改
+  tag = 'v17.33.0', -- 锁定版本以避免破坏性更改
   opts = {},
   dependencies = {
     'nvim-lua/plenary.nvim',
@@ -100,10 +100,6 @@ return {
       },
     })
 
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('n', '<leader>pp', '<CMD>CodeCompanionChat Toggle<CR>')
-      end,
-    })
+    vim.keymap.set('n', '<leader>pp', '<CMD>CodeCompanionChat Toggle<CR>')
   end,
 }

@@ -29,15 +29,11 @@ return {
       end
     end
 
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set(
-          'n',
-          '<leader>lo',
-          smart_live_server,
-          { desc = '启动live-server, 打开当前HTML', noremap = true }
-        )
-      end,
-    })
+    vim.keymap.set(
+      'n',
+      '<leader>lo',
+      smart_live_server,
+      { desc = '启动live-server, 打开当前HTML', noremap = true }
+    )
   end,
 }

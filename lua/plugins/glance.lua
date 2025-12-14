@@ -101,11 +101,6 @@ return {
 
       use_trouble_qf = false, -- Quickfix action will open trouble.nvim instead of built-in quickfix list
     })
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        vim.keymap.set('n', 'gr', '<CMD>Glance references<CR>')
-      end,
-      desc = 'Description of the autocmd',
-    })
+    vim.keymap.set('n', 'gr', '<CMD>Glance references<CR>')
   end,
 }
