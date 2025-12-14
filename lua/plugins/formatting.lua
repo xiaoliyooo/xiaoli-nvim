@@ -79,19 +79,5 @@ return {
         },
       },
     })
-
-    vim.keymap.set({ 'n', 'v' }, '<leader>mp', function()
-      conform.format({
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 500,
-      })
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        pattern = { '*.vs', '*.fs' },
-        callback = function(args)
-          require('conform').format({ bufnr = args.buf })
-        end,
-      })
-    end, { desc = 'Format file or range (in visual mode)' })
   end,
 }
