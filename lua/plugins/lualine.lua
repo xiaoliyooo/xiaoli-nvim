@@ -18,10 +18,7 @@ return {
 
     vim.api.nvim_create_autocmd('ColorScheme', {
       callback = function()
-        -- https://github.com/akinsho/bufferline.nvim/issues/1027
-        vim.schedule(function()
-          lualine.setup(utils.get_lualine_config())
-        end)
+        lualine.setup(utils.get_lualine_config())
       end,
     })
   end,

@@ -1,17 +1,5 @@
 -- multi cursor
 
--- return {
---   'mg979/vim-visual-multi',
---   event = 'VeryLazy',
---   enabled = false,
---   init = function()
---     vim.g.VM_maps = {
---       ['Add Cursor Down'] = '<C-]>',
---       ['Add Cursor Up'] = '<C-[>',
---     }
---   end,
--- }
-
 return {
   'jake-stewart/multicursor.nvim',
   branch = '1.0',

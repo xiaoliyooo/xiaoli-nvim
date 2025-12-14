@@ -1,5 +1,4 @@
 -- telescope
--- 在 config 函数开始处添加状态变量
 local use_package_json_root = true -- 默认使用 package.json 根目录
 
 return {
@@ -42,7 +41,6 @@ return {
       ['<C-t>'] = open_with_trouble,
     }
 
-    -- 根据 border 值设置 borderchars
     local borderchars
     if border == 'single' then
       borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' }
@@ -134,9 +132,8 @@ return {
           '--with-filename',
           '--line-number',
           '--column',
-        }, -- 查询参数
+        },
         attach_mappings = function(prompt_bufnr, map)
-          -- 在 live grep 中也添加切换功能
           map({ 'i', 'n' }, toggle_key, function()
             toggle_search_scope()
             require('telescope.actions').close(prompt_bufnr)

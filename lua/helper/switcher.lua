@@ -58,12 +58,11 @@ function M.preview_theme_selector()
         local action_state = require('telescope.actions.state')
 
         local function noop_notify()
-          -- 因为bufferline不可抗拒的bug 只能选一个再关闭
-          -- actions.close(prompt_bufnr)
-          -- if original_colorscheme then
-          --   vim.cmd('colorscheme ' .. original_colorscheme)
-          -- end
-          print('选一个主题再关闭')
+          actions.close(prompt_bufnr)
+          if original_colorscheme then
+            vim.cmd('colorscheme ' .. original_colorscheme)
+          end
+          -- print('选一个主题再关闭')
         end
 
         actions.select_default:replace(function()
