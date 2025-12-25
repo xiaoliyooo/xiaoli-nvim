@@ -6,6 +6,7 @@ return {
   lazy = false,
   config = function()
     local border = require('core.custom-style').border
+    local yazi_original_path = nil
     require('yazi').setup({
       open_for_directories = true,
       floating_window_scaling_factor = 0.8,
@@ -28,11 +29,18 @@ return {
       },
       set_keymappings_function = function(yazi_buffer_id, config, context)
         vim.keymap.set('t', '<D-S-f>', function()
-          vim.api.nvim_feedkeys('S', 't', true)
-        end, { buffer = yazi_buffer_id, desc = 'Search files with rg' })
+          context.api:emit_to_yazi({ 'search', '--via=rg' })
+        end, { buffer = yazi_buffer_id, desc = 'Search content with rg' })
+
         vim.keymap.set('t', '<D-p>', function()
-          vim.api.nvim_feedkeys('s', 't', true)
-        end, { buffer = yazi_buffer_id, desc = 'Search content with fd' })
+          context.api:emit_to_yazi({ 'search', '--via=fd' })
+        end, { buffer = yazi_buffer_id, desc = 'Search files with fd' })
+
+        -- 跳转到初始目录
+        vim.keymap.set('t', '<C-u>', function()
+          context.api:emit_to_yazi({ 'cd', yazi_original_path })
+          vim.notify('Yazi jumped to: ' .. yazi_original_path)
+        end, { buffer = yazi_buffer_id, desc = 'Go back to initial directory' })
       end,
     })
 
@@ -58,10 +66,12 @@ return {
     local function smart_open_yazi()
       if is_file_in_workspace() then
         -- 当前文件属于workspace，以当前文件路径打开
+        yazi_original_path = vim.fn.expand('%:p:h')
         vim.cmd('Yazi')
       else
         -- 当前文件不属于workspace，打开workspace根目录
-        vim.cmd('Yazi cwd')
+        yazi_original_path = vim.fn.getcwd()
+        vim.cmd('Yazi ' .. yazi_original_path)
       end
     end
     vim.keymap.set('n', '<leader>mm', smart_open_yazi)
