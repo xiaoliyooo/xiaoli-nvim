@@ -15,5 +15,18 @@ return {
         eol = 'gca',
       },
     })
+
+    local api = require('Comment.api')
+    vim.keymap.set('n', 'gbO', function()
+      api.insert.blockwise.above()
+    end, { desc = 'Add block comment above' })
+
+    vim.keymap.set('n', 'gbo', function()
+      api.insert.blockwise.below()
+    end, { desc = 'Add block comment below' })
+
+    vim.keymap.set('n', 'gba', function()
+      api.insert.blockwise.eol()
+    end, { desc = 'Add block comment at end of line' })
   end,
 }
