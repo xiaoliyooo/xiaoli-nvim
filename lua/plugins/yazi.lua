@@ -71,7 +71,7 @@ return {
       else
         -- 当前文件不属于workspace，打开workspace根目录
         yazi_original_path = vim.fn.getcwd()
-        vim.cmd('Yazi ' .. yazi_original_path)
+        vim.cmd('Yazi cwd')
       end
     end
     vim.keymap.set('n', '<leader>mm', smart_open_yazi)
