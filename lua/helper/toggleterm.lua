@@ -8,17 +8,9 @@ local Terminal = require('toggleterm.terminal').Terminal
 
 -- 终端配置表
 local terminal_configs = {
-  normal = {
-    count = 1,
-    cmd = nil,
-    extra_opts = {
-      float_opts = {
-        winblend = winblend,
-      },
-    },
-  },
+
   lazygit = {
-    count = 2,
+    count = 1,
     cmd = 'lazygit',
     extra_opts = {
       dir = 'git_dir',
@@ -44,13 +36,35 @@ local terminal_configs = {
       end,
     },
   },
-  right = {
-    count = 4,
+  normal = {
+    count = 2,
     cmd = nil,
     extra_opts = {
-      direction = 'vertical',
-      on_open = function(term)
-        vim.api.nvim_win_set_width(term.window, math.floor(vim.o.columns * 0.3))
+      float_opts = {
+        winblend = winblend,
+      },
+    },
+  },
+  gemini = {
+    count = 3,
+    cmd = 'gemini',
+    extra_opts = {
+      float_opts = {
+        winblend = winblend,
+        width = function()
+          return math.floor(vim.o.columns * 0.95)
+        end,
+        height = function()
+          return math.floor(vim.o.lines * 0.95)
+        end,
+      },
+      close_on_exit = true,
+      on_exit = function(term)
+        vim.schedule(function()
+          if term:is_open() then
+            term:close()
+          end
+        end)
       end,
     },
   },
@@ -82,8 +96,8 @@ terminal_configs.lazygit.before_toggle = function()
   close_all_float_terminals('lazygit')
 end
 
-terminal_configs.right.before_toggle = function()
-  close_all_float_terminals('right')
+terminal_configs.gemini.before_toggle = function()
+  close_all_float_terminals('gemini')
 end
 
 -- 动态创建终端的函数
@@ -174,9 +188,9 @@ function M.toggle_lazygit()
   toggle_terminal('lazygit')
 end
 
--- 右侧终端
-function M.toggle_right_term()
-  toggle_terminal('right')
+-- Gemini 终端
+function M.toggle_gemini()
+  toggle_terminal('gemini')
 end
 
 -- 设置全局函数
@@ -184,16 +198,25 @@ function M.setup_global_functions()
   M.recreate_all_terminals()
   _G._NORMAL_TERM_TOGGLE = M.toggle_normal_term
   _G._LAZYGIT_TOGGLE = M.toggle_lazygit
-  _G._RIGHT_TERM_TOGGLE = M.toggle_right_term
+  _G._GEMINI_TOGGLE = M.toggle_gemini
 end
 
 -- 预热终端
 function M.warmup_terminals()
-  local config = terminal_configs.normal
-  local normal_term = M.get_or_create_terminal('normal', config.count, config.cmd, config.extra_opts)
-
+  -- 预热普通终端
+  local normal_config = terminal_configs.normal
+  local normal_term =
+    M.get_or_create_terminal('normal', normal_config.count, normal_config.cmd, normal_config.extra_opts)
   if normal_term and normal_term.spawn then
     normal_term:spawn()
+  end
+
+  -- 预热 Gemini 终端
+  local gemini_config = terminal_configs.gemini
+  local gemini_term =
+    M.get_or_create_terminal('gemini', gemini_config.count, gemini_config.cmd, gemini_config.extra_opts)
+  if gemini_term and gemini_term.spawn then
+    gemini_term:spawn()
   end
 end
 
