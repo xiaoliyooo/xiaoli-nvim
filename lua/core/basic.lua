@@ -97,9 +97,6 @@ opt.smartcase = true
 opt.termguicolors = true
 opt.signcolumn = 'yes'
 
--- o.termguicolors = true
--- -- o.background = 'dark'
-
 -- -- Do not save when switching buffers
 -- -- o.hidden = true
 
@@ -113,18 +110,12 @@ opt.signcolumn = 'yes'
 -- -- Better editor UI
 -- o.number = true
 -- o.numberwidth = 2
--- o.relativenumber = false
--- o.signcolumn = 'yes'
 
 -- -- Better editing experience
--- o.expandtab = true
 -- o.smarttab = true
 -- o.cindent = true
--- o.autoindent = true
 -- o.wrap = true
 -- o.textwidth = 300
--- o.shiftwidth = 2
--- o.softtabstop = -1 -- If negative, shiftwidth value is used
 -- o.list = true
 -- o.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
 -- -- o.listchars = 'eol:¬,space:·,lead: ,trail:·,nbsp:◇,tab:→-,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
@@ -134,15 +125,10 @@ opt.signcolumn = 'yes'
 -- opt.clipboard:append('unnamedplus')
 -- opt.fillchars = { eob = ' ' }
 
--- -- Case insensitive searching UNLESS /C or capital in search
--- o.ignorecase = true
--- o.smartcase = true
-
 -- -- Undo and backup options
 -- o.backup = false
 -- o.writebackup = false
 -- o.undofile = true
--- o.swapfile = false
 -- -- o.backupdir = '/tmp/'
 -- -- o.directory = '/tmp/'
 -- -- o.undodir = '/tmp/'
@@ -150,19 +136,10 @@ opt.signcolumn = 'yes'
 -- -- Remember 50 items in commandline history
 -- o.history = 50
 
--- -- Better buffer splitting
--- o.splitright = true
--- o.splitbelow = true
-
 -- -- Better folds (don't fold by default)
--- -- o.foldmethod = 'indent'
--- -- o.foldlevelstart = 99
 -- -- o.foldnestmax = 3
 -- -- o.foldminlines = 1
 -- --
--- opt.mouse = 'a'
-
--- o.modifiable = true
 
 -- 完全禁用窗口自动跳转
 vim.api.nvim_create_autocmd('VimEnter', {
