@@ -61,10 +61,6 @@ return {
 
     -- vim.keymap.set({ 'o', 'x' }, 'U', '<cmd>lua require("various-textobjs").url()<CR>')
 
-    -- html: attribute
-    vim.keymap.set({ 'o', 'x' }, 'ix', '<cmd>lua require("various-textobjs").htmlAttribute("inner")<CR>')
-    vim.keymap.set({ 'o', 'x' }, 'ax', '<cmd>lua require("various-textobjs").htmlAttribute("outer")<CR>')
-
     -- css: selector: css, scss
     vim.keymap.set({ 'o', 'x' }, 'ic', '<cmd>lua require("various-textobjs").cssSelector("inner")<CR>')
     vim.keymap.set({ 'o', 'x' }, 'ac', '<cmd>lua require("various-textobjs").cssSelector("outer")<CR>')
