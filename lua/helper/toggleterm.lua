@@ -8,7 +8,6 @@ local Terminal = require('toggleterm.terminal').Terminal
 
 -- 终端配置表
 local terminal_configs = {
-
   lazygit = {
     count = 1,
     cmd = 'lazygit',
@@ -52,10 +51,10 @@ local terminal_configs = {
       float_opts = {
         winblend = winblend,
         width = function()
-          return math.floor(vim.o.columns * 0.95)
+          return math.floor(vim.o.columns * 0.8)
         end,
         height = function()
-          return math.floor(vim.o.lines * 0.95)
+          return math.floor(vim.o.lines * 0.8)
         end,
       },
       close_on_exit = true,
