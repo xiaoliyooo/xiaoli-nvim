@@ -20,7 +20,7 @@ return {
           resolve_image_path = function(document_path, image_path, fallback)
             local working_dir = vim.fn.getcwd()
             -- obsidian format
-            if working_dir:find('.*%/obsidian%/notes%/xiaoli%-notes') then
+            if working_dir:find('.*%/xiaoli%-notes') then
               -- 并且不是pdf文件
               if image_path:find('.*%.pdf') then
                 return ''
