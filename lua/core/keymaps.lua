@@ -21,7 +21,15 @@ map('n', '<leader>s', require('helper.smart-select-block'))
 map('n', '<leader>a', 'za')
 
 map('n', '<leader>nh', ':nohl<CR>') -- 取消高亮
-map('n', '<leader>ll', '"ayiwoconsole.log(\'<C-R>a:\', <C-R>a);<Esc>') -- Auto log
+
+vim.keymap.set({ 'n', 'x' }, '<leader>ll', function()
+  local mode = vim.api.nvim_get_mode().mode
+  if mode:match('^[vV\22]') then
+    return '"ayoconsole.log(\'<C-R>a:\', <C-R>a);<Esc>'
+  end
+  return '"ayiwoconsole.log(\'<C-R>a:\', <C-R>a);<Esc>'
+end, { expr = true, desc = 'Auto console.log' })
+
 -- map('n', '<leader>e', vim.diagnostic.open_float)
 
 -- 禁用默认高亮
