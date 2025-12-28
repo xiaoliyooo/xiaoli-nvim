@@ -10,6 +10,7 @@ return {
     local config_path = vim.fn.stdpath('config')
 
     require('nvim-dap-virtual-text').setup()
+    local color_table = require('core.custom-style').color_table
     local dap, dapui = require('dap'), require('dapui')
 
     -- 调试器 sign 样式
@@ -27,6 +28,24 @@ return {
     vim.api.nvim_set_hl(0, 'DapLogPoint', { fg = '#61afef' }) -- 日志点
     vim.api.nvim_set_hl(0, 'DapStopped', { fg = '#98c379' }) -- 当前行箭头
     vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#2e4d3d' }) -- 当前行
+
+    -- nvim-dap-ui 变量面板高亮
+    vim.api.nvim_set_hl(0, 'DapUIVariable', { fg = '#c678dd' })
+    vim.api.nvim_set_hl(0, 'DapUIValue', { fg = color_table.light_green })
+    vim.api.nvim_set_hl(0, 'DapUIScope', { fg = '#61afef', bold = true })
+    vim.api.nvim_set_hl(0, 'DapUIDecoration', { fg = '#61afef' })
+    vim.api.nvim_set_hl(0, 'DapUIModifiedValue', { fg = '#e06c75', bold = true })
+    vim.api.nvim_set_hl(0, 'DapUIThread', { fg = '#56b6c2' })
+    vim.api.nvim_set_hl(0, 'DapUIStoppedThread', { fg = '#98c379' })
+    vim.api.nvim_set_hl(0, 'DapUISource', { fg = '#c678dd' })
+    vim.api.nvim_set_hl(0, 'DapUILineNumber', { fg = '#61afef' })
+    vim.api.nvim_set_hl(0, 'DapUIBreakpointsPath', { fg = '#61afef' })
+    vim.api.nvim_set_hl(0, 'DapUIBreakpointsInfo', { fg = '#98c379' })
+    vim.api.nvim_set_hl(0, 'DapUIBreakpointsCurrentLine', { fg = '#e5c07b', bold = true })
+    vim.api.nvim_set_hl(0, 'DapUIWatchesEmpty', { fg = '#e06c75' })
+    vim.api.nvim_set_hl(0, 'DapUIWatchesValue', { fg = '#98c379' })
+    vim.api.nvim_set_hl(0, 'DapUIWatchesError', { fg = '#e06c75' })
+
     dapui.setup({
       controls = {
         element = 'repl',
@@ -105,6 +124,7 @@ return {
       },
       render = {
         indent = 1,
+        max_type_length = 0,
         max_value_lines = 100,
       },
     })
@@ -167,16 +187,16 @@ return {
     dap.listeners.after.event_terminated['resume-vtsls'] = resume_vtsls
     dap.listeners.after.disconnect['resume-vtsls'] = resume_vtsls
 
-    vim.keymap.set('n', '<Left>', function()
+    vim.keymap.set('n', '<leader>1', function()
       dap.step_over()
     end, { noremap = true })
-    vim.keymap.set('n', '<Down>', function()
+    vim.keymap.set('n', '<leader>2', function()
       dap.step_into()
     end, { noremap = true })
-    vim.keymap.set('n', '<Up>', function()
+    vim.keymap.set('n', '<leader>3', function()
       dap.step_out()
     end, { noremap = true })
-    vim.keymap.set('n', '<Right>', function()
+    vim.keymap.set('n', '<leader>4', function()
       dap.continue() -- 跳到下一个断点
     end, { noremap = true })
     vim.keymap.set('n', '<leader>b', function()
