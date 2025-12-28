@@ -125,6 +125,32 @@ return {
       dapui.close()
     end
 
+    local vtsls_stopped = false
+
+    -- 调试器阻塞导致 LSP 超时误报崩溃
+    local function stop_vtsls()
+      if vtsls_stopped then
+        return
+      end
+      local clients = vim.lsp.get_clients({ name = 'vtsls' })
+      if #clients > 0 then
+        vim.lsp.stop_client(clients)
+        vtsls_stopped = true
+      end
+    end
+
+    local function resume_vtsls()
+      if not vtsls_stopped then
+        return
+      end
+      vim.cmd('LspStart vtsls')
+      vtsls_stopped = false
+    end
+
+    dap.listeners.after.event_initialized['stop-vtsls'] = stop_vtsls
+    dap.listeners.after.event_terminated['resume-vtsls'] = resume_vtsls
+    dap.listeners.after.disconnect['resume-vtsls'] = resume_vtsls
+
     vim.keymap.set('n', '<leader>4', function()
       dap.continue() -- 跳到下一个断点
     end, { noremap = true })
@@ -140,7 +166,7 @@ return {
     vim.keymap.set('n', '<leader>b', function()
       dap.toggle_breakpoint()
     end, { noremap = true })
-    vim.keymap.set('n', '<leader>t', function() -- 停止调试
+    vim.keymap.set('n', '<leader>e', function() -- 停止调试
       dap.terminate()
     end, { noremap = true })
     vim.keymap.set('n', '<leader>r', function() -- 重启调试
@@ -158,6 +184,10 @@ return {
     vim.keymap.set('n', '<leader>dr', function()
       dap.repl.open()
     end, { noremap = true })
+
+    vim.keymap.set({ 'n', 'x' }, 'gh', function()
+      dapui.eval()
+    end, { noremap = true, desc = 'Evaluate expression' })
 
     vim.api.nvim_create_user_command('Debug', function()
       vim.cmd('DapNew')
