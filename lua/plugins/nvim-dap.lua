@@ -151,17 +151,17 @@ return {
     dap.listeners.after.event_terminated['resume-vtsls'] = resume_vtsls
     dap.listeners.after.disconnect['resume-vtsls'] = resume_vtsls
 
-    vim.keymap.set('n', '<leader>4', function()
-      dap.continue() -- 跳到下一个断点
-    end, { noremap = true })
-    vim.keymap.set('n', '<leader>1', function()
+    vim.keymap.set('n', '<Left>', function()
       dap.step_over()
     end, { noremap = true })
-    vim.keymap.set('n', '<leader>2', function()
+    vim.keymap.set('n', '<Down>', function()
       dap.step_into()
     end, { noremap = true })
-    vim.keymap.set('n', '<leader>3', function()
+    vim.keymap.set('n', '<Up>', function()
       dap.step_out()
+    end, { noremap = true })
+    vim.keymap.set('n', '<Right>', function()
+      dap.continue() -- 跳到下一个断点
     end, { noremap = true })
     vim.keymap.set('n', '<leader>b', function()
       dap.toggle_breakpoint()
