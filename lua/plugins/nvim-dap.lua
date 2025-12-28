@@ -11,6 +11,22 @@ return {
 
     require('nvim-dap-virtual-text').setup()
     local dap, dapui = require('dap'), require('dapui')
+
+    -- 调试器 sign 样式
+    vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapBreakpointCondition', { text = '◐', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
+    vim.fn.sign_define(
+      'DapBreakpointRejected',
+      { text = '○', texthl = 'DapBreakpointRejected', linehl = '', numhl = '' }
+    )
+    vim.fn.sign_define('DapLogPoint', { text = '◆', texthl = 'DapLogPoint', linehl = '', numhl = '' })
+    vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'DapStopped', linehl = 'DapStoppedLine', numhl = '' })
+
+    vim.api.nvim_set_hl(0, 'DapBreakpoint', { fg = '#e51400' }) -- 断点
+    vim.api.nvim_set_hl(0, 'DapBreakpointRejected', { fg = '#888888' }) -- 被拒绝的断点
+    vim.api.nvim_set_hl(0, 'DapLogPoint', { fg = '#61afef' }) -- 日志点
+    vim.api.nvim_set_hl(0, 'DapStopped', { fg = '#98c379' }) -- 当前行箭头
+    vim.api.nvim_set_hl(0, 'DapStoppedLine', { bg = '#2e4d3d' }) -- 当前行
     dapui.setup({
       controls = {
         element = 'repl',
