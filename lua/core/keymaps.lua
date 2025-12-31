@@ -40,6 +40,8 @@ map('n', 'T', '<Nop>')
 
 map('i', 'jk', '<Esc>')
 
+vim.keymap.set('n', 'vv', '^vg_', { desc = '选中整行（不含换行符）' })
+
 -- ESLint 支持的文件类型
 local eslint_filetypes = {
   'javascript',
