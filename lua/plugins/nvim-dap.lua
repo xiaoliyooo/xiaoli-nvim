@@ -96,7 +96,7 @@ return {
               size = 0.25,
             },
           },
-          position = 'left',
+          position = 'right',
           size = 60,
         },
         {

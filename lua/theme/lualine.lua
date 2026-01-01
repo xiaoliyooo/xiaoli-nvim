@@ -166,7 +166,18 @@ function M.get_lualine_config()
       theme = M.get_lualine_theme(),
       component_separators = { left = '', right = '│' },
       section_separators = { left = '◤◢◤◢◤', right = '' }, -- ◢◤
-      disabled_filetypes = { 'alpha', 'dashboard', 'NvimTree', 'Outline' },
+      disabled_filetypes = {
+        'alpha',
+        'dashboard',
+        'NvimTree',
+        'Outline',
+        'dapui_scopes',
+        'dapui_breakpoints',
+        'dapui_stacks',
+        'dapui_watches',
+        'dapui_console',
+        'dap-repl',
+      },
       always_divide_middle = true,
     },
     sections = {
