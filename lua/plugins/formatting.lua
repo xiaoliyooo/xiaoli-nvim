@@ -17,8 +17,10 @@ return {
 
     conform.setup({
       formatters_by_ft = {
-        javascript = { 'biome' },
-        typescript = { 'biome' },
+        -- javascript = { 'biome' },
+        -- typescript = { 'biome' },
+        javascript = { 'prettier' },
+        typescript = { 'prettier' },
         javascriptreact = { 'prettier' },
         typescriptreact = { 'prettier' },
         -- css = { 'prettier' }, -- css formatting is handled by cssls -> vscode-css-language-server
