@@ -289,7 +289,11 @@ vim.api.nvim_create_user_command('DeleteComment', function()
     for id, node, _ in query:iter_captures(tree:root(), bufnr, 0, -1) do
       local name = query.captures[id]
       if name == 'comment' then
-        table.insert(ranges, { node:range() })
+        local text = vim.treesitter.get_node_text(node, bufnr)
+        -- leetcode.nvim
+        if not text:find('@leet') then
+          table.insert(ranges, { node:range() })
+        end
       end
     end
   end)
