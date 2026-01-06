@@ -37,25 +37,19 @@ local function smart_select_block()
   if last_bracket and last_bracket_pos then
     -- 移动光标到行首
     vim.api.nvim_win_set_cursor(0, { current_row, 0 })
-    vim.cmd('normal! V')
+    vim.cmd('normal! v')
 
     -- 移动光标到找到的括号/ 引号位置
     vim.api.nvim_win_set_cursor(0, { current_row, last_bracket_pos })
 
     if is_quote then
       if last_bracket == '`' then
-        -- 查找下一个反引号
-        local next_backtick = vim.fn.search('`', 'W')
-        if next_backtick > 0 then
-          vim.cmd('normal! $')
-        else
-          vim.cmd('normal! $')
-        end
+        vim.cmd('normal! g_')
       end
     else
       -- 括号，使用 % 命令
       vim.cmd('normal! %')
-      vim.cmd('normal! $')
+      vim.cmd('normal! g_')
     end
   else
     -- treesitter...
@@ -81,7 +75,7 @@ local function smart_select_block()
       end
     end)
 
-    vim.cmd('normal! V')
+    vim.cmd('normal! 0vg_')
   end
 end
 
