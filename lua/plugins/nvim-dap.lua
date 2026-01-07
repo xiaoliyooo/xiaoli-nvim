@@ -9,9 +9,21 @@ return {
   config = function()
     local config_path = vim.fn.stdpath('config')
 
-    require('nvim-dap-virtual-text').setup()
+    require('nvim-dap-virtual-text').setup({
+      all_references = false,
+      display_callback = function(variable, _buf, _stackframe, _node, options)
+        print(variable.type)
+        if variable.type == 'Function' then
+          return ''
+        end
+
+        return ' ' .. variable.value
+      end,
+    })
     local color_table = require('core.custom-style').color_table
     local dap, dapui = require('dap'), require('dapui')
+
+    vim.api.nvim_set_hl(0, 'NvimDapVirtualText', { fg = '#61afef', italic = true })
 
     -- 调试器 sign 样式
     vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
