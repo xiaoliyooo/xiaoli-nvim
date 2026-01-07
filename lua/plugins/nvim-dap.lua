@@ -10,10 +10,19 @@ return {
     local config_path = vim.fn.stdpath('config')
 
     require('nvim-dap-virtual-text').setup({
-      all_references = false,
-      display_callback = function(variable, _buf, _stackframe, _node, options)
-        print(variable.type)
+      all_references = true,
+      display_callback = function(variable, _buf, stackframe, node, options)
         if variable.type == 'Function' then
+          return ''
+        end
+
+        -- only show virtual text on current line
+        if not node or not stackframe then
+          return ''
+        end
+
+        local start_row = node:range()
+        if stackframe.line ~= (start_row + 1) then
           return ''
         end
 
