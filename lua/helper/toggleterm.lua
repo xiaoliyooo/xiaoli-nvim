@@ -5,6 +5,7 @@ _G.terminal_instances = _G.terminal_instances or {}
 
 local winblend = 30
 local Terminal = require('toggleterm.terminal').Terminal
+local auto_keyboard = require('helper.auto-keyboard-layout')
 
 -- 终端配置表
 local terminal_configs = {
@@ -160,6 +161,8 @@ end
 
 -- 通用终端切换函数
 local function toggle_terminal(key)
+  auto_keyboard.auto_switch_abc()
+
   local config = terminal_configs[key]
   if not config then
     vim.notify('终端配置 \'' .. key .. '\' 不存在', vim.log.levels.ERROR)

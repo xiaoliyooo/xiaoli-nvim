@@ -30,7 +30,7 @@ end
 --          ╒═════════════════════════════════════════════════════════╕
 --          │                       自动切英文                        │
 --          ╘═════════════════════════════════════════════════════════╛
-local function auto_switch_abc()
+function M.auto_switch_abc()
   local current_im = vim.fn.system('im-select'):gsub('%s+', '')
   local target_im = 'com.apple.keylayout.ABC' -- mac原生英文输入法
 
@@ -42,20 +42,20 @@ end
 function M.register_auto_keyboard_layout()
   vim.api.nvim_create_autocmd({ 'CmdlineLeave', 'InsertLeave' }, {
     callback = function()
-      auto_switch_abc()
+      M.auto_switch_abc()
     end,
     desc = '切换英文输入法',
   })
 
   vim.api.nvim_create_autocmd('VimEnter', {
-    callback = auto_switch_abc,
+    callback = M.auto_switch_abc,
     desc = '启动Vim时切换英文输入法',
   })
 
   vim.api.nvim_create_autocmd('FocusGained', {
     callback = function()
       if vim.fn.mode() == 'n' then
-        auto_switch_abc()
+        M.auto_switch_abc()
       end
     end,
     desc = 'Vim获得焦点且在Normal模式时切换输入法',
