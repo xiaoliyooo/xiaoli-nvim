@@ -17,7 +17,7 @@ return {
 
       terminal_helper.init_and_warmup()
 
-      vim.keymap.set({ 'n', 'i', 't' }, '<D-i>', '<cmd>lua _GEMINI_TOGGLE()<CR>', {
+      vim.keymap.set({ 'n', 'i', 't' }, '<D-a>', '<cmd>lua _GEMINI_TOGGLE()<CR>', {
         noremap = true,
         silent = true,
         desc = '切换 Gemini 终端',
