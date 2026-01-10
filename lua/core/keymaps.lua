@@ -91,7 +91,7 @@ vim.keymap.set('t', '<Esc>', function()
 
   if buf_type == 'terminal' then
     local buf_name = vim.api.nvim_buf_get_name(current_buf)
-    if buf_name:match('lazygit') or buf_name:match('2:') then
+    if buf_name:match('lazygit') or buf_name:match('gemini') then
       return '<Esc>'
     end
   end
