@@ -13,6 +13,9 @@ return {
       callback = function()
         vim.api.nvim_set_hl(0, 'FlashMatch', { fg = 'gold' })
         vim.api.nvim_set_hl(0, 'FlashCurrent', { fg = color_table.light_green })
+        vim.api.nvim_set_hl(0, 'Comment', {
+          fg = color_table.light_green,
+        })
         vim.api.nvim_set_hl(0, '@comment', {
           fg = color_table.light_green,
         })
