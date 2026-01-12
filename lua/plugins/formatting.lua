@@ -69,15 +69,18 @@ return {
         },
         shfmt = {
           command = 'shfmt',
-          args = {
-            '--config',
-            vim.fn.stdpath('config') .. '/taplo.toml',
-          },
+          args = { '-i', '2', '-ci' },
           stdin = true,
         },
         taplo = {
           command = 'taplo',
           stdin = true,
+          args = {
+            'format',
+            '--config',
+            vim.fn.stdpath('config') .. '/taplo.toml',
+            '-',
+          },
         },
       },
     })
