@@ -16,10 +16,10 @@ local terminal_configs = {
       dir = 'git_dir',
       float_opts = {
         width = function()
-          return math.floor(vim.o.columns * 0.95)
+          return math.floor(vim.o.columns)
         end,
         height = function()
-          return math.floor(vim.o.lines * 0.95)
+          return math.floor(vim.o.lines)
         end,
       },
       env = {
