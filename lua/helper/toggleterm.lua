@@ -15,7 +15,6 @@ local terminal_configs = {
     extra_opts = {
       dir = 'git_dir',
       float_opts = {
-        winblend = winblend,
         width = function()
           return math.floor(vim.o.columns * 0.95)
         end,
