@@ -4,7 +4,6 @@ local use_package_json_root = true -- 默认使用 package.json 根目录
 return {
   'nvim-telescope/telescope.nvim',
   enabled = true,
-  tag = '0.1.8',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope-ui-select.nvim',
