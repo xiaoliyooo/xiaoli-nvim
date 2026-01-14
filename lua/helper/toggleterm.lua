@@ -80,6 +80,15 @@ local terminal_configs = {
         end,
       },
       close_on_exit = true,
+      on_open = function(term)
+        local opts = { buffer = term.bufnr, noremap = true, silent = true }
+        vim.keymap.set('n', '<C-e>', function()
+          vim.api.nvim_chan_send(term.job_id, '\x1b[48;5u') -- Ctrl+0
+        end, opts)
+        vim.keymap.set('n', '<C-y>', function()
+          vim.api.nvim_chan_send(term.job_id, '\x1b[57;5u') -- Ctrl+9
+        end, opts)
+      end,
       on_exit = function(term)
         vim.schedule(function()
           if term:is_open() then
