@@ -6,6 +6,7 @@ _G.terminal_instances = _G.terminal_instances or {}
 local winblend = 30
 local Terminal = require('toggleterm.terminal').Terminal
 local auto_keyboard = require('helper.auto-keyboard-layout')
+local ai_cmd = 'opencode' -- opencode/gemini
 
 -- 终端配置表
 local terminal_configs = {
@@ -66,6 +67,28 @@ local terminal_configs = {
       end,
     },
   },
+  opencode = {
+    count = 4,
+    cmd = 'opencode',
+    extra_opts = {
+      float_opts = {
+        width = function()
+          return math.floor(vim.o.columns * 0.8)
+        end,
+        height = function()
+          return math.floor(vim.o.lines * 0.8)
+        end,
+      },
+      close_on_exit = true,
+      on_exit = function(term)
+        vim.schedule(function()
+          if term:is_open() then
+            term:close()
+          end
+        end)
+      end,
+    },
+  },
 }
 
 local function close_all_float_terminals(exclude_key)
@@ -94,8 +117,8 @@ terminal_configs.lazygit.before_toggle = function()
   close_all_float_terminals('lazygit')
 end
 
-terminal_configs.gemini.before_toggle = function()
-  close_all_float_terminals('gemini')
+terminal_configs[ai_cmd].before_toggle = function()
+  close_all_float_terminals(ai_cmd)
 end
 
 -- 动态创建终端的函数
@@ -188,9 +211,9 @@ function M.toggle_lazygit()
   toggle_terminal('lazygit')
 end
 
--- Gemini 终端
-function M.toggle_gemini()
-  toggle_terminal('gemini')
+-- Ai 终端(gemini/opencode)
+function M.toggle_ai()
+  toggle_terminal(ai_cmd)
 end
 
 -- 设置全局函数
@@ -198,7 +221,7 @@ function M.setup_global_functions()
   M.recreate_all_terminals()
   _G._NORMAL_TERM_TOGGLE = M.toggle_normal_term
   _G._LAZYGIT_TOGGLE = M.toggle_lazygit
-  _G._GEMINI_TOGGLE = M.toggle_gemini
+  _G._AI_TOGGLE = M.toggle_ai
 end
 
 -- 预热终端
@@ -211,12 +234,11 @@ function M.warmup_terminals()
     normal_term:spawn()
   end
 
-  -- 预热 Gemini 终端
-  local gemini_config = terminal_configs.gemini
-  local gemini_term =
-    M.get_or_create_terminal('gemini', gemini_config.count, gemini_config.cmd, gemini_config.extra_opts)
-  if gemini_term and gemini_term.spawn then
-    gemini_term:spawn()
+  -- 预热 ai 终端
+  local ai_config = terminal_configs[ai_cmd]
+  local ai_term = M.get_or_create_terminal(ai_cmd, ai_config.count, ai_config.cmd, ai_config.extra_opts)
+  if ai_term and ai_term.spawn then
+    ai_term:spawn()
   end
 end
 
