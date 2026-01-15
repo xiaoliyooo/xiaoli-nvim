@@ -146,6 +146,7 @@ return {
     local function find_files_with_toggle()
       tele_builtin.find_files({
         cwd = get_search_dir(),
+        previewer = false,
         attach_mappings = function(prompt_bufnr, map)
           map({ 'i', 'n' }, toggle_key, function()
             toggle_search_scope()
