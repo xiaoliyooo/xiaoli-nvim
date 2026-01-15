@@ -1,26 +1,23 @@
 local M = {}
 
-function M.check_imselect()
-  local dependencies = {
-    { cmd = 'im-select', install = 'brew tap daipeihust/tap && brew install im-select' },
-  }
+local IM_SELECT_PATH = '/opt/homebrew/bin/im-select'
 
-  for _, dep in ipairs(dependencies) do
-    if vim.fn.executable(dep.cmd) == 0 then
-      local choice = vim.fn.confirm(
-        string.format('缺少依赖 %s，无法自动切换英文输入法，是否现在安装？', dep.cmd),
-        '&Yes\n&No\n&Skip',
-        1
-      )
-      if choice == 1 then
-        vim.fn.system(dep.install)
-        if vim.v.shell_error ~= 0 then
-          vim.notify(string.format('安装 %s 失败', dep.cmd), vim.log.levels.ERROR)
-          return false
-        end
-      elseif choice == 2 then
+function M.check_imselect()
+  -- 检查文件是否存在
+  if vim.fn.filereadable(IM_SELECT_PATH) == 0 then
+    local choice = vim.fn.confirm(
+      '缺少依赖 im-select，无法自动切换英文输入法，是否现在安装？',
+      '&Yes\n&No\n&Skip',
+      1
+    )
+    if choice == 1 then
+      vim.fn.system('brew tap daipeihust/tap && brew install im-select')
+      if vim.v.shell_error ~= 0 then
+        vim.notify('安装 im-select 失败', vim.log.levels.ERROR)
         return false
       end
+    elseif choice == 2 then
+      return false
     end
   end
 
@@ -31,11 +28,11 @@ end
 --          │                       自动切英文                        │
 --          ╘═════════════════════════════════════════════════════════╛
 function M.auto_switch_abc()
-  local current_im = vim.fn.system('im-select'):gsub('%s+', '')
+  local current_im = vim.fn.system(IM_SELECT_PATH):gsub('%s+', '')
   local target_im = 'com.apple.keylayout.ABC' -- mac原生英文输入法
 
   if current_im ~= target_im then
-    vim.fn.system('im-select ' .. target_im)
+    vim.fn.system(IM_SELECT_PATH .. ' ' .. target_im)
   end
 end
 

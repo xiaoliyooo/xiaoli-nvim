@@ -34,6 +34,7 @@
   "helpview.nvim": { "branch": "main", "commit": "518789535a0cb146224a428edf93a70f98b795db" },
   "image.nvim": { "branch": "master", "commit": "446a8a5cc7a3eae3185ee0c697732c32a5547a0b" },
   "import.nvim": { "branch": "main", "commit": "b3b0294827eb9c4db0af6d2a0684e2862325fc0c" },
+  "kitty-scrollback.nvim": { "branch": "main", "commit": "8026a3715a93c7302d6bc4979f64102885ad1fc7" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "leetcode.nvim": { "branch": "master", "commit": "fdd3f91800b3983e27bc9fcfb99cfa7293d7f11a" },
   "live-server.nvim": { "branch": "main", "commit": "58f2e30e029a57dbda15c5749edd8d642578859f" },
