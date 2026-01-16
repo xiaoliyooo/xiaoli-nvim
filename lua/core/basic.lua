@@ -1,6 +1,9 @@
 local opt = vim.opt
+local is_kitty_scrollback = require('helper.env').is_kitty_scrollback()
 
--- 行号
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
 opt.relativenumber = true
 opt.number = true
 opt.autoread = true -- 自动重载变更
@@ -10,12 +13,29 @@ opt.expandtab = true
 opt.autoindent = true
 opt.jumpoptions = 'stack' -- gd ctrl+o 跳转模型
 opt.swapfile = false
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-vim.opt.cursorcolumn = false
-vim.opt.cursorline = true
--- kitty-scrollback.nvim 启动时隐藏顶部tab标签
-vim.opt.showtabline = require('helper.env').is_kitty_scrollback() and 0 or 2
+opt.cursorcolumn = false
+opt.cursorline = true
+opt.showtabline = is_kitty_scrollback and 0 or 2 -- kitty-scrollback.nvim 启动时隐藏顶部tab标签
+opt.wrap = false -- 防止包裹
+opt.encoding = 'utf-8'
+opt.fileencoding = 'utf-8'
+opt.mouse:append('a') -- 启用鼠标
+opt.clipboard:append('unnamedplus') -- 系统剪贴板
+-- 默认新窗口右和下
+opt.splitright = true
+opt.splitbelow = true
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.ignorecase = true
+opt.smartcase = true
+opt.termguicolors = true
+opt.signcolumn = 'yes'
+opt.tabline = '%!v:lua.rename_tabline()'
+opt.undofile = true -- 持久化撤销历史
+
+if not is_kitty_scrollback then
+  require('helper.auto-keyboard-layout').register_auto_keyboard_layout()
+end
 
 -- - "t"  -- 不根据 textwidth 自动换行
 -- - "c"  -- 不自动换行注释
@@ -32,6 +52,7 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHo
   pattern = '*',
   command = 'if mode() != \'c\' | checktime | endif',
 })
+
 -- -- 文件变更时的通知
 vim.api.nvim_create_autocmd('FileChangedShellPost', {
   pattern = '*',
@@ -46,11 +67,6 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
     end
   end,
 })
--- 防止包裹
-opt.wrap = false
-
-vim.opt.encoding = 'utf-8'
-vim.opt.fileencoding = 'utf-8'
 
 local is_leetcode = require('helper.is-leetcode')
 if is_leetcode() then
@@ -80,68 +96,6 @@ if is_leetcode() then
   })
 end
 
--- 启用鼠标
-opt.mouse:append('a')
-
--- 系统剪贴板
-opt.clipboard:append('unnamedplus')
-
--- 默认新窗口右和下
-opt.splitright = true
-opt.splitbelow = true
-
-opt.foldlevel = 99
-opt.foldlevelstart = 99
-opt.ignorecase = true
-opt.smartcase = true
-
-opt.termguicolors = true
-opt.signcolumn = 'yes'
-
--- -- Do not save when switching buffers
--- -- o.hidden = true
-
--- -- Decrease update time
--- o.timeoutlen = 500
--- o.updatetime = 200
-
--- -- Number of screen lines to keep above and below the cursor
--- o.scrolloff = 8
-
--- -- Better editor UI
--- o.number = true
--- o.numberwidth = 2
-
--- -- Better editing experience
--- o.smarttab = true
--- o.cindent = true
--- o.wrap = true
--- o.textwidth = 300
--- o.list = true
--- o.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
--- -- o.listchars = 'eol:¬,space:·,lead: ,trail:·,nbsp:◇,tab:→-,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
--- -- o.formatoptions = 'qrn1'
-
--- -- Makes neovim and host OS clipboard play nicely with each other
--- opt.clipboard:append('unnamedplus')
--- opt.fillchars = { eob = ' ' }
-
--- -- Undo and backup options
--- o.backup = false
--- o.writebackup = false
--- o.undofile = true
--- -- o.backupdir = '/tmp/'
--- -- o.directory = '/tmp/'
--- -- o.undodir = '/tmp/'
-
--- -- Remember 50 items in commandline history
--- o.history = 50
-
--- -- Better folds (don't fold by default)
--- -- o.foldnestmax = 3
--- -- o.foldminlines = 1
--- --
-
 -- 完全禁用窗口自动跳转
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
@@ -165,8 +119,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     })
   end,
 })
-
-require('helper.auto-keyboard-layout').register_auto_keyboard_layout()
 
 vim.api.nvim_create_user_command('AbsPath', function()
   local path = vim.fn.expand('%:p')
@@ -375,7 +327,6 @@ function _G.rename_tabline()
   s = s .. '%#TabLineFill#%T'
   return s
 end
-vim.opt.tabline = '%!v:lua.rename_tabline()'
 
 vim.api.nvim_create_user_command('RenameTab', function(opts)
   if opts.args == '' then
