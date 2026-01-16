@@ -14,7 +14,8 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.opt.cursorcolumn = false
 vim.opt.cursorline = true
-vim.opt.showtabline = 2
+-- kitty-scrollback.nvim 启动时隐藏顶部tab标签
+vim.opt.showtabline = require('helper.env').is_kitty_scrollback() and 0 or 2
 
 -- - "t"  -- 不根据 textwidth 自动换行
 -- - "c"  -- 不自动换行注释
