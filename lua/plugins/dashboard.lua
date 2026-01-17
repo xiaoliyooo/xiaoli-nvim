@@ -3,7 +3,6 @@
 return {
   'nvimdev/dashboard-nvim',
   event = 'VimEnter',
-  enabled = not require('helper.env').is_kitty_scrollback(),
   dependencies = {
     { 'nvim-tree/nvim-web-devicons' },
     { 'juansalvatore/git-dashboard-nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
