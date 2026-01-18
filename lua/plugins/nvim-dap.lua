@@ -208,6 +208,20 @@ return {
     dap.listeners.after.event_terminated['resume-vtsls'] = resume_vtsls
     dap.listeners.after.disconnect['resume-vtsls'] = resume_vtsls
 
+    local function set_dap_gh()
+      vim.keymap.set({ 'n', 'x' }, 'gh', function()
+        dapui.eval()
+      end, { noremap = true, desc = 'DAP: Evaluate expression' })
+    end
+
+    local function restore_eagle_gh()
+      vim.keymap.set('n', 'gh', ':EagleWin<CR>', { noremap = true, silent = true, desc = 'Eagle: Hover' })
+    end
+
+    dap.listeners.after.event_initialized['toggle-gh'] = set_dap_gh
+    dap.listeners.after.event_terminated['toggle-gh'] = restore_eagle_gh
+    dap.listeners.after.disconnect['toggle-gh'] = restore_eagle_gh
+
     vim.keymap.set('n', '<leader>1', function()
       dap.step_over()
     end, { noremap = true })
@@ -241,10 +255,6 @@ return {
     vim.keymap.set('n', '<leader>dr', function()
       dap.repl.open()
     end, { noremap = true })
-
-    vim.keymap.set({ 'n', 'x' }, 'gh', function()
-      dapui.eval()
-    end, { noremap = true, desc = 'Evaluate expression' })
 
     vim.api.nvim_create_user_command('Debug', function()
       vim.cmd('DapNew')

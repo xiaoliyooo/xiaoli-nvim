@@ -124,10 +124,9 @@ return {
       }),
 
       formatting = {
-        fields = { 'kind', 'abbr', 'menu' },
+        fields = { 'icon', 'abbr', 'menu' },
         format = function(entry, vim_item)
           local kind = require('lspkind').cmp_format({
-            mode = 'symbol_text',
             symbol_map = symbol_map,
           })(entry, vim.deepcopy(vim_item))
           local highlights_info = require('colorful-menu').cmp_highlights(entry)
