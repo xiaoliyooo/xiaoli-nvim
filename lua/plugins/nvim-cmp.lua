@@ -174,11 +174,29 @@ return {
       end, { 'c' })
     end)
 
+    local cmdline_formatting = {
+      fields = { 'abbr', 'menu' },
+      format = function(entry, vim_item)
+        local highlights_info = require('colorful-menu').cmp_highlights(entry)
+
+        if highlights_info ~= nil then
+          vim_item.abbr_hl_group = highlights_info.highlights
+          local strings = vim.split(highlights_info.text, '%s', { trimempty = true })
+          vim_item.abbr = strings[1] or ''
+        end
+
+        vim_item.menu = '[' .. entry.source.name .. ']'
+
+        return vim_item
+      end,
+    }
+
     cmp.setup.cmdline({ '/', '?' }, {
       mapping = cmdline_mapping,
       completion = {
         completeopt = 'menu,menuone,noselect',
       },
+      formatting = cmdline_formatting,
       sources = {
         { name = 'buffer', keyword_length = 0 },
       },
@@ -189,6 +207,7 @@ return {
       completion = {
         completeopt = 'menu,menuone,noselect',
       },
+      formatting = cmdline_formatting,
       sources = cmp.config.sources({
         { name = 'path' },
       }, {
