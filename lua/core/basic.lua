@@ -344,3 +344,7 @@ vim.api.nvim_create_user_command('RenameTabClearAll', function()
   vim.cmd('redrawtabline')
   vim.notify('已清除所有 tab 自定义名称')
 end, { desc = 'Clear all tab custom names' })
+
+vim.api.nvim_create_user_command('DeleteUnusedVars', function()
+  require('autocommand.delete_unused_vars').delete_unused_vars()
+end, { desc = 'Delete unused variables and imports (LSP + treesitter)' })
