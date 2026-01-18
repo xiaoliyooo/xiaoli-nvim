@@ -13,6 +13,7 @@ return {
   },
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
+    local config_path = vim.fn.stdpath('config')
     local conform = require('conform')
 
     conform.setup({
@@ -57,7 +58,7 @@ return {
             'check',
             '--fix',
             '--config-path',
-            vim.fn.stdpath('config') .. '/biome.json',
+            config_path .. '/biome.json',
             '--stdin-file-path',
             '$FILENAME',
           },
@@ -78,9 +79,20 @@ return {
           args = {
             'format',
             '--config',
-            vim.fn.stdpath('config') .. '/taplo.toml',
+            config_path .. '/taplo.toml',
             '-',
           },
+        },
+        prettier = {
+          prepend_args = function()
+            local cwd = vim.fn.getcwd()
+            local has_config = vim.fn.glob(cwd .. '/.prettierrc*') ~= ''
+              or vim.fn.glob(cwd .. '/prettier.config.*') ~= ''
+            if has_config then
+              return {}
+            end
+            return { '--config', config_path .. '/.prettierrc' }
+          end,
         },
       },
     })
