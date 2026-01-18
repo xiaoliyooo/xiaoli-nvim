@@ -148,9 +148,10 @@ return {
 
     local cmdline_mapping = cmp.mapping.preset.cmdline()
     -- 在补全菜单可见时使用 Up/Down 选择，否则回退到默认行为
+    -- 使用 Select 行为避免 <C-w> 删除时先应用选中项
     cmdline_mapping['<Up>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.select_prev_item()
+        cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
       else
         fallback() -- 使用默认的历史记录导航
       end
@@ -158,7 +159,18 @@ return {
 
     cmdline_mapping['<Down>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.select_next_item()
+        cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+      else
+        fallback()
+      end
+    end, { 'c' })
+
+    cmdline_mapping['<CR>'] = cmp.mapping(function(fallback)
+      if cmp.visible() and cmp.get_selected_entry() then
+        cmp.confirm({ select = true })
+        vim.schedule(function()
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<CR>', true, false, true), 'n', false)
+        end)
       else
         fallback()
       end
