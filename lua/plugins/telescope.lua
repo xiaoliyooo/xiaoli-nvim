@@ -152,8 +152,9 @@ return {
           'rg',
           '--files',
           '--hidden',
+          '--no-ignore',
           '--glob',
-          '!**/.git/*',
+          '!{.git,.vim,.opencode,.vscode,.idea}',
         },
         attach_mappings = function(prompt_bufnr, map)
           map({ 'i', 'n' }, toggle_key, function()
