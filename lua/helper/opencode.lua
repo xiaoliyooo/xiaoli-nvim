@@ -114,7 +114,9 @@ function M.send_selection_with_prompt()
     vim.api.nvim_win_close(win, true)
     if input and input ~= '' then
       send_to_terminal(prefix .. input)
-      send_to_terminal('\r')
+      vim.schedule(function()
+        send_to_terminal('\r')
+      end)
     end
   end, { buffer = buf, noremap = true, silent = true })
 
