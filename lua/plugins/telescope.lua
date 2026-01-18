@@ -147,6 +147,13 @@ return {
       tele_builtin.find_files({
         cwd = get_search_dir(),
         previewer = false,
+        hidden = true,
+        find_command = {
+          'rg',
+          '--files',
+          '--hidden',
+          '--glob', '!**/.git/*',
+        },
         attach_mappings = function(prompt_bufnr, map)
           map({ 'i', 'n' }, toggle_key, function()
             toggle_search_scope()
