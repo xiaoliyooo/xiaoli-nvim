@@ -56,7 +56,7 @@ return {
       defaults = {
         prompt_prefix = '   ',
         borderchars = borderchars,
-        winblend = 30,
+        winblend = 0,
         layout_strategy = 'vertical',
         layout_config = {
           horizontal = {
@@ -152,7 +152,8 @@ return {
           'rg',
           '--files',
           '--hidden',
-          '--glob', '!**/.git/*',
+          '--glob',
+          '!**/.git/*',
         },
         attach_mappings = function(prompt_bufnr, map)
           map({ 'i', 'n' }, toggle_key, function()
