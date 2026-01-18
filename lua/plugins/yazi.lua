@@ -37,7 +37,7 @@ return {
         end, { buffer = yazi_buffer_id, desc = 'Search files with fd' })
 
         -- 跳转到初始目录
-        vim.keymap.set('t', '<BS>', function()
+        vim.keymap.set('t', '<C-BS>', function()
           context.api:emit_to_yazi({ 'cd', yazi_original_path })
           vim.notify('Yazi jumped to: ' .. yazi_original_path)
         end, { buffer = yazi_buffer_id, desc = 'Go back to initial directory' })
