@@ -7,6 +7,7 @@ local is_kitty_scrollback = require('helper.env').is_kitty_scrollback()
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+opt.laststatus = 0
 opt.relativenumber = true
 opt.number = true
 opt.autoread = true -- 自动重载变更

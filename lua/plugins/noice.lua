@@ -6,6 +6,7 @@ return {
   dependencies = {
     'MunifTanjim/nui.nvim',
   },
+  enabled = false,
   lazy = true,
   config = function()
     local border = require('core.custom-style').border
