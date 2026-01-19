@@ -15,7 +15,7 @@
   "colorbuddy.nvim": { "branch": "master", "commit": "8b968581e5c19d22a861d5f3fe5dbd83394fa681" },
   "colorful-menu.nvim": { "branch": "master", "commit": "b51a659459df8d078201aefc995db8175ed55e84" },
   "comment-box.nvim": { "branch": "main", "commit": "06bb771690bc9df0763d14769b779062d8f12bc5" },
-  "conform.nvim": { "branch": "master", "commit": "5ac2bb57a9096f00ca50e1a3c46020d5930319b8" },
+  "conform.nvim": { "branch": "master", "commit": "c2526f1cde528a66e086ab1668e996d162c75f4f" },
   "darkplus.nvim": { "branch": "master", "commit": "c3f3b6a6d3a0db946e36252cd5c2a08549327580" },
   "dashboard-nvim": { "branch": "master", "commit": "0775e567b6c0be96d01a61795f7b64c1758262f6" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
@@ -103,5 +103,5 @@
   "vimcdoc": { "branch": "master", "commit": "5059f9c972845cd6c479fbd975de9465aedbc609" },
   "visual-whitespace.nvim": { "branch": "main", "commit": "2c2de32bb97620bcf4b3b78879c185315ee971dc" },
   "yankbank-nvim": { "branch": "main", "commit": "1392d12536b5a2bc2deaf2668068f33a8795d5a4" },
-  "yazi.nvim": { "branch": "main", "commit": "8b3e0b37c0173b816357850516937fa56a331093" }
+  "yazi.nvim": { "branch": "main", "commit": "5634692fab930cb3ef8359760a11418b2d4d2d85" }
 }

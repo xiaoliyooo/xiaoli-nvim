@@ -10,6 +10,7 @@ return {
     'brew install shellcheck',
     'brew install taplo',
     'brew install ruff',
+    'brew install sql-formatter',
   },
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
@@ -45,6 +46,7 @@ return {
           -- To organize the imports.
           'ruff_organize_imports',
         },
+        -- sql = { 'sql_formatter' },
       },
       format_on_save = {
         lsp_fallback = true,
