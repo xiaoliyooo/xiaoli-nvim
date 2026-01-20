@@ -6,7 +6,7 @@ local function import(file_name)
 end
 
 local flash = import('flash')
-local rainbow_delimiters = import('rainbow-delimiters')
+-- local rainbow_delimiters = import('rainbow-delimiters')
 local mini = import('mini')
 -- local gitsigns = import('gitsigns')
 local vim_illuminate = import('vim-illuminate')
@@ -18,7 +18,7 @@ local render_markdown = import('render-markdown')
 local tabline = import('tabline')
 
 local function reset_plugins_hl()
-  rainbow_delimiters.reset()
+  -- rainbow_delimiters.reset()
   flash.reset()
   mini.reset()
   -- gitsigns.reset()
