@@ -67,6 +67,7 @@ return {
             -- 'Function',
             -- 'Struct',
             -- 'Object',
+            'Variable',
             'File',
             'Class',
             'Method',
