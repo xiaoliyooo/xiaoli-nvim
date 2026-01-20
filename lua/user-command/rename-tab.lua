@@ -14,7 +14,8 @@ function M.tabline_fn()
       local win_handle = vim.api.nvim_tabpage_get_win(tab_handle)
       local buf_handle = vim.api.nvim_win_get_buf(win_handle)
       local buf_name = vim.api.nvim_buf_get_name(buf_handle)
-      local path = vim.fn.fnamemodify(buf_name, ':.')
+      -- local path = vim.fn.fnamemodify(buf_name, ':.') -- 完整名称
+      local path = vim.fn.pathshorten(vim.fn.fnamemodify(buf_name, ':.')) -- 简短名称
       if path == '' then
         path = '[No Name]'
       end

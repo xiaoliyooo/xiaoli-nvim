@@ -21,6 +21,9 @@ return function()
     lightbulb = {
       virtual_text = false,
     },
+    symbol_in_winbar = {
+      enable = false,
+    },
   })
 
   -- vim.keymap.set('n', 'gh', '<cmd>Lspsaga hover_doc<CR>')
