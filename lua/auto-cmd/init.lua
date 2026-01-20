@@ -95,3 +95,22 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     })
   end,
 })
+
+local statusline_disabled_filetypes = require('helper.constant').statusline_disabled_filetypes
+local disabled_filetypes_set = {}
+for _, ft in ipairs(statusline_disabled_filetypes) do
+  disabled_filetypes_set[ft] = true
+end
+
+vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'FileType' }, {
+  pattern = '*',
+  callback = function()
+    vim.schedule(function()
+      if disabled_filetypes_set[vim.bo.filetype] then
+        vim.o.laststatus = 0
+      else
+        vim.o.laststatus = 3
+      end
+    end)
+  end,
+})

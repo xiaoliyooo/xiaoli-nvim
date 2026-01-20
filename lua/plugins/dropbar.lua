@@ -8,6 +8,10 @@ return {
     build = 'make',
   },
   config = function()
+    local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal' })
+    vim.api.nvim_set_hl(0, 'WinBar', { bg = normal_hl.bg })
+    vim.api.nvim_set_hl(0, 'WinBarNC', { bg = normal_hl.bg })
+
     require('dropbar').setup({
       icons = {
         enable = true,
@@ -23,11 +27,13 @@ return {
     vim.keymap.set('n', '<Leader>;', dropbar_api.pick, { desc = 'Pick symbols in winbar' })
     vim.keymap.set('n', '[;', dropbar_api.goto_context_start, { desc = 'Go to start of current context' })
     vim.keymap.set('n', '];', dropbar_api.select_next_context, { desc = 'Select next context' })
-    vim.api.nvim_create_autocmd({ 'BufEnter',
+    vim.api.nvim_create_autocmd({
+      'BufEnter',
       'BufWinEnter',
       'FileType',
       'BufReadPost',
-      'WinEnter' }, {
+      'WinEnter',
+    }, {
       callback = function()
         local filetype = vim.bo.filetype
         if filetype == 'codecompanion' then

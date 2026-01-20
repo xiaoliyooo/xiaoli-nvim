@@ -7,7 +7,8 @@ local is_kitty_scrollback = require('helper.env').is_kitty_scrollback()
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-opt.laststatus = 0
+opt.laststatus = 3
+opt.statusline = '[%f]  ft:%{&filetype}  Lines:%L  %M' -- %f相对路径 %M修改标志 %y文件类型 %L文件总行数
 opt.relativenumber = true
 opt.number = true
 opt.autoread = true -- 自动重载变更

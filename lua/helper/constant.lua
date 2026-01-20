@@ -15,6 +15,19 @@ M.special_filetypes = {
   'leetcode.nvim',
 }
 
+M.statusline_disabled_filetypes = {
+  'alpha',
+  'dashboard',
+  'NvimTree',
+  'Outline',
+  'dapui_scopes',
+  'dapui_breakpoints',
+  'dapui_stacks',
+  'dapui_watches',
+  'dapui_console',
+  'dap-repl',
+}
+
 M.no_git_repo_found = {
   ' /$$   /$$                           /$$   /$$                                                          /$$$$$$                                    /$$',
   '| $$$ | $$                          |__/  | $$                                                         /$$__  $$                                  | $$',
