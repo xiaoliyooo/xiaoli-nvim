@@ -228,7 +228,7 @@ function M.delete_unused_vars()
   return count
 end
 
-local DIAGNOSTIC_WAIT_MS = 500
+local DIAGNOSTIC_WAIT_MS = 1000
 
 function M.delete_unused_vars_recursive()
   local bufnr = vim.api.nvim_get_current_buf()
