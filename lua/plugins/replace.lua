@@ -6,6 +6,22 @@ return {
     require('grug-far').setup({
       engine = 'ripgrep',
       transient = true, -- 临时缓冲区
+      onStatusChangeThrottleTime = 100,
+      onStatusChange = function(buf)
+        local inst = require('grug-far').get_instance(buf)
+        if not inst then
+          return
+        end
+
+        local info = inst:get_status_info()
+        if not info.actionMessage then
+          return
+        end
+
+        vim.defer_fn(function()
+          inst:search() -- 同步后自动刷新
+        end, 100)
+      end,
       keymaps = {
         replace = { n = '<localleader>r' },
         qflist = { n = '' },
