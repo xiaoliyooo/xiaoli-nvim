@@ -4,6 +4,7 @@ _G.tabline_fn = rename_tab_module.tabline_fn
 local delete_console = require('user-command.delete-console').delete_console
 local delete_comment = require('user-command.delete-comment').delete_comment
 local delete_unused_vars = require('user-command.delete-unused-vars').delete_unused_vars
+local delete_unused_vars_recursive = require('user-command.delete-unused-vars').delete_unused_vars_recursive
 local abs_path = require('user-command.abs-path').abs_path
 local abs_dir_path = require('user-command.abs-path').abs_dir_path
 local rename_tab = rename_tab_module.rename_tab
@@ -20,6 +21,11 @@ vim.api.nvim_create_user_command(
   'DeleteUnusedVars',
   delete_unused_vars,
   { desc = 'Delete unused variables and imports' }
+)
+vim.api.nvim_create_user_command(
+  'DeleteUnusedVarsRecursive',
+  delete_unused_vars_recursive,
+  { desc = 'Recursively delete unused variables until none remain' }
 )
 vim.api.nvim_create_user_command(
   'RenameTab',

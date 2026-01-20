@@ -225,6 +225,38 @@ function M.delete_unused_vars()
   end
 
   vim.notify(string.format('Deleted %d unused variable(s)/import(s)', count), vim.log.levels.INFO)
+  return count
+end
+
+local DIAGNOSTIC_WAIT_MS = 500
+
+function M.delete_unused_vars_recursive()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local ft = vim.bo[bufnr].filetype
+
+  if not allowed_fts[ft] then
+    vim.notify('Only supports js/ts/jsx/tsx/vue files', vim.log.levels.WARN)
+    return
+  end
+
+  local total_deleted = 0
+  local iteration = 0
+
+  local function iterate()
+    iteration = iteration + 1
+    local deleted = M.delete_unused_vars()
+    if deleted and deleted > 0 then
+      total_deleted = total_deleted + deleted
+      vim.defer_fn(iterate, DIAGNOSTIC_WAIT_MS)
+    elseif total_deleted > 0 then
+      vim.notify(
+        string.format('Recursive delete complete: %d total in %d iteration(s)', total_deleted, iteration),
+        vim.log.levels.INFO
+      )
+    end
+  end
+
+  iterate()
 end
 
 return M
