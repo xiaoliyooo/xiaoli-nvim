@@ -8,7 +8,7 @@ return {
   },
   init = function()
     -- 如果打开的是目录，立即加载
-    if vim.fn.argc() == 1 then
+    if vim.fn.argc() > 0 then
       local arg = vim.fn.argv(0)
       if vim.fn.isdirectory(arg) == 1 then
         require('lazy').load({ plugins = { 'nvim-tree.lua' } })
