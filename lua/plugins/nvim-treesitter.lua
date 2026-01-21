@@ -40,6 +40,7 @@ return {
         'lua',
         'rust',
         'typescript',
+        'tsx',
         'vim',
         'vue',
         'scss',
