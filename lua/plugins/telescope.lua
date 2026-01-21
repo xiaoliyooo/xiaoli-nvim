@@ -23,6 +23,7 @@ return {
     'nvim-telescope/telescope-frecency.nvim',
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
     'nvim-telescope/telescope-node-modules.nvim',
+    'LudoPinelli/comment-box.nvim',
   },
   build = 'brew install ripgrep',
   config = function()
