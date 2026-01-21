@@ -1,5 +1,7 @@
 -- leetcode
 
+local is_leetcode_context = require('helper.is-leetcode')
+
 local function ensure_dir_exists(path)
   local ok, err = os.execute('mkdir -p ' .. path)
   if not ok then
@@ -19,6 +21,7 @@ return {
     'nvim-lua/plenary.nvim',
     'MunifTanjim/nui.nvim',
   },
+  enabled = is_leetcode_context(),
   config = function()
     local home_path = os.getenv('HOME') .. '/leetcode/home'
     local cache_patch = os.getenv('HOME') .. '/leetcode/cache'

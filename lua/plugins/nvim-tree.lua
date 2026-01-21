@@ -13,6 +13,8 @@ return {
         return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
       end
 
+      vim.cmd('stopinsert') -- 进入vim后默认normal模式
+
       -- default mappings
       api.config.mappings.default_on_attach(bufnr)
       local function open()
