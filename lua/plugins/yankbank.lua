@@ -1,6 +1,12 @@
 return {
   'ptdewey/yankbank-nvim',
   dependencies = 'kkharji/sqlite.lua',
+  cmd = { 'YankBank' },
+  keys = {
+    { '<leader>y', '<CMD>YankBank<CR>', desc = 'Open YankBank' },
+    { 'y', mode = { 'n', 'x' } },
+    { 'Y', mode = { 'n', 'x' } },
+  },
   config = function()
     require('yankbank').setup({
       max_entries = 10,
@@ -16,7 +22,5 @@ return {
         yank_register = '+',
       },
     })
-
-    vim.keymap.set('n', '<leader>y', '<CMD>YankBank<CR>', { silent = true })
   end,
 }

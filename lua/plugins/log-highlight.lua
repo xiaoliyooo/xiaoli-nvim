@@ -1,5 +1,6 @@
 return {
   'fei6409/log-highlight.nvim',
+  ft = 'help',
   config = function()
     require('log-highlight').setup({
       ---@type string|string[]

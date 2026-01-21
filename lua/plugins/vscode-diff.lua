@@ -1,6 +1,10 @@
 return {
   'esmuellert/codediff.nvim',
   dependencies = { 'MunifTanjim/nui.nvim' },
+  cmd = 'CodeDiff',
+  keys = {
+    { '<leader>gd', mode = 'n' }, -- 绑定在diffview.lua中的快捷键
+  },
   build = ':CodeDiff install',
   config = function()
     require('vscode-diff').setup({

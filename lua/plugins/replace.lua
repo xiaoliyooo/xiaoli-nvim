@@ -2,6 +2,11 @@
 
 return {
   'MagicDuck/grug-far.nvim',
+  cmd = { 'FindCwd', 'FindCurFile' },
+  keys = {
+    { '<leader>fc', mode = 'n' },
+    { '<leader>ff', mode = 'n' },
+  },
   config = function()
     require('grug-far').setup({
       engine = 'ripgrep',

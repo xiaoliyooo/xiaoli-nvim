@@ -2,6 +2,7 @@
 
 return {
   'echasnovski/mini.nvim',
+  event = 'BufReadPre',
   config = function()
     local indent_scope_instance = require('mini.indentscope')
 

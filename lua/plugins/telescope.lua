@@ -4,6 +4,18 @@ local use_package_json_root = true -- 默认使用 package.json 根目录
 return {
   'nvim-telescope/telescope.nvim',
   enabled = true,
+  cmd = { 'Telescope' },
+  keys = {
+    { '<leader>fm', desc = 'show all marks' },
+    { '<leader>fh', desc = 'Fuzzy find highlights' },
+    { '<leader>fb', mode = { 'n', 'x' }, desc = 'Comment box trigger' },
+    { '<C-Tab>', mode = { 'n', 'i' }, desc = 'Lists open buffers in current neovim instance' },
+    { '<leader>fs', desc = 'Search symbols in current file' },
+    { '<leader>dp', desc = 'node_modules' },
+    { '<D-l>', mode = { 'n', 'i' }, desc = 'Find recent files with frecency algorithm' },
+    { '<D-p>', mode = { 'n', 'i' }, desc = 'Fuzzy find files' },
+    { '<D-S-f>', mode = { 'n', 'i' }, desc = 'Find string with shortcuts' },
+  },
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope-ui-select.nvim',
@@ -171,7 +183,7 @@ return {
     keymap.set('n', '<leader>fh', tele_builtin.highlights, { desc = 'Fuzzy find highlights' })
     keymap.set({ 'n', 'v' }, '<leader>fb', function()
       require('helper.comment-box-selector').comment_box_selector()
-    end, { desc = 'Fuzzy find highlights' })
+    end, { desc = 'Comment box trigger' })
     -- keymap.set(
     --   'n',
     --   '<leader>ft',

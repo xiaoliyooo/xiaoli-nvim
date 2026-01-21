@@ -3,8 +3,7 @@
 return {
   'neovim/nvim-lspconfig',
   enabled = true,
-  event = { 'BufReadPre', 'BufNewFile' },
-  lazy = false,
+  event = { 'VeryLazy' },
   dependencies = {
     'mason-org/mason.nvim',
     'mason-org/mason-lspconfig.nvim',

@@ -2,6 +2,7 @@
 
 return {
   'catgoose/nvim-colorizer.lua',
+  event = 'VeryLazy',
   config = function()
     require('colorizer').setup({
       filetypes = { '*' }, -- Filetype options.  Accepts table like `user_default_options`

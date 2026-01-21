@@ -2,6 +2,19 @@
 
 return {
   'nvim-tree/nvim-tree.lua',
+  cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
+  keys = {
+    { '<leader>nn', '<CMD>NvimTreeToggle<CR>', desc = 'Toggle NvimTree' },
+  },
+  init = function()
+    -- 如果打开的是目录，立即加载
+    if vim.fn.argc() == 1 then
+      local arg = vim.fn.argv(0)
+      if vim.fn.isdirectory(arg) == 1 then
+        require('lazy').load({ plugins = { 'nvim-tree.lua' } })
+      end
+    end
+  end,
   config = function()
     -- set termguicolors to enable highlight groups
     vim.opt.termguicolors = true
@@ -139,10 +152,5 @@ return {
         },
       },
     })
-
-    -- set keymaps
-    -- vim.keymap.set('n', '<leader>ff', '<CMD>NvimTreeToggle<CR>')
-    -- vim.keymap.set('n', '<leader>nf', '<CMD>NvimTreeFindFile<CR>')
-    -- vim.keymap.set('n', '<leader>bf', '<CMD>NvimTreeFocus<CR>')
   end,
 }

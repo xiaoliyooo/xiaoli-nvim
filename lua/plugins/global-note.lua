@@ -1,5 +1,8 @@
 return {
   'backdround/global-note.nvim',
+  keys = {
+    { '<leader>e', mode = 'n' },
+  },
   config = function()
     local style = require('core.custom-style')
     local border = style.border

@@ -2,6 +2,10 @@
 
 return {
   'potamides/pantran.nvim',
+  cmd = { 'Pantran', 'Translate', 'TranslateCN', 'TranslateEN', 'TranslateKO' },
+  keys = {
+    { '<leader>tr', mode = { 'n', 'v' }, desc = '翻译文本' },
+  },
   config = function()
     local pantran = require('pantran')
     pantran.setup({

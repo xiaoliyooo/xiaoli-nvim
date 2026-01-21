@@ -13,6 +13,9 @@ return {
   dependencies = {
     'nvim-telescope/telescope.nvim',
   },
+  keys = {
+    { '<leader>fi', mode = 'n' },
+  },
   config = function()
     require('import').setup({
       picker = 'telescope',

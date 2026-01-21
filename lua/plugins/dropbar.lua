@@ -2,6 +2,7 @@
 
 return {
   'Bekaboo/dropbar.nvim',
+  event = 'VeryLazy',
   config = function()
     local sources = require('dropbar.sources')
     local utils = require('dropbar.utils')

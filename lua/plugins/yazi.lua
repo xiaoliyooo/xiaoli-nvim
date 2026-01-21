@@ -3,7 +3,10 @@ return {
   dependencies = {
     { 'nvim-lua/plenary.nvim' },
   },
-  lazy = false,
+  keys = {
+    { '<leader>mm', mode = 'n' },
+  },
+  cmd = 'Yazi',
   config = function()
     local border = require('core.custom-style').border
     local yazi_original_path = nil

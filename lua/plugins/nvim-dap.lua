@@ -218,9 +218,25 @@ return {
       vim.keymap.set('n', 'gh', ':EagleWin<CR>', { noremap = true, silent = true, desc = 'Eagle: Hover' })
     end
 
+    local function set_dap_leader_e()
+      vim.keymap.set('n', '<leader>e', function()
+        dap.terminate()
+      end, { noremap = true, desc = 'DAP: 停止调试' })
+    end
+
+    local function restore_global_note_leader_e()
+      vim.keymap.set('n', '<leader>e', function()
+        require('global-note').toggle_note()
+      end, { noremap = true, desc = '全局note' })
+    end
+
     dap.listeners.after.event_initialized['toggle-gh'] = set_dap_gh
     dap.listeners.after.event_terminated['toggle-gh'] = restore_eagle_gh
     dap.listeners.after.disconnect['toggle-gh'] = restore_eagle_gh
+
+    dap.listeners.after.event_initialized['toggle-leader-e'] = set_dap_leader_e
+    dap.listeners.after.event_terminated['toggle-leader-e'] = restore_global_note_leader_e
+    dap.listeners.after.disconnect['toggle-leader-e'] = restore_global_note_leader_e
 
     vim.keymap.set('n', '<leader>1', function()
       dap.step_over()
@@ -236,9 +252,6 @@ return {
     end, { noremap = true })
     vim.keymap.set('n', '<leader>b', function()
       dap.toggle_breakpoint()
-    end, { noremap = true })
-    vim.keymap.set('n', '<leader>e', function() -- 停止调试
-      dap.terminate()
     end, { noremap = true })
     vim.keymap.set('n', '<leader>r', function() -- 重启调试
       dap.terminate()

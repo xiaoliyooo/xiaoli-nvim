@@ -2,7 +2,10 @@
 
 return {
   'hrsh7th/nvim-cmp',
-  event = { 'BufReadPre', 'BufNewFile', 'VimEnter' },
+  event = {
+    'InsertEnter',
+    'CmdlineEnter',--[[ 'BufReadPre', 'BufNewFile'  ]]
+  },
   dependencies = {
     'hrsh7th/cmp-nvim-lsp', -- lsp auto-completion
     'hrsh7th/cmp-buffer', -- source for text in buffer

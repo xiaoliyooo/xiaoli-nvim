@@ -3,6 +3,7 @@
 return {
   '3rd/image.nvim',
   enabled = true,
+  ft = { 'markdown', 'vimwiki' },
   build = 'brew install imagemagick',
   config = function()
     require('image').setup({

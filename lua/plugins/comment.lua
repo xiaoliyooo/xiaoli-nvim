@@ -3,6 +3,21 @@
 return {
   'numToStr/Comment.nvim',
   enabled = true,
+  keys = {
+    { 'gc', mode = { 'v', 'x' } },
+    { 'gb', mode = { 'v', 'x' } },
+
+    { 'gcc', mode = { 'n' } },
+    { 'gbc', mode = { 'n' } },
+
+    { 'gca', mode = { 'n' } },
+    { 'gba', mode = { 'n' } },
+
+    { 'gco', mode = { 'n' } },
+    { 'gcO', mode = { 'n' } },
+    { 'gbo', mode = { 'n' } },
+    { 'gbO', mode = { 'n' } },
+  },
   config = function()
     require('Comment').setup({
       ---LHS of extra mappings

@@ -5,6 +5,7 @@ return {
     'akinsho/toggleterm.nvim',
     version = '*',
     build = 'brew install lazygit',
+    event = 'VeryLazy',
     config = function()
       require('toggleterm').setup({
         direction = 'float',

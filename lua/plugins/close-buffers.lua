@@ -2,6 +2,7 @@
 
 return {
   'kazhala/close-buffers.nvim',
+  event = 'VeryLazy',
   config = function()
     require('close_buffers').setup({
       filetype_ignore = {}, -- Filetype to ignore when running deletions

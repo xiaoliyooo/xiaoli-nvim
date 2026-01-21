@@ -2,6 +2,7 @@ return {
   'akinsho/git-conflict.nvim',
   version = '*',
   enabled = true,
+  event = 'VeryLazy',
   config = function()
     require('git-conflict').setup({
       -- default_mappings = true, -- disable buffer local mapping created by this plugin

@@ -2,6 +2,9 @@
 
 return {
   'dnlhc/glance.nvim',
+  keys = {
+    { 'gr', mode = 'n' },
+  },
   config = function()
     -- Lua configuration
     local glance = require('glance')

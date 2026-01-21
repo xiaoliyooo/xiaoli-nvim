@@ -3,6 +3,10 @@ local port = 7777
 return {
   'barrett-ruth/live-server.nvim',
   build = 'npm install -g live-server',
+  cmd = { 'LiveServerStart', 'LiveServerStop', 'LiveServerToggle' },
+  keys = {
+    { '<leader>lo', desc = '启动live-server, 打开当前HTML' },
+  },
   config = function()
     local live_server = require('live-server')
     live_server.setup({

@@ -1,4 +1,4 @@
 return {
-  'b0o/schemastore.nvim',
+  'tpope/vim-fugitive',
   event = 'VeryLazy',
 }

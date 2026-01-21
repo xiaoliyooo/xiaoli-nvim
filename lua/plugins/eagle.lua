@@ -2,6 +2,9 @@
 
 return {
   'soulis-1256/eagle.nvim',
+  keys = {
+    { 'gh', mode = 'n' },
+  },
   config = function()
     local utils = require('theme.eagle')
     local config = utils.get_eagle_config()

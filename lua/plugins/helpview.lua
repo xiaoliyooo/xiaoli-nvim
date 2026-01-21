@@ -2,6 +2,7 @@
 
 return {
   'OXY2DEV/helpview.nvim',
+  ft = 'help',
   config = function()
     require('helpview').setup({
       renderers = {},

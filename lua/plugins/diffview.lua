@@ -3,6 +3,11 @@
 return {
   'sindrets/diffview.nvim',
   dependencies = 'nvim-lua/plenary.nvim',
+  cmds = { 'FileHistory', 'BranchHistory', 'DiffviewOpen' },
+  keys = {
+    { '<leader>gh', mode = 'n' },
+    { '<leader>bh', mode = 'n' },
+  },
   config = function()
     vim.opt.fillchars = {
       diff = '╱',
