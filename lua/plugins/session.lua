@@ -2,6 +2,16 @@
 
 return {
   'Shatur/neovim-session-manager',
+  dependencies = { 'nvim-telescope/telescope.nvim' },
+  cmd = { 'SessionManager' },
+  keys = {
+    { '<leader>ls', ':SessionManager load_session<CR>', desc = '加载会话', silent = true },
+  },
+  init = function()
+    if vim.fn.argc() == 0 then
+      require('lazy').load({ plugins = { 'neovim-session-manager' } })
+    end
+  end,
   config = function()
     local Path = require('plenary.path')
     local config = require('session_manager.config')
@@ -23,7 +33,7 @@ return {
       load_include_current = false, -- The currently loaded session appears in the load_session UI.
     })
 
-    local config_group = vim.api.nvim_create_augroup('MyConfigGroup', {}) -- A global group for all your config autocommands
+    -- local config_group = vim.api.nvim_create_augroup('MyConfigGroup', {}) -- A global group for all your config autocommands
     local is_path_allowed_save_session = require('helper.session').is_path_allowed_save_session
 
     -- 重写保存会话函数
@@ -39,20 +49,19 @@ return {
       original_save_session(filename)
     end
 
-    vim.api.nvim_create_autocmd({ 'User' }, {
-      pattern = 'SessionLoadPost',
-      group = config_group,
-      callback = function()
-        local tree = require('nvim-tree.api').tree
-        tree.open()
-        tree.close()
-        tree.change_root(vim.fn.getcwd())
-        tree.reload()
-
-        local get_dashboard_config = require('helper.dashboard').get_dashboard_config
-        require('dashboard').setup(get_dashboard_config())
-      end,
-    })
-    vim.keymap.set('n', '<leader>ls', ':SessionManager load_session<CR>', { desc = '加载会话', silent = true })
+    -- vim.api.nvim_create_autocmd({ 'User' }, {
+    --   pattern = 'SessionLoadPost',
+    --   group = config_group,
+    --   callback = function()
+    --     local tree = require('nvim-tree.api').tree
+    --     tree.open()
+    --     tree.close()
+    --     tree.change_root(vim.fn.getcwd())
+    --     tree.reload()
+    --
+    --     local get_dashboard_config = require('helper.dashboard').get_dashboard_config
+    --     require('dashboard').setup(get_dashboard_config())
+    --   end,
+    -- })
   end,
 }
