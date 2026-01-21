@@ -7,11 +7,6 @@ return {
     { '<leader>nn', '<CMD>NvimTreeToggle<CR>', desc = 'Toggle NvimTree' },
   },
   init = function()
-    if vim.fn.argc() == 0 then
-      require('lazy').load({ plugins = { 'nvim-tree.lua' } })
-      return
-    end
-
     -- 如果打开的是目录，立即加载
     if vim.fn.argc() == 1 then
       local arg = vim.fn.argv(0)
