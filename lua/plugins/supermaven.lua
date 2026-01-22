@@ -14,13 +14,12 @@ return {
         accept_word = nil,
       },
       ignore_filetypes = {},
-      color = {
-        suggestion_color = '#ffffff',
-        cterm = 244,
-      },
-      log_level = 'off', -- "off", "warn", "info", "debug", "trace"
+      log_level = 'off',
       disable_inline_completion = false,
       disable_keymaps = false,
     })
+
+    vim.api.nvim_set_hl(0, 'SupermavenSuggestion', { link = 'GitSignsCurrentLineBlame' })
+    require('supermaven-nvim.completion_preview').suggestion_group = 'SupermavenSuggestion'
   end,
 }
