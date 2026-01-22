@@ -6,7 +6,7 @@ function M.get_eagle_config()
   return {
     show_headers = true,
     order = 1,
-    improved_markdown = true,
+    improved_markdown = false,
     mouse_mode = false,
     keyboard_mode = true,
     logging = false,
