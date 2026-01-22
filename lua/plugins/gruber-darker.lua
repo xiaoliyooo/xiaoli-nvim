@@ -81,6 +81,9 @@ return {
 
         vim.api.nvim_set_hl(0, 'Visual', { bg = '#707070' })
 
+        -- 折叠背景色
+        vim.api.nvim_set_hl(0, 'Folded', { bg = '#3a3a3a' })
+
         vim.g.miniindentscope_disable = true
       end,
     })
