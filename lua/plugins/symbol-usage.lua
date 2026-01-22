@@ -30,7 +30,7 @@ return {
     ---@type UserOpts
     require('symbol-usage').setup({
       ---@type table<string, any> `nvim_set_hl`-like options for highlight virtual text
-      hl = { link = 'SymbolUsageText' },
+      hl = { link = 'GitSignsCurrentLineBlame' },
       ---@type lsp.SymbolKind[] Symbol kinds what need to be count (see `lsp.SymbolKind`)
       kinds = { SymbolKind.Function, SymbolKind.Method },
       ---Additional filter for kinds. Recommended use in the filetypes override table.
@@ -72,7 +72,5 @@ return {
       ---@type LoggerConfig
       log = { enabled = false },
     })
-
-    vim.api.nvim_set_hl(0, 'SymbolUsageText', { fg = '#909090', bold = true })
   end,
 }
