@@ -7,6 +7,7 @@ function M.reset()
   vim.api.nvim_set_hl(0, 'IlluminatedWordBase', {
     bg = color_table.cursor_line_color,
     bold = true,
+    underline = false,
   })
 
   -- 其他组链接到基础组

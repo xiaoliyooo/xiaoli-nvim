@@ -1,6 +1,7 @@
 return {
   'tjdevries/colorbuddy.nvim',
   priority = 1000,
+  enabled = false,
   config = function()
     local color_table = require('core.custom-style').color_table
 
