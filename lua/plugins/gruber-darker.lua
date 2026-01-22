@@ -64,6 +64,11 @@ return {
         vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { link = 'IlluminatedWordBase' })
         vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { link = 'IlluminatedWordBase' })
 
+        vim.api.nvim_set_hl(0, 'GitSignsCurrentLineBlame', {
+          fg = '#a0a0a0',
+          bold = true,
+        })
+
         vim.g.miniindentscope_disable = true
       end,
     })
