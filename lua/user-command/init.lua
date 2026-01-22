@@ -9,6 +9,7 @@ local abs_path = require('user-command.abs-path').abs_path
 local abs_dir_path = require('user-command.abs-path').abs_dir_path
 local rename_tab = rename_tab_module.rename_tab
 local clear_all_tabs_name = rename_tab_module.clear_all_tabs_name
+local goto_jsx_return = require('user-command.goto-jsx-return').goto_jsx_return
 
 vim.api.nvim_create_user_command('AbsPath', abs_path, { desc = 'Copy file absolute path' })
 vim.api.nvim_create_user_command('AbsDirPath', abs_dir_path, { desc = 'Copy dir absolute path' })
@@ -33,3 +34,8 @@ vim.api.nvim_create_user_command(
   { nargs = '?', desc = 'Rename current tab. Usage: RenameTab <name>' }
 )
 vim.api.nvim_create_user_command('RenameTabClearAll', clear_all_tabs_name, { desc = 'Clear all tab custom names' })
+vim.api.nvim_create_user_command(
+  'ReturnJsx',
+  goto_jsx_return,
+  { desc = 'Jump to JSX return statement in React component' }
+)
