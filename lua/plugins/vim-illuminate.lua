@@ -22,7 +22,7 @@ return {
         illuminate.goto_prev_reference(true)
       end
 
-      vim.cmd('normal! zz') -- 居中显示
+      -- vim.cmd('normal! zz') -- 居中显示
     end
 
     vim.keymap.set('n', ']r', function()
