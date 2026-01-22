@@ -74,6 +74,8 @@ return {
           bold = true,
         })
 
+        vim.api.nvim_set_hl(0, 'Visual', { bg = '#707070' })
+
         vim.g.miniindentscope_disable = true
       end,
     })
