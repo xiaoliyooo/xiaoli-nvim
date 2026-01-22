@@ -1,5 +1,5 @@
 return {
-  dir = '~/gruber-darker.nvim',
+  'xiaoliyooo/gruber-darker.nvim',
   priority = 1000,
   opts = {
     bold = true,
@@ -39,6 +39,7 @@ return {
         vim.api.nvim_set_hl(0, 'DiagnosticUnderlineWarn', { undercurl = true, sp = color_table.warn_color })
         vim.api.nvim_set_hl(0, 'DiagnosticUnderlineInfo', { undercurl = true, sp = color_table.info_color })
         vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { undercurl = true, sp = color_table.hint_color })
+        -- diagnostic end
 
         vim.api.nvim_set_hl(0, 'FlashMatch', { fg = 'gold' })
         vim.api.nvim_set_hl(0, 'FlashCurrent', { fg = color_table.light_green })
@@ -63,9 +64,7 @@ return {
         vim.api.nvim_set_hl(0, 'IlluminatedWordRead', { link = 'IlluminatedWordBase' })
         vim.api.nvim_set_hl(0, 'IlluminatedWordWrite', { link = 'IlluminatedWordBase' })
 
-        vim.api.nvim_set_hl(0, 'MiniIndentscopeSymbol', {
-          link = 'GruberDarkerDarkNiagara',
-        })
+        vim.g.miniindentscope_disable = true
       end,
     })
 
