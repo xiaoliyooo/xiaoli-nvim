@@ -41,6 +41,11 @@ return {
         vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { undercurl = true, sp = color_table.hint_color })
         -- diagnostic end
 
+        vim.api.nvim_set_hl(0, 'TabLine', {
+          fg = '#ffffff',
+          bold = true,
+        })
+
         vim.api.nvim_set_hl(0, 'FlashMatch', { fg = 'gold' })
         vim.api.nvim_set_hl(0, 'FlashCurrent', { fg = color_table.light_green })
         vim.api.nvim_set_hl(0, 'FlashBackdrop', { fg = '#808080' })
