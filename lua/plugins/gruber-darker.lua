@@ -43,8 +43,13 @@ return {
 
         vim.api.nvim_set_hl(0, 'FlashMatch', { fg = 'gold' })
         vim.api.nvim_set_hl(0, 'FlashCurrent', { fg = color_table.light_green })
+        vim.api.nvim_set_hl(0, 'FlashBackdrop', { fg = '#808080' })
 
-        vim.api.nvim_set_hl(0, 'CustomYankHighlight', { link = 'PmenuKindSel' })
+        -- 搜索高亮
+        vim.api.nvim_set_hl(0, 'Search', { fg = '#000000', bg = '#ffdd33' })
+        vim.api.nvim_set_hl(0, 'IncSearch', { fg = '#000000', bg = '#ff9500' })
+
+        vim.api.nvim_set_hl(0, 'CustomYankHighlight', { link = 'IncSearch' })
         vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'NONE' })
         vim.api.nvim_set_hl(0, 'FloatTitle', { bg = 'NONE' })
 
