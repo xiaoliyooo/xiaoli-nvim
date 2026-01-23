@@ -90,7 +90,7 @@ return {
         vim.api.nvim_set_hl(0, 'TelescopeSelectionCaret', { fg = theme_color, bg = '#3a3a3a' })
         vim.api.nvim_set_hl(0, 'TelescopeMatching', { fg = theme_color, bold = true })
 
-        vim.g.miniindentscope_disable = true
+        -- vim.g.miniindentscope_disable = true
       end,
     })
 
