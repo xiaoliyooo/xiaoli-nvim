@@ -77,6 +77,9 @@ return {
             ['ic'] = '@class.inner',
             ['aa'] = '@parameter.outer',
             ['ia'] = '@parameter.inner',
+            -- react jsx
+            ['at'] = '@tag.outer',
+            ['it'] = '@tag.inner',
           },
         },
         swap = {
