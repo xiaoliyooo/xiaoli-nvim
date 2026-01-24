@@ -35,7 +35,7 @@
   "helpview.nvim": { "branch": "main", "commit": "518789535a0cb146224a428edf93a70f98b795db" },
   "image.nvim": { "branch": "master", "commit": "446a8a5cc7a3eae3185ee0c697732c32a5547a0b" },
   "import.nvim": { "branch": "main", "commit": "b3b0294827eb9c4db0af6d2a0684e2862325fc0c" },
-  "kitty-scrollback.nvim": { "branch": "main", "commit": "8026a3715a93c7302d6bc4979f64102885ad1fc7" },
+  "kitty-scrollback.nvim": { "branch": "main", "commit": "5574df779fbe03205a08af4d9154279ff491be75" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "leetcode.nvim": { "branch": "master", "commit": "fdd3f91800b3983e27bc9fcfb99cfa7293d7f11a" },
   "live-server.nvim": { "branch": "main", "commit": "58f2e30e029a57dbda15c5749edd8d642578859f" },
@@ -100,5 +100,5 @@
   "vimcdoc": { "branch": "master", "commit": "5059f9c972845cd6c479fbd975de9465aedbc609" },
   "visual-whitespace.nvim": { "branch": "main", "commit": "2eefcbcbe294ea6610868755db7ddb8f92f68a1c" },
   "yankbank-nvim": { "branch": "main", "commit": "1392d12536b5a2bc2deaf2668068f33a8795d5a4" },
-  "yazi.nvim": { "branch": "main", "commit": "407b4aca14ad4c16f2e8298ae5fab0c0121bf04a" }
+  "yazi.nvim": { "branch": "main", "commit": "62a73819ae3ac74fc901bfa7818f9daa8a8f7512" }
 }
