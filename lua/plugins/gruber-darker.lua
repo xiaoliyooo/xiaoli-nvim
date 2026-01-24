@@ -41,6 +41,12 @@ return {
         vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { undercurl = true, sp = color_table.hint_color })
         -- diagnostic end
 
+        vim.api.nvim_set_hl(0, 'CursorLine', {
+          bg = color_table.cursor_line_color,
+          bold = true,
+          underline = false,
+        })
+
         vim.api.nvim_set_hl(0, 'TabLine', {
           fg = '#ffffff',
           bold = true,
