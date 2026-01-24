@@ -4,6 +4,9 @@ return {
   'folke/flash.nvim',
   event = 'VeryLazy',
   opts = {
+    search = {
+      multi_window = false, -- 仅在当前窗口搜索
+    },
     modes = {
       char = {
         enabled = false,
