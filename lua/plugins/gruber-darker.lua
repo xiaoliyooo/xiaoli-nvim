@@ -1,6 +1,7 @@
 return {
   'xiaoliyooo/gruber-darker.nvim',
   priority = 1000,
+  enabled = false,
   opts = {
     bold = true,
     invert = {
