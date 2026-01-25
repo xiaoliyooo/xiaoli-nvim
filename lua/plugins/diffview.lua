@@ -3,7 +3,7 @@
 return {
   'sindrets/diffview.nvim',
   dependencies = 'nvim-lua/plenary.nvim',
-  cmds = { 'FileHistory', 'BranchHistory', 'DiffviewOpen' },
+  cmd = { 'FileHistory', 'BranchHistory', 'DiffviewOpen' },
   keys = {
     { '<leader>gh', mode = 'n' },
     { '<leader>bh', mode = 'n' },
