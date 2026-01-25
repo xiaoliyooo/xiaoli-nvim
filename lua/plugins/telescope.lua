@@ -9,7 +9,6 @@ return {
     { '<leader>fm', desc = 'show all marks' },
     { '<leader>fh', desc = 'Fuzzy find highlights' },
     { '<leader>fb', mode = { 'n', 'x' }, desc = 'Comment box trigger' },
-    { '<C-Tab>', mode = { 'n', 'i' }, desc = 'Lists open buffers in current neovim instance' },
     { '<leader>fs', desc = 'Search symbols in current file' },
     { '<leader>dp', desc = 'node_modules' },
     { '<D-l>', mode = { 'n', 'i' }, desc = 'Find recent files with frecency algorithm' },
@@ -191,12 +190,6 @@ return {
     --   require('helper.switcher').preview_theme_selector,
     --   { desc = 'Fuzzy find themes with preview' }
     -- )
-    keymap.set({ 'n', 'i' }, '<C-Tab>', function()
-      tele_builtin.buffers({
-        sort_lastused = true,
-        ignore_current_buffer = true,
-      })
-    end, { desc = 'Lists open buffers in current neovim instance' })
     keymap.set('n', '<leader>fs', tele_builtin.lsp_document_symbols, { desc = 'Search symbols in current file' })
     keymap.set('n', '<leader>dp', '<CMD>Telescope node_modules list<CR>', { desc = 'node_modules', silent = true })
     --  +-------------------------------+ cmd +-------------------------------+

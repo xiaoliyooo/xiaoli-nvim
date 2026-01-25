@@ -69,6 +69,8 @@ map('v', 'P', '"_dP')
 map('n', 'x', '"_x')
 map('n', 'X', '"_X')
 
+map('n', '<C-Tab>', '<C-^>') -- 上一个buffer
+
 vim.keymap.set({ 'n', 'x' }, '<leader>ll', auto_console_log, { expr = true, desc = 'Auto console.log' })
 vim.keymap.set('t', '<Esc>', exit_terminal_mode, { desc = 'Exit terminal mode', expr = true })
 vim.keymap.set({ 'i', 't' }, '<C-]><C-]>', function()
