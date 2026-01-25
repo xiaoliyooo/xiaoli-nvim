@@ -29,6 +29,11 @@ return {
           bg = '#6e7681',
         })
 
+        vim.api.nvim_set_hl(0, 'GitSignsCurrentLineBlame', {
+          fg = '#bfbfbf',
+          bold = true,
+        })
+
         vim.api.nvim_set_hl(0, 'MiniIndentscopeSymbol', {
           link = 'NonText',
         })
