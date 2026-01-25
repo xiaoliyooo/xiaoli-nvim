@@ -3,7 +3,6 @@ local M = {}
 -- 全局终端实例存储
 _G.terminal_instances = _G.terminal_instances or {}
 
-local winblend = 30
 local Terminal = require('toggleterm.terminal').Terminal
 local auto_keyboard = require('helper.auto-keyboard-layout')
 local ai_cmd = 'opencode' -- opencode/gemini
@@ -39,11 +38,7 @@ local terminal_configs = {
   normal = {
     count = 2,
     cmd = nil,
-    extra_opts = {
-      float_opts = {
-        winblend = winblend,
-      },
-    },
+    extra_opts = {},
   },
   gemini = {
     count = 3,
