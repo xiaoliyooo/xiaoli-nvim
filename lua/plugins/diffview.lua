@@ -4,10 +4,7 @@ return {
   'sindrets/diffview.nvim',
   dependencies = 'nvim-lua/plenary.nvim',
   cmd = { 'FileHistory', 'BranchHistory', 'DiffviewOpen', 'DiffviewClose' },
-  keys = {
-    { '<leader>gh', mode = 'n' },
-    { '<leader>bh', mode = 'n' },
-  },
+
   config = function()
     vim.opt.fillchars = {
       diff = '╱',
@@ -59,18 +56,23 @@ return {
         },
       },
     })
-    local function map(m, k, v)
-      vim.keymap.set(m, k, v, { silent = true })
-    end
-
-    map('n', '<leader>gh', '<CMD>DiffviewFileHistory %<CR>') -- 当前文件历史
-    map('n', '<leader>gd', '<CMD>CodeDiff<CR>')
-    map('n', '<leader>bh', '<CMD>DiffviewFileHistory<CR>') -- 当前分支
 
     vim.api.nvim_create_user_command('FileHistory', function()
+      vim.api.nvim_create_autocmd('TabEnter', {
+        once = true,
+        callback = function()
+          vim.cmd('RenameTab FileHistory')
+        end,
+      })
       vim.cmd('DiffviewFileHistory %')
     end, { desc = 'current file history' })
     vim.api.nvim_create_user_command('BranchHistory', function()
+      vim.api.nvim_create_autocmd('TabEnter', {
+        once = true,
+        callback = function()
+          vim.cmd('RenameTab BranchHistory')
+        end,
+      })
       vim.cmd('DiffviewFileHistory')
     end, { desc = 'current branch history' })
   end,

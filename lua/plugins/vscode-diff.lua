@@ -1,7 +1,7 @@
 return {
   'esmuellert/codediff.nvim',
   dependencies = { 'MunifTanjim/nui.nvim' },
-  cmd = 'CodeDiff',
+  cmd = { 'CodeDiff', 'DiffBranchWith', 'DiffFileWith' },
   keys = {
     { '<leader>gd', mode = 'n' }, -- 绑定在diffview.lua中的快捷键
   },
@@ -48,14 +48,7 @@ return {
 
     local create_git_completion = require('helper.git').create_git_completion
 
-    vim.api.nvim_create_user_command('DiffThisBranch', function(opts)
-      local args = opts.args
-      if args and args ~= '' then
-        vim.cmd('CodeDiff ' .. args)
-      else
-        vim.cmd('CodeDiff')
-      end
-    end, {
+    local cmd_opts = {
       nargs = '?', -- 可选参数
       desc = '调用 CodeDiff 命令，可接收可选参数',
       complete = create_git_completion({
@@ -63,6 +56,32 @@ return {
         include_tags = true,
         remote_prefix_pattern = '^origin/',
       }),
-    })
+    }
+
+    vim.api.nvim_create_user_command('DiffBranchWith', function(opts)
+      local args = (opts.args and opts.args ~= '') and opts.args or 'HEAD'
+
+      vim.api.nvim_create_autocmd('TabEnter', {
+        once = true,
+        callback = function()
+          vim.cmd('RenameTab DiffBranch With ' .. args)
+        end,
+      })
+
+      vim.cmd('CodeDiff ' .. args)
+    end, cmd_opts)
+
+    vim.api.nvim_create_user_command('DiffFileWith', function(opts)
+      local args = (opts.args and opts.args ~= '') and opts.args or 'HEAD'
+
+      vim.api.nvim_create_autocmd('TabEnter', {
+        once = true,
+        callback = function()
+          vim.cmd('RenameTab DiffFile With ' .. args)
+        end,
+      })
+
+      vim.cmd('CodeDiff file ' .. args)
+    end, cmd_opts)
   end,
 }

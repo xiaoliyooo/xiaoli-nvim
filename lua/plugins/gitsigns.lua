@@ -52,8 +52,9 @@ return {
           gitsigns.blame_line({ full = true })
         end)
 
-        -- 当前文件提交完整记录
         map('n', '<leader>gB', function()
+          vim.cmd('tabedit %')
+          vim.cmd('RenameTab Gitsigns Blame')
           vim.g.gitsigns_blame_open = true
           gitsigns.blame()
         end)
@@ -82,27 +83,5 @@ return {
         end)
       end,
     })
-
-    local function diffthis(opts)
-      local gitsigns = require('gitsigns')
-      local args = opts.args
-      if args and args ~= '' then
-        gitsigns.diffthis(args)
-      else
-        gitsigns.diffthis()
-      end
-    end
-
-    local diffthis_opts = {
-      nargs = '?', -- 可选参数
-      desc = '执行 Gitsigns diffthis 命令，可接收可选参数',
-      complete = create_git_completion({
-        include_remote = false,
-        include_tags = true,
-        remote_prefix_pattern = '^origin/',
-      }),
-    }
-    vim.api.nvim_create_user_command('Dt', diffthis, diffthis_opts)
-    vim.api.nvim_create_user_command('DiffThis', diffthis, diffthis_opts)
   end,
 }
