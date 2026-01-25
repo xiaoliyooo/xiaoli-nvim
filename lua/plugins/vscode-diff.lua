@@ -64,7 +64,7 @@ return {
       vim.api.nvim_create_autocmd('TabEnter', {
         once = true,
         callback = function()
-          vim.cmd('RenameTab DiffBranch With ' .. args)
+          vim.cmd('RenameTab [Diff branch with ' .. args .. ']')
         end,
       })
 
@@ -77,7 +77,7 @@ return {
       vim.api.nvim_create_autocmd('TabEnter', {
         once = true,
         callback = function()
-          vim.cmd('RenameTab DiffFile With ' .. args)
+          vim.cmd('RenameTab [Diff file with ' .. args .. ']')
         end,
       })
 

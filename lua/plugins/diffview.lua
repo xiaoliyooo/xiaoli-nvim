@@ -61,7 +61,7 @@ return {
       vim.api.nvim_create_autocmd('TabEnter', {
         once = true,
         callback = function()
-          vim.cmd('RenameTab FileHistory')
+          vim.cmd('RenameTab [File History]')
         end,
       })
       vim.cmd('DiffviewFileHistory %')
@@ -70,7 +70,7 @@ return {
       vim.api.nvim_create_autocmd('TabEnter', {
         once = true,
         callback = function()
-          vim.cmd('RenameTab BranchHistory')
+          vim.cmd('RenameTab [Branch History]')
         end,
       })
       vim.cmd('DiffviewFileHistory')
