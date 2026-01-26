@@ -3,6 +3,7 @@
 return {
   'numToStr/Comment.nvim',
   enabled = true,
+  dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
   keys = {
     { 'gc', mode = { 'v', 'x' } },
     { 'gb', mode = { 'v', 'x' } },
@@ -29,6 +30,7 @@ return {
         ---Add comment at the end of line
         eol = 'gca',
       },
+      pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
     })
 
     local api = require('Comment.api')
