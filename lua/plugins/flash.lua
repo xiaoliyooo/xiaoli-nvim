@@ -25,7 +25,9 @@ return {
   keys = {
     { "f", mode = { "n", "x", "o" }, function() 
       vim.cmd('nohlsearch')
+      vim.diagnostic.enable(false)
       require("flash").jump()
+      vim.diagnostic.enable(true)
     end, desc = "Flash" },
   },
 }
