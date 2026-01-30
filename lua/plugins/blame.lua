@@ -2,7 +2,7 @@
 
 return {
   'FabijanZulj/blame.nvim',
-  cmds = {
+  cmd = {
     'BlameToggle',
   },
   opts = {
