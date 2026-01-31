@@ -2,6 +2,7 @@
 
 local M = {}
 
+local border = require('core.custom-style').border
 local blame_ns = vim.api.nvim_create_namespace('git_parent_blame')
 local blame_cache = {}
 
@@ -271,6 +272,79 @@ local function get_blame_info_async(line, filepath, sha, callback)
   })
 end
 
+local function format_date(timestamp)
+  if not timestamp then
+    return ''
+  end
+  return os.date('%Y-%m-%d %H:%M:%S', timestamp)
+end
+
+local function show_blame_popup(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  local line = vim.fn.line('.')
+  local cached = blame_cache[bufnr]
+
+  if not cached or not cached[line] then
+    vim.notify('No blame info for current line', vim.log.levels.INFO)
+    return
+  end
+
+  local info = cached[line]
+  if not info.sha or info.sha:match('^0+$') then
+    vim.notify('Uncommitted changes', vim.log.levels.INFO)
+    return
+  end
+
+  local lines = {
+    'Commit:  ' .. info.sha:sub(1, 7),
+    'Author:  ' .. (info.author or 'Unknown'),
+    'Date:    ' .. format_date(info.author_time) .. ' (' .. format_relative_time(info.author_time) .. ')',
+    '',
+    info.summary or '',
+  }
+
+  local max_width = 0
+  for _, l in ipairs(lines) do
+    max_width = math.max(max_width, vim.fn.strdisplaywidth(l))
+  end
+
+  local popup_buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(popup_buf, 0, -1, false, lines)
+  vim.bo[popup_buf].modifiable = false
+  vim.bo[popup_buf].bufhidden = 'wipe'
+
+  local win = vim.api.nvim_open_win(popup_buf, false, {
+    relative = 'cursor',
+    row = 1,
+    col = 0,
+    width = max_width + 2,
+    height = #lines,
+    style = 'minimal',
+    border = border,
+    focusable = true,
+  })
+
+  vim.api.nvim_set_current_win(win)
+
+  vim.keymap.set('n', 'q', function()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+  end, { buffer = popup_buf, nowait = true })
+
+  vim.keymap.set('n', '<Esc>', function()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+  end, { buffer = popup_buf, nowait = true })
+
+  vim.keymap.set('n', 'gh', function()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+  end, { buffer = popup_buf, nowait = true })
+end
+
 local function update_inline_blame(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   if not vim.api.nvim_buf_is_valid(bufnr) then
@@ -432,6 +506,10 @@ return {
               blame_cache[ev.buf] = nil
             end,
           })
+
+          vim.keymap.set('n', 'gh', function()
+            show_blame_popup(ev.buf)
+          end, { buffer = ev.buf, desc = 'Show blame info popup' })
         end
       end,
     })
