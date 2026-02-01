@@ -473,9 +473,9 @@ return {
   'git-parent-viewer',
   virtual = true,
   lazy = true,
-  cmd = { 'ParentBlame' },
+  cmd = { 'Blame' },
   config = function()
-    vim.api.nvim_create_user_command('ParentBlame', function()
+    vim.api.nvim_create_user_command('Blame', function()
       M.open_parent_blame()
     end, { desc = '展示当前行所属 commit 的完整 diff' })
 
