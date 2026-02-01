@@ -7,7 +7,7 @@ function M.delete_blank_lines(opts)
   local new_lines = {}
 
   for _, line in ipairs(lines) do
-    if not line:match('^%s*$') then
+    if line:find('%S') then
       table.insert(new_lines, line)
     end
   end
