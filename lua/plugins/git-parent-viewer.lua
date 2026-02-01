@@ -4,16 +4,75 @@ local M = {}
 
 local border = require('core.custom-style').border
 local blame_ns = vim.api.nvim_create_namespace('git_parent_blame')
+
+---@type table<string, table> blame 缓存，key 格式: bufnr:sha:filepath
 local blame_cache = {}
 
-local function get_git_root()
+---@type table<number, string> git root 缓存，key 为 buffer number
+local git_root_cache = {}
+
+-- 时间常量（秒）
+local TIME = {
+  MINUTE = 60,
+  HOUR = 3600,
+  DAY = 86400,
+  MONTH = 2592000,
+  YEAR = 31536000,
+}
+
+---生成 blame 缓存的 key
+---@param bufnr number
+---@param sha? string
+---@param filepath string
+---@return string
+local function make_cache_key(bufnr, sha, filepath)
+  return string.format('%d:%s:%s', bufnr, sha or 'HEAD', filepath)
+end
+
+---解析 blame porcelain 输出的单行字段
+---@param info table 要填充的信息表
+---@param line string 要解析的行
+local function parse_blame_field(info, line)
+  if line:match('^author ') then
+    info.author = line:sub(8)
+  elseif line:match('^author%-time ') then
+    info.author_time = tonumber(line:sub(13))
+  elseif line:match('^summary ') then
+    info.summary = line:sub(9)
+  elseif line:match('^previous ') then
+    local prev_sha, prev_file = line:match('^previous (%x+) (.+)$')
+    if prev_sha then
+      info.parent_sha = prev_sha
+      info.parent_file = prev_file
+    end
+  elseif line:match('^filename ') then
+    info.filename = line:sub(10)
+  end
+end
+
+---获取 git 仓库根目录（带缓存）
+---@param bufnr? number buffer number，默认当前 buffer
+---@return string|nil root_path
+---@return string|nil error_message
+local function get_git_root(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+
+  if git_root_cache[bufnr] then
+    return git_root_cache[bufnr], nil
+  end
+
   local result = vim.fn.systemlist('git rev-parse --show-toplevel 2>/dev/null')
   if vim.v.shell_error ~= 0 or #result == 0 then
     return nil, '当前文件不在 Git 仓库中'
   end
+
+  git_root_cache[bufnr] = result[1]
   return result[1], nil
 end
 
+---解析单行 blame porcelain 输出
+---@param output string[]
+---@return table
 local function parse_blame_porcelain(output)
   local info = {}
   for _, line in ipairs(output) do
@@ -23,25 +82,14 @@ local function parse_blame_porcelain(output)
         info.sha = sha
       end
     end
-    if line:match('^author ') then
-      info.author = line:sub(8)
-    elseif line:match('^author%-time ') then
-      info.author_time = tonumber(line:sub(13))
-    elseif line:match('^summary ') then
-      info.summary = line:sub(9)
-    elseif line:match('^previous ') then
-      local prev_sha, prev_file = line:match('^previous (%x+) (.+)$')
-      if prev_sha then
-        info.parent_sha = prev_sha
-        info.parent_file = prev_file
-      end
-    elseif line:match('^filename ') then
-      info.filename = line:sub(10)
-    end
+    parse_blame_field(info, line)
   end
   return info
 end
 
+---解析完整文件的 blame porcelain 输出
+---@param output string[]
+---@return table<number, table>
 local function parse_full_blame_porcelain(output)
   local result = {}
   local sha_info = {}
@@ -49,7 +97,7 @@ local function parse_full_blame_porcelain(output)
   local current_line = nil
 
   for _, line in ipairs(output) do
-    local sha, orig_line, final_line = line:match('^(%x%x%x%x%x%x%x%x+)%s+(%d+)%s+(%d+)')
+    local sha, _, final_line = line:match('^(%x%x%x%x%x%x%x%x+)%s+(%d+)%s+(%d+)')
     if sha then
       if current_sha and current_line then
         result[current_line] = sha_info[current_sha]
@@ -60,22 +108,7 @@ local function parse_full_blame_porcelain(output)
         sha_info[sha] = { sha = sha }
       end
     elseif current_sha then
-      local info = sha_info[current_sha]
-      if line:match('^author ') then
-        info.author = line:sub(8)
-      elseif line:match('^author%-time ') then
-        info.author_time = tonumber(line:sub(13))
-      elseif line:match('^summary ') then
-        info.summary = line:sub(9)
-      elseif line:match('^previous ') then
-        local prev_sha, prev_file = line:match('^previous (%x+) (.+)$')
-        if prev_sha then
-          info.parent_sha = prev_sha
-          info.parent_file = prev_file
-        end
-      elseif line:match('^filename ') then
-        info.filename = line:sub(10)
-      end
+      parse_blame_field(sha_info[current_sha], line)
     end
   end
 
@@ -86,8 +119,13 @@ local function parse_full_blame_porcelain(output)
   return result
 end
 
+---异步预加载 blame 信息
+---@param bufnr number
+---@param filepath string
+---@param sha? string
+---@param callback? function
 local function preload_blame_async(bufnr, filepath, sha, callback)
-  local git_root = get_git_root()
+  local git_root = get_git_root(bufnr)
   if not git_root then
     if callback then
       callback()
@@ -118,7 +156,7 @@ local function preload_blame_async(bufnr, filepath, sha, callback)
     end,
     on_exit = function(_, exit_code)
       if exit_code == 0 then
-        local cache_key = bufnr
+        local cache_key = make_cache_key(bufnr, sha, filepath)
         blame_cache[cache_key] = parse_full_blame_porcelain(output)
       end
       if callback then
@@ -128,26 +166,33 @@ local function preload_blame_async(bufnr, filepath, sha, callback)
   })
 end
 
+---格式化相对时间
+---@param timestamp number|nil
+---@return string
 local function format_relative_time(timestamp)
   if not timestamp then
     return ''
   end
   local diff = os.time() - timestamp
-  if diff < 60 then
+  if diff < TIME.MINUTE then
     return 'just now'
-  elseif diff < 3600 then
-    return math.floor(diff / 60) .. ' mins ago'
-  elseif diff < 86400 then
-    return math.floor(diff / 3600) .. ' hours ago'
-  elseif diff < 2592000 then
-    return math.floor(diff / 86400) .. ' days ago'
-  elseif diff < 31536000 then
-    return math.floor(diff / 2592000) .. ' months ago'
+  elseif diff < TIME.HOUR then
+    return math.floor(diff / TIME.MINUTE) .. ' mins ago'
+  elseif diff < TIME.DAY then
+    return math.floor(diff / TIME.HOUR) .. ' hours ago'
+  elseif diff < TIME.MONTH then
+    return math.floor(diff / TIME.DAY) .. ' days ago'
+  elseif diff < TIME.YEAR then
+    return math.floor(diff / TIME.MONTH) .. ' months ago'
   else
-    return math.floor(diff / 31536000) .. ' years ago'
+    return math.floor(diff / TIME.YEAR) .. ' years ago'
   end
 end
 
+---解析 codediff buffer 名称
+---@param bufnr number
+---@return string|nil commit
+---@return string|nil path
 local function parse_codediff_buffer(bufnr)
   local bufname = vim.api.nvim_buf_get_name(bufnr)
   if not bufname:match('^codediff://') then
@@ -157,7 +202,7 @@ local function parse_codediff_buffer(bufnr)
   local commit, path = bufname:match('codediff:///.+///([^/]+)/(.+)$')
   if commit and path then
     if commit:match('%^+$') or commit:match('%^%d*$') then
-      local git_root = get_git_root()
+      local git_root = get_git_root(bufnr)
       if git_root then
         local result = vim.fn.systemlist('git rev-parse ' .. commit .. ' 2>/dev/null')
         if vim.v.shell_error == 0 and #result > 0 and result[1] ~= '' then
@@ -170,6 +215,10 @@ local function parse_codediff_buffer(bufnr)
   return nil, nil
 end
 
+---获取 buffer 的 git 上下文
+---@param bufnr? number
+---@return table|nil context
+---@return string|nil error_message
 local function get_buffer_context(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
@@ -178,7 +227,7 @@ local function get_buffer_context(bufnr)
     return {
       sha = cd_sha,
       file = cd_file,
-      git_root = get_git_root(),
+      git_root = get_git_root(bufnr),
       is_codediff = true,
     }
   end
@@ -189,12 +238,12 @@ local function get_buffer_context(bufnr)
     return {
       sha = b_sha,
       file = b_file,
-      git_root = get_git_root(),
+      git_root = get_git_root(bufnr),
       is_codediff = false,
     }
   end
 
-  local git_root = get_git_root()
+  local git_root = get_git_root(bufnr)
   if not git_root then
     return nil, '当前文件不在 Git 仓库中'
   end
@@ -213,6 +262,11 @@ local function get_buffer_context(bufnr)
   }
 end
 
+---异步获取单行 blame 信息
+---@param line number
+---@param filepath string
+---@param sha? string
+---@param callback function
 local function get_blame_info_async(line, filepath, sha, callback)
   local git_root = get_git_root()
   if not git_root then
@@ -272,6 +326,9 @@ local function get_blame_info_async(line, filepath, sha, callback)
   })
 end
 
+---格式化日期
+---@param timestamp number|nil
+---@return string
 local function format_date(timestamp)
   if not timestamp then
     return ''
@@ -279,19 +336,23 @@ local function format_date(timestamp)
   return os.date('%Y-%m-%d %H:%M:%S', timestamp)
 end
 
+---显示 blame 弹窗
+---@param bufnr? number
 local function show_blame_popup(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   local line = vim.fn.line('.')
-  local cached = blame_cache[bufnr]
+
+  local ctx = get_buffer_context(bufnr)
+  local cached = ctx and blame_cache[make_cache_key(bufnr, ctx.sha, ctx.file)]
 
   if not cached or not cached[line] then
-    vim.notify('No blame info for current line', vim.log.levels.INFO)
+    vim.notify('当前行没有 blame 信息', vim.log.levels.INFO)
     return
   end
 
   local info = cached[line]
   if not info.sha or info.sha:match('^0+$') then
-    vim.notify('Uncommitted changes', vim.log.levels.INFO)
+    vim.notify('当前行为未提交的修改', vim.log.levels.INFO)
     return
   end
 
@@ -326,25 +387,19 @@ local function show_blame_popup(bufnr)
 
   vim.api.nvim_set_current_win(win)
 
-  vim.keymap.set('n', 'q', function()
+  local function close_popup()
     if vim.api.nvim_win_is_valid(win) then
       vim.api.nvim_win_close(win, true)
     end
-  end, { buffer = popup_buf, nowait = true })
+  end
 
-  vim.keymap.set('n', '<Esc>', function()
-    if vim.api.nvim_win_is_valid(win) then
-      vim.api.nvim_win_close(win, true)
-    end
-  end, { buffer = popup_buf, nowait = true })
-
-  vim.keymap.set('n', 'gh', function()
-    if vim.api.nvim_win_is_valid(win) then
-      vim.api.nvim_win_close(win, true)
-    end
-  end, { buffer = popup_buf, nowait = true })
+  for _, key in ipairs({ 'q', '<Esc>', 'gh', '<S-Up>', '<S-Down>', '<S-Left>', '<S-Right>' }) do
+    vim.keymap.set('n', key, close_popup, { buffer = popup_buf, nowait = true })
+  end
 end
 
+---更新行内 blame 显示
+---@param bufnr number
 local function update_inline_blame(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
   if not vim.api.nvim_buf_is_valid(bufnr) then
@@ -355,7 +410,8 @@ local function update_inline_blame(bufnr)
 
   vim.api.nvim_buf_clear_namespace(bufnr, blame_ns, 0, -1)
 
-  local cached = blame_cache[bufnr]
+  local ctx = get_buffer_context(bufnr)
+  local cached = ctx and blame_cache[make_cache_key(bufnr, ctx.sha, ctx.file)]
 
   if cached then
     local blame_info = cached[line]
@@ -379,6 +435,34 @@ local function update_inline_blame(bufnr)
   end
 end
 
+---异步获取 parent sha
+---@param commit_sha string
+---@param git_root string
+---@param callback fun(short_sha: string)
+local function get_parent_sha_async(commit_sha, git_root, callback)
+  local result_sha = nil
+
+  vim.fn.jobstart({ 'git', 'rev-parse', commit_sha .. '^' }, {
+    cwd = git_root,
+    stdout_buffered = true,
+    on_stdout = function(_, data)
+      if data and data[1] and data[1] ~= '' then
+        result_sha = data[1]
+      end
+    end,
+    on_exit = function(_, exit_code)
+      vim.schedule(function()
+        if exit_code == 0 and result_sha then
+          callback(result_sha:sub(1, 7))
+        else
+          callback(commit_sha:sub(1, 7) .. '^')
+        end
+      end)
+    end,
+  })
+end
+
+---打开父提交的 blame 视图
 local function open_parent_blame()
   local line = vim.fn.line('.')
   local bufnr = vim.api.nvim_get_current_buf()
@@ -413,56 +497,48 @@ local function open_parent_blame()
 
       local short_sha = commit_sha:sub(1, 7)
       local target_file = blame_info.filename or ctx.file
-      local git_root = ctx.git_root or get_git_root()
+      local git_root = ctx.git_root or get_git_root(bufnr)
       local full_path = git_root .. '/' .. target_file
 
-      local parent_sha_result = vim.fn.systemlist('git rev-parse ' .. commit_sha .. '^ 2>/dev/null')
-      local parent_short_sha = (vim.v.shell_error == 0 and #parent_sha_result > 0) and parent_sha_result[1]:sub(1, 7)
-        or (commit_sha:sub(1, 7) .. '^')
+      get_parent_sha_async(commit_sha, git_root, function(parent_short_sha)
+        local pending_tab_name = '[' .. parent_short_sha .. ' <-> ' .. short_sha .. ']'
 
-      local pending_tab_name = '[' .. parent_short_sha .. ' <-> ' .. short_sha .. ']'
+        local temp_tabnr = nil
+        if ctx.is_codediff then
+          vim.cmd('tabedit ' .. vim.fn.fnameescape(full_path))
+          temp_tabnr = vim.api.nvim_get_current_tabpage()
+        end
 
-      local temp_tabnr = nil
-      if ctx.is_codediff then
-        vim.cmd('tabedit ' .. vim.fn.fnameescape(full_path))
-        temp_tabnr = vim.api.nvim_get_current_tabpage()
-      end
-
-      local rename_autocmd_id
-      rename_autocmd_id = vim.api.nvim_create_autocmd('TabNewEntered', {
-        once = true,
-        callback = function()
-          pcall(function()
-            vim.cmd('RenameTab ' .. pending_tab_name)
-          end)
-        end,
-      })
-
-      vim.cmd('CodeDiff ' .. commit_sha .. '^ ' .. commit_sha)
-
-      vim.api.nvim_create_autocmd('TabEnter', {
-        once = true,
-        callback = function()
-          pcall(vim.api.nvim_del_autocmd, rename_autocmd_id)
-
-          if temp_tabnr and vim.api.nvim_tabpage_is_valid(temp_tabnr) then
-            local current_tab = vim.api.nvim_get_current_tabpage()
-            if current_tab ~= temp_tabnr then
-              vim.cmd('tabclose ' .. vim.api.nvim_tabpage_get_number(temp_tabnr))
+        local autocmd_id
+        autocmd_id = vim.api.nvim_create_autocmd('TabNewEntered', {
+          once = true,
+          callback = function()
+            if temp_tabnr and vim.api.nvim_tabpage_is_valid(temp_tabnr) then
+              local current_tab = vim.api.nvim_get_current_tabpage()
+              if current_tab ~= temp_tabnr then
+                vim.cmd('tabclose ' .. vim.api.nvim_tabpage_get_number(temp_tabnr))
+              end
             end
-          end
 
-          pcall(function()
-            vim.cmd('RenameTab ' .. pending_tab_name)
-          end)
+            pcall(function()
+              vim.cmd('RenameTab ' .. pending_tab_name)
+            end)
 
-          for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-            local win_buf = vim.api.nvim_win_get_buf(win)
-            vim.b[win_buf].git_sha = commit_sha
-            vim.b[win_buf].git_file = target_file
-          end
-        end,
-      })
+            for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+              local win_buf = vim.api.nvim_win_get_buf(win)
+              vim.b[win_buf].git_sha = commit_sha
+              vim.b[win_buf].git_file = target_file
+            end
+          end,
+        })
+
+        -- 设置超时清理 autocmd（2秒后如果还没触发则清理）
+        vim.defer_fn(function()
+          pcall(vim.api.nvim_del_autocmd, autocmd_id)
+        end, 2000)
+
+        vim.cmd('CodeDiff ' .. commit_sha .. '^ ' .. commit_sha)
+      end)
     end)
   end)
 end
@@ -503,7 +579,12 @@ return {
             group = group,
             buffer = ev.buf,
             callback = function()
-              blame_cache[ev.buf] = nil
+              for key in pairs(blame_cache) do
+                if key:match('^' .. ev.buf .. ':') then
+                  blame_cache[key] = nil
+                end
+              end
+              git_root_cache[ev.buf] = nil
             end,
           })
 
