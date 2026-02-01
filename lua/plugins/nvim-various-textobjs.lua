@@ -59,11 +59,13 @@ return {
       debug = false,
     })
 
-    -- vim.keymap.set({ 'o', 'x' }, 'U', '<cmd>lua require("various-textobjs").url()<CR>')
-
-    -- css: selector: css, scss
-    vim.keymap.set({ 'o', 'x' }, 'ic', '<cmd>lua require("various-textobjs").cssSelector("inner")<CR>')
-    vim.keymap.set({ 'o', 'x' }, 'ac', '<cmd>lua require("various-textobjs").cssSelector("outer")<CR>')
+    -- css selector (queries/css/textobjects.scm)
+    vim.keymap.set({ 'o', 'x' }, 'ic', function()
+      require('nvim-treesitter.textobjects.select').select_textobject('@selector.inner', 'textobjects')
+    end, { silent = true })
+    vim.keymap.set({ 'o', 'x' }, 'ac', function()
+      require('nvim-treesitter.textobjects.select').select_textobject('@selector.outer', 'textobjects')
+    end, { silent = true })
 
     -- quote: between any unescaped ", ', or ` in one line
     vim.keymap.set({ 'o', 'x' }, 'q', '<cmd>lua require("various-textobjs").anyQuote("inner")<CR>')
@@ -72,10 +74,6 @@ return {
 
     -- url: http links or any other protocol
     vim.keymap.set({ 'o', 'x' }, 'U', '<cmd>lua require("various-textobjs").url()<CR>')
-
-    -- number: inner: only digits, outer: number including minus sign and decimal point
-    vim.keymap.set({ 'o', 'x' }, 'in', '<cmd>lua require("various-textobjs").number("inner")<CR>')
-    vim.keymap.set({ 'o', 'x' }, 'an', '<cmd>lua require("various-textobjs").number("outer")<CR>')
 
     -- markdown link: inner is only the link title (between the [])
     vim.keymap.set({ 'o', 'x' }, 'il', '<cmd>lua require("various-textobjs").mdLink("outer")<CR>')
