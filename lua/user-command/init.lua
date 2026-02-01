@@ -10,6 +10,7 @@ local abs_dir_path = require('user-command.abs-path').abs_dir_path
 local rename_tab = rename_tab_module.rename_tab
 local clear_all_tabs_name = rename_tab_module.clear_all_tabs_name
 local goto_jsx_return = require('user-command.goto-jsx-return').goto_jsx_return
+local delete_blank_lines = require('user-command.delete-blank-lines').delete_blank_lines
 local kv_textobjs = require('user-command.kv-textobjs')
 
 kv_textobjs.setup()
@@ -40,4 +41,9 @@ vim.api.nvim_create_user_command(
   'ReturnJsx',
   goto_jsx_return,
   { desc = 'Jump to JSX return statement in React component' }
+)
+vim.api.nvim_create_user_command(
+  'DeleteBlankLines',
+  delete_blank_lines,
+  { range = true, desc = 'Delete blank lines in selected range' }
 )
