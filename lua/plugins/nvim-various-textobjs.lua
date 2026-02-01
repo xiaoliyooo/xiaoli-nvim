@@ -65,14 +65,6 @@ return {
     vim.keymap.set({ 'o', 'x' }, 'ic', '<cmd>lua require("various-textobjs").cssSelector("inner")<CR>')
     vim.keymap.set({ 'o', 'x' }, 'ac', '<cmd>lua require("various-textobjs").cssSelector("outer")<CR>')
 
-    -- key: key of key-value pair, or left side of an assignment, outer includes the = or :
-    vim.keymap.set({ 'o', 'x' }, 'ik', '<cmd>lua require("various-textobjs").key("inner")<CR>')
-    vim.keymap.set({ 'o', 'x' }, 'ak', '<cmd>lua require("various-textobjs").key("outer")<CR>')
-
-    -- value: outer includes trailing , or ;
-    vim.keymap.set({ 'o', 'x' }, 'iv', '<cmd>lua require("various-textobjs").value("inner")<CR>')
-    vim.keymap.set({ 'o', 'x' }, 'av', '<cmd>lua require("various-textobjs").value("outer")<CR>')
-
     -- quote: between any unescaped ", ', or ` in one line
     vim.keymap.set({ 'o', 'x' }, 'q', '<cmd>lua require("various-textobjs").anyQuote("inner")<CR>')
     vim.keymap.set({ 'o', 'x' }, 'iq', '<cmd>lua require("various-textobjs").anyQuote("inner")<CR>')

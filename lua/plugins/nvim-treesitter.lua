@@ -40,6 +40,7 @@ return {
         'json',
         'lua',
         'rust',
+        'toml',
         'typescript',
         'tsx',
         'vim',
