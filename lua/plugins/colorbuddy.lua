@@ -12,6 +12,14 @@ return {
       pattern = 'gruvbuddy',
       group = vim.api.nvim_create_augroup('ColorBuddyThemeChanged', { clear = true }),
       callback = function()
+        -- statusline 高亮
+        local normal_bg = vim.api.nvim_get_hl(0, { name = 'Normal' }).bg
+        local stl_bg = normal_bg and string.format('#%06x', normal_bg) or '#282828'
+        vim.api.nvim_set_hl(0, 'StatusLine', { fg = '#ffffff', bg = stl_bg })
+        vim.api.nvim_set_hl(0, 'StlFile', { fg = '#ffffff', bg = stl_bg })
+        vim.api.nvim_set_hl(0, 'StlFt', { fg = '#ffffff', bg = stl_bg })
+        vim.api.nvim_set_hl(0, 'StlLines', { fg = '#ffffff', bg = stl_bg })
+
         vim.api.nvim_set_hl(0, 'FlashMatch', { fg = 'gold' })
         vim.api.nvim_set_hl(0, 'FlashCurrent', { fg = color_table.light_green })
         vim.api.nvim_set_hl(0, 'zshComment', {
