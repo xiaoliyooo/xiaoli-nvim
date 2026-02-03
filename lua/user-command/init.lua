@@ -11,39 +11,31 @@ local rename_tab = rename_tab_module.rename_tab
 local clear_all_tabs_name = rename_tab_module.clear_all_tabs_name
 local goto_jsx_return = require('user-command.goto-jsx-return').goto_jsx_return
 local delete_blank_lines = require('user-command.delete-blank-lines').delete_blank_lines
-local kv_textobjs = require('user-command.kv-textobjs')
 
-kv_textobjs.setup()
-vim.api.nvim_create_user_command('AbsPath', abs_path, { desc = 'Copy file absolute path' })
-vim.api.nvim_create_user_command('AbsDirPath', abs_dir_path, { desc = 'Copy dir absolute path' })
+local user_cmd = vim.api.nvim_create_user_command
+
+user_cmd('AbsPath', abs_path, { desc = 'Copy file absolute path' })
+user_cmd('AbsDirPath', abs_dir_path, { desc = 'Copy dir absolute path' })
 -- 删除js语法log
-vim.api.nvim_create_user_command('DeleteConsole', delete_console, { desc = 'delete current file console' })
+user_cmd('DeleteConsole', delete_console, { desc = 'delete current file console' })
 -- 删除当前文件全部注释(js/ts)
-vim.api.nvim_create_user_command('DeleteComment', delete_comment, { desc = 'delete current file comments' })
+user_cmd('DeleteComment', delete_comment, { desc = 'delete current file comments' })
 -- 删除当前文件全部注释(js/ts)
-vim.api.nvim_create_user_command(
-  'DeleteUnusedVars',
-  delete_unused_vars,
-  { desc = 'Delete unused variables and imports' }
-)
-vim.api.nvim_create_user_command(
+user_cmd('DeleteUnusedVars', delete_unused_vars, { desc = 'Delete unused variables and imports' })
+user_cmd(
   'DeleteUnusedVarsRecursive',
   delete_unused_vars_recursive,
   { desc = 'Recursively delete unused variables until none remain' }
 )
-vim.api.nvim_create_user_command(
-  'RenameTab',
-  rename_tab,
-  { nargs = '?', desc = 'Rename current tab. Usage: RenameTab <name>' }
-)
-vim.api.nvim_create_user_command('RenameTabClearAll', clear_all_tabs_name, { desc = 'Clear all tab custom names' })
-vim.api.nvim_create_user_command(
-  'ReturnJsx',
-  goto_jsx_return,
-  { desc = 'Jump to JSX return statement in React component' }
-)
-vim.api.nvim_create_user_command(
-  'DeleteBlankLines',
-  delete_blank_lines,
-  { range = true, desc = 'Delete blank lines in selected range' }
-)
+user_cmd('RenameTab', rename_tab, { nargs = '?', desc = 'Rename current tab. Usage: RenameTab <name>' })
+user_cmd('RenameTabClearAll', clear_all_tabs_name, { desc = 'Clear all tab custom names' })
+user_cmd('ReturnJsx', goto_jsx_return, { desc = 'Jump to JSX return statement in React component' })
+user_cmd('DeleteBlankLines', delete_blank_lines, { range = true, desc = 'Delete blank lines in selected range' })
+user_cmd('Term', function(opts)
+  local height = opts.args ~= '' and tonumber(opts.args) or 15
+  vim.cmd(height .. 'sp | term')
+  vim.cmd('startinsert')
+end, {
+  nargs = '?',
+  desc = 'sp打开终端（默认10行）',
+})

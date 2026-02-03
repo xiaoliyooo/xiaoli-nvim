@@ -2,6 +2,7 @@ local auto_console_log = require('helper.auto-log').auto_console_log
 local select_html_attribute = require('helper.html-attr').select_html_attribute
 local exit_terminal_mode = require('helper.esc-handler').exit_terminal_mode
 local save = require('helper.save').save
+local kv_textobjs = require('user-command.kv-textobjs')
 
 local function map(m, k, v)
   vim.keymap.set(m, k, v, { silent = true })
@@ -76,3 +77,5 @@ vim.keymap.set('t', '<Esc>', exit_terminal_mode, { desc = 'Exit terminal mode', 
 vim.keymap.set({ 'i', 't' }, '<C-]><C-]>', function()
   return '<C-\\><C-n>'
 end, { desc = 'Exit terminal mode', expr = true, noremap = true })
+
+kv_textobjs.setup()
