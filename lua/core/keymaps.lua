@@ -58,7 +58,7 @@ end) -- 增加窗口上下高度
 map({ 'n', 't' }, '<C-->', function()
   vim.cmd('resize -2')
 end) -- 减少窗口上下高度
-map({ 'n', 't' }, '<leader>q', function()
+map('n', '<leader>q', function()
   vim.cmd('qa!')
 end)
 -- 保持剪贴板内容的粘贴替换
