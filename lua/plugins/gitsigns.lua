@@ -52,13 +52,6 @@ return {
           gitsigns.blame_line({ full = true })
         end)
 
-        map('n', '<leader>gB', function()
-          vim.cmd('tabedit %')
-          vim.cmd('RenameTab Gitsigns Blame')
-          vim.g.gitsigns_blame_open = true
-          gitsigns.blame()
-        end)
-
         -- hunk reset
         map('n', '<leader>hr', gitsigns.reset_hunk)
         map('v', '<leader>hr', function()
