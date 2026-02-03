@@ -46,19 +46,19 @@ map({ 'n', 'i' }, '<D-s>', save)
 map('n', '#', '*')
 map('n', '*', '#')
 
-map('n', '=', function()
+map({ 'n', 't' }, '=', function()
   vim.cmd('vertical resize +2')
 end) -- 增加窗口左右宽度
-map('n', '-', function()
+map({ 'n', 't' }, '-', function()
   vim.cmd('vertical resize -2')
 end) -- 减少左右宽度
-map('n', '<C-=>', function()
+map({ 'n', 't' }, '<C-=>', function()
   vim.cmd('resize +2')
 end) -- 增加窗口上下高度
-map('n', '<C-->', function()
+map({ 'n', 't' }, '<C-->', function()
   vim.cmd('resize -2')
 end) -- 减少窗口上下高度
-map('n', '<leader>q', function()
+map({ 'n', 't' }, '<leader>q', function()
   vim.cmd('qa!')
 end)
 -- 保持剪贴板内容的粘贴替换

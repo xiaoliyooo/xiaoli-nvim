@@ -114,3 +114,16 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'FileType' }, {
     end)
   end,
 })
+
+-- 终端退出时自动关闭缓冲区，无需回车确认
+vim.api.nvim_create_autocmd('TermClose', {
+  callback = function(event)
+    local bufname = vim.api.nvim_buf_get_name(event.buf)
+
+    if bufname:match('lazygit') then
+      return
+    end
+    vim.cmd('bdelete!' .. event.buf)
+  end,
+  desc = 'Auto close terminal buffer on exit',
+})
