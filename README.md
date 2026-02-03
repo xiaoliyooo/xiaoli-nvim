@@ -32,5 +32,4 @@ $ nvim
 
 # Preview
 
-Greeter page
 ![image](./images/dashboard.jpeg)
