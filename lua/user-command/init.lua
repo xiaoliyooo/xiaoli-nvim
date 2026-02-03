@@ -39,3 +39,9 @@ end, {
   nargs = '?',
   desc = 'sp打开终端（默认10行）',
 })
+user_cmd('TermV', function()
+  vim.cmd('vsp | term')
+  vim.cmd('startinsert')
+end, {
+  desc = 'vsp打开终端',
+})
