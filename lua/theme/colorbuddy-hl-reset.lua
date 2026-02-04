@@ -6,7 +6,6 @@ local function import(file_name)
 end
 
 local flash = import('flash')
--- local rainbow_delimiters = import('rainbow-delimiters')
 local mini = import('mini')
 -- local gitsigns = import('gitsigns')
 local vim_illuminate = import('vim-illuminate')
@@ -20,7 +19,6 @@ local telescope = import('telescope')
 local nvim_tree = import('nvim-tree')
 
 local function reset_plugins_hl()
-  -- rainbow_delimiters.reset()
   flash.reset()
   mini.reset()
   -- gitsigns.reset()

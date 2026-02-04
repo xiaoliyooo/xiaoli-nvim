@@ -184,12 +184,7 @@ return {
     keymap.set({ 'n', 'v' }, '<leader>fb', function()
       require('helper.comment-box-selector').comment_box_selector()
     end, { desc = 'Comment box trigger' })
-    -- keymap.set(
-    --   'n',
-    --   '<leader>ft',
-    --   require('helper.switcher').preview_theme_selector,
-    --   { desc = 'Fuzzy find themes with preview' }
-    -- )
+
     keymap.set('n', '<leader>fs', tele_builtin.lsp_document_symbols, { desc = 'Search symbols in current file' })
     keymap.set('n', '<leader>dp', '<CMD>Telescope node_modules list<CR>', { desc = 'node_modules', silent = true })
     --  +-------------------------------+ cmd +-------------------------------+

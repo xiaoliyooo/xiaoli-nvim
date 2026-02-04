@@ -46,10 +46,5 @@ return {
     vim.keymap.set('n', '<leader>e', function()
       global_note.toggle_note()
     end, { desc = '全局note' })
-
-    -- Functions to toggle notes:
-    -- require('global-note').toggle_note()
-    -- require('global-note').toggle_note('projects')
-    -- require('global-note').toggle_note('food')
   end,
 }
