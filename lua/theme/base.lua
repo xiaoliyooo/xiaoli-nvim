@@ -35,6 +35,8 @@ function M.reset()
   vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextWarn', { fg = color_table.warn_color, bg = 'none' })
   vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextInfo', { fg = color_table.info_color, bg = 'none' })
   vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextHint', { fg = color_table.hint_color, bg = 'none' })
+
+  vim.api.nvim_set_hl(0, 'MatchParen', { bg = color_table.cursor_line_color })
 end
 
 return M

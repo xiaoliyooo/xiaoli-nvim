@@ -35,6 +35,7 @@ opt.ignorecase = true
 opt.smartcase = true
 opt.termguicolors = true
 opt.signcolumn = 'yes'
+opt.showmatch = true
 opt.tabline = '%!v:lua.tabline_fn()'
 opt.undofile = true -- 持久化撤销历史
 opt.shortmess:append('I') -- 隐藏内置intro
