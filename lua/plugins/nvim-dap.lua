@@ -238,16 +238,16 @@ return {
     dap.listeners.after.event_terminated['toggle-leader-e'] = restore_global_note_leader_e
     dap.listeners.after.disconnect['toggle-leader-e'] = restore_global_note_leader_e
 
-    vim.keymap.set('n', '<leader>1', function()
+    vim.keymap.set('n', '<D-1>', function()
       dap.step_over()
     end, { noremap = true })
-    vim.keymap.set('n', '<leader>2', function()
+    vim.keymap.set('n', '<D-2>', function()
       dap.step_into()
     end, { noremap = true })
-    vim.keymap.set('n', '<leader>3', function()
+    vim.keymap.set('n', '<D-3>', function()
       dap.step_out()
     end, { noremap = true })
-    vim.keymap.set('n', '<leader>4', function()
+    vim.keymap.set('n', '<D-4>', function()
       dap.continue() -- 跳到下一个断点
     end, { noremap = true })
     vim.keymap.set('n', '<leader>b', function()
