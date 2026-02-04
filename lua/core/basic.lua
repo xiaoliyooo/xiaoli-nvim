@@ -38,3 +38,14 @@ opt.signcolumn = 'yes'
 opt.tabline = '%!v:lua.tabline_fn()'
 opt.undofile = true -- 持久化撤销历史
 opt.shortmess:append('I') -- 隐藏内置intro
+
+vim.filetype.add({
+  filename = {
+    ['gitconfig'] = 'gitconfig',
+    ['.gitconfig'] = 'gitconfig',
+  },
+  extension = {
+    vs = 'glsl',
+    fs = 'glsl',
+  },
+})

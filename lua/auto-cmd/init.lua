@@ -32,15 +32,6 @@ vim.api.nvim_create_autocmd('FileChangedShellPost', {
   command = 'echohl WarningMsg | echo \'文件已被外部程序修改\' | echohl None',
 })
 
--- 设置 gitconfig 文件类型
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  pattern = { 'gitconfig', '.gitconfig', '*gitconfig*' },
-  callback = function()
-    vim.bo.filetype = 'gitconfig'
-  end,
-  desc = 'Set filetype to gitconfig for gitconfig files',
-})
-
 local is_leetcode = require('helper.is-leetcode')
 if is_leetcode() then
   vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile', 'BufEnter' }, {
