@@ -47,16 +47,16 @@ map({ 'n', 'i' }, '<D-s>', save)
 map('n', '#', '*')
 map('n', '*', '#')
 
-map({ 'n', 't' }, '=', function()
+map('n', '=', function()
   vim.cmd('vertical resize +2')
 end) -- 增加窗口左右宽度
-map({ 'n', 't' }, '-', function()
+map('n', '-', function()
   vim.cmd('vertical resize -2')
 end) -- 减少左右宽度
-map({ 'n', 't' }, '<C-=>', function()
+map('n', '<C-=>', function()
   vim.cmd('resize +2')
 end) -- 增加窗口上下高度
-map({ 'n', 't' }, '<C-->', function()
+map('n', '<C-->', function()
   vim.cmd('resize -2')
 end) -- 减少窗口上下高度
 map('n', '<leader>q', function()
