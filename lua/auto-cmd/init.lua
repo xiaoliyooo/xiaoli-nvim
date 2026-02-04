@@ -11,8 +11,14 @@ end
 -- - "q"  -- 允许使用gq格式化注释
 -- - "l"  -- 不自动换行长行
 -- - "a"  -- 不自动格式化段落
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  command = 'set formatoptions-=ro',
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function()
+    -- 所有文件类型都去除 r 和 o 选项
+    vim.opt_local.formatoptions:remove({ 'r', 'o' })
+    if vim.bo.filetype == 'help' then
+      vim.cmd('wincmd L') -- 右侧打开
+    end
+  end,
 })
 
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
@@ -24,15 +30,6 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHo
 vim.api.nvim_create_autocmd('FileChangedShellPost', {
   pattern = '*',
   command = 'echohl WarningMsg | echo \'文件已被外部程序修改\' | echohl None',
-})
-
-vim.api.nvim_create_autocmd('BufWinEnter', {
-  pattern = '*',
-  callback = function()
-    if vim.bo.buftype == 'help' then
-      vim.cmd('wincmd L') -- 右侧打开
-    end
-  end,
 })
 
 -- 设置 gitconfig 文件类型
