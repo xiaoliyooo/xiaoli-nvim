@@ -1,6 +1,71 @@
 -- telescope
 local use_package_json_root = true -- 默认使用 package.json 根目录
 
+-- 过滤的目录和文件
+local ignore_patterns = {
+  -- 版本控制 & 编辑器
+  '.git',
+  '.vim',
+  '.vscode',
+  '.idea',
+  '.opencode',
+  -- 依赖目录
+  'node_modules',
+  'vendor',
+  '.pnpm',
+  -- 构建产物
+  'dist',
+  'build',
+  'out',
+  'target',
+  '.next',
+  '.nuxt',
+  '.output',
+  '.cache',
+  '__pycache__',
+  'coverage',
+  '.turbo',
+  -- 图片 & 二进制文件
+  '*.png',
+  '*.jpg',
+  '*.jpeg',
+  '*.gif',
+  '*.webp',
+  '*.ico',
+  '*.svg',
+  '*.bmp',
+  '*.tiff',
+  '*.pdf',
+  '*.zip',
+  '*.tar',
+  '*.gz',
+  '*.rar',
+  '*.7z',
+  '*.mp3',
+  '*.mp4',
+  '*.mov',
+  '*.avi',
+  '*.mkv',
+  '*.woff',
+  '*.woff2',
+  '*.ttf',
+  '*.eot',
+  '*.exe',
+  '*.dll',
+  '*.so',
+  '*.dylib',
+  -- 其他
+  '.DS_Store',
+  'Thumbs.db',
+  '*.min.js',
+  '*.min.css',
+  '*.map',
+}
+
+local function build_rg_glob()
+  return '!{' .. table.concat(ignore_patterns, ',') .. '}'
+end
+
 return {
   'nvim-telescope/telescope.nvim',
   enabled = true,
@@ -161,14 +226,7 @@ return {
         previewer = false,
         hidden = true,
         debounce = 0,
-        find_command = {
-          'rg',
-          '--files',
-          '--hidden',
-          '--no-ignore',
-          '--glob',
-          '!{.git,.vim,.opencode,.vscode,.idea,node_modules,dist}',
-        },
+        find_command = { 'rg', '--files', '--hidden', '--no-ignore', '--glob', build_rg_glob() },
         attach_mappings = function(prompt_bufnr, map)
           map({ 'i', 'n' }, toggle_key, function()
             toggle_search_scope()
