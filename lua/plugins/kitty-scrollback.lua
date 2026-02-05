@@ -1,7 +1,7 @@
 return {
   'mikesmithgh/kitty-scrollback.nvim',
   event = 'BufReadPre',
-  build = 'nvim --headless +\'KittyScrollbackGenerateKittens\'',
+  build = [[nvim --headless +'KittyScrollbackGenerateKittens']],
   config = function()
     require('kitty-scrollback').setup({
       status_window = {

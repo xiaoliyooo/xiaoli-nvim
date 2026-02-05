@@ -106,6 +106,11 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'FileType' }, {
 -- 终端退出时自动关闭缓冲区，无需回车确认
 vim.api.nvim_create_autocmd('TermClose', {
   callback = function(event)
+    -- kitty-scrollback 不关闭
+    if is_kitty_scrollback then
+      return
+    end
+
     local bufname = vim.api.nvim_buf_get_name(event.buf)
 
     if bufname:match('lazygit') then
