@@ -70,6 +70,19 @@ map('v', 'P', '"_dP')
 map('n', 'x', '"_x')
 map('n', 'X', '"_X')
 
+-- 强制 linewise 粘贴
+vim.keymap.set('n', 'p', function()
+  local content = vim.fn.getreg('+')
+  vim.fn.setreg('+', content, 'l') -- 'l' = linewise
+  return 'p'
+end, { expr = true, desc = 'Linewise paste after' })
+
+vim.keymap.set('n', 'P', function()
+  local content = vim.fn.getreg('+')
+  vim.fn.setreg('+', content, 'l')
+  return 'P'
+end, { expr = true, desc = 'Linewise paste before' })
+
 map('n', '<C-Tab>', '<C-^>') -- 上一个buffer
 
 vim.keymap.set({ 'n', 'x' }, '<leader>ll', auto_console_log, { expr = true, desc = 'Auto console.log' })
