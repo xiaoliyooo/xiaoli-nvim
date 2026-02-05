@@ -9,13 +9,13 @@ return {
   },
   config = function()
     local live_server = require('live-server')
-    live_server.setup({
+    vim.g.live_server = {
       args = {
         '--port=' .. port,
         '--browser=default',
         '--watch',
       },
-    })
+    }
 
     local function smart_live_server()
       local file_extension = vim.fn.expand('%:e')
