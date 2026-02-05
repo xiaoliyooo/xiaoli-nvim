@@ -160,13 +160,14 @@ return {
         cwd = get_search_dir(),
         previewer = false,
         hidden = true,
+        debounce = 0,
         find_command = {
           'rg',
           '--files',
           '--hidden',
           '--no-ignore',
           '--glob',
-          '!{.git,.vim,.opencode,.vscode,.idea}',
+          '!{.git,.vim,.opencode,.vscode,.idea,node_modules,dist}',
         },
         attach_mappings = function(prompt_bufnr, map)
           map({ 'i', 'n' }, toggle_key, function()
