@@ -25,6 +25,8 @@ local ignore_patterns = {
   '__pycache__',
   'coverage',
   '.turbo',
+  '.zsh*',
+  '.zcompdump*',
   -- 图片 & 二进制文件
   '*.png',
   '*.jpg',
