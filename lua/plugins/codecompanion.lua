@@ -13,7 +13,6 @@ return {
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
-    -- 'github/copilot.vim',
     'j-hui/fidget.nvim',
     'franco-ruggeri/codecompanion-spinner.nvim',
   },
