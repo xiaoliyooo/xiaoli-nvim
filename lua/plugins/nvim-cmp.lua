@@ -31,6 +31,24 @@ return {
     local has_words_before = cmp_helper.has_words_before
     local execute_jump_or_indentation = cmp_helper.execute_jump_or_indentation
 
+    -- Helper: check if cursor is after Vue special chars (@, :, #) in start tag
+    local function is_vue_special_context(ctx)
+      if ctx.filetype ~= 'vue' then
+        return false
+      end
+      local bufnr = ctx.bufnr
+      local cached = vim.b[bufnr]._vue_ts_cached_is_in_start_tag
+      if cached == nil then
+        vim.b[bufnr]._vue_ts_cached_is_in_start_tag = is_in_start_tag()
+        cached = vim.b[bufnr]._vue_ts_cached_is_in_start_tag
+      end
+      if not cached then
+        return false
+      end
+      local last_char = ctx.cursor_before_line:sub(-1)
+      return last_char == '@' or last_char == ':' or last_char == '#'
+    end
+
     -- insert `(` after select function or method item
     local cmp_autopairs = require('nvim-autopairs.completion.cmp')
     cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
@@ -113,15 +131,23 @@ return {
             elseif cursor_before_line:sub(-1) == ':' then
               -- entry.completion_item.label:match('^:')
               return entry.completion_item.label:match(':') and not entry.completion_item.label:match('^:on%-')
-            elseif cursor_before_line:sub(-1) == '#' then
-              return entry.completion_item.kind == types.lsp.CompletionItemKind.Method
             else
               return true
             end
           end,
         },
-        { name = 'luasnip' }, -- snippets
-        { name = 'buffer' }, -- text within current buffer
+        {
+          name = 'luasnip',
+          entry_filter = function(_, ctx)
+            return not is_vue_special_context(ctx)
+          end,
+        },
+        {
+          name = 'buffer',
+          entry_filter = function(_, ctx)
+            return not is_vue_special_context(ctx)
+          end,
+        },
         { name = 'path' }, -- file system paths
         { name = 'render-markdown' },
       }),
