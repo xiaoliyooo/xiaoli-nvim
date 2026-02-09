@@ -63,6 +63,10 @@ return function(opts)
           '--line-number',
           '--column',
           '--ignore-case',
+          '--hidden',
+          '--no-ignore',
+          '--ignore-file',
+          vim.fn.stdpath('config') .. '/.rgignore',
         },
       })
     end,
