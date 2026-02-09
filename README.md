@@ -6,9 +6,11 @@ This repo is my Neovim Configuration for macOS.
 
 - Using Neovim's Built-in Lsp
 - Built-in a lot of useful plugins
-- Specifically for `Vue3` development configuration
-
-`Vue3` development experience is **good**! I use it for my **daily work**.
+- Support for Vue and React projects
+- Syntax highlighting for common config files (JSON, YAML, TOML, etc.)
+- Extremely fast startup (aggressive lazy loading)
+- Simple configuration, no bloat
+- I use it for my **daily work**.
 
 Everyone should have his or her unique config file. So you can download this repo and modify it as you want.
 
@@ -29,7 +31,3 @@ $ git clone --depth 1 https://github.com/xiaoliyooo/xiaoli-nvim.git ~/.config/nv
 ```bash
 $ nvim
 ```
-
-# Preview
-
-![image](./images/dashboard.jpeg)

@@ -49,19 +49,22 @@ return {
       original_save_session(filename)
     end
 
-    -- vim.api.nvim_create_autocmd({ 'User' }, {
-    --   pattern = 'SessionLoadPost',
-    --   group = config_group,
-    --   callback = function()
-    --     local tree = require('nvim-tree.api').tree
-    --     tree.open()
-    --     tree.close()
-    --     tree.change_root(vim.fn.getcwd())
-    --     tree.reload()
-    --
-    --     local get_dashboard_config = require('helper.dashboard').get_dashboard_config
-    --     require('dashboard').setup(get_dashboard_config())
-    --   end,
-    -- })
+    vim.api.nvim_create_autocmd('UIEnter', {
+      callback = function()
+        if vim.fn.argc() > 0 then
+          return
+        end
+
+        local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+        local is_empty = #bufs == 0
+          or (#bufs == 1 and bufs[1].name == '' and vim.api.nvim_buf_line_count(bufs[1].bufnr) <= 1)
+
+        if is_empty then
+          require('lazy').load({ plugins = { 'nvim-tree.lua' } })
+          require('nvim-tree.api').tree.open({ current_window = true })
+        end
+      end,
+      desc = 'Open nvim-tree when no session is loaded',
+    })
   end,
 }
