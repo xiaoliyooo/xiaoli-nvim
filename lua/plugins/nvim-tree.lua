@@ -130,14 +130,18 @@ return {
         },
       },
       filters = {
-        -- show all!
-        enable = false,
+        enable = true,
         git_ignored = false,
         dotfiles = false,
         git_clean = false,
         no_buffer = false,
         no_bookmark = false,
-        custom = {},
+        custom = {
+          '.DS_Store',
+          '.zcompdump*',
+          '.zsh_sessions',
+          '.zsh_history',
+        },
         exclude = {},
       },
       actions = {
