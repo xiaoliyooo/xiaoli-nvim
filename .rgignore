@@ -22,7 +22,8 @@ target
 __pycache__
 coverage
 .turbo
-.zsh*
+.zsh_sessions
+.zsh_history
 .zcompdump*
 js-debug
 
