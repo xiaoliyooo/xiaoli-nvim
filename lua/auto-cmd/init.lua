@@ -127,8 +127,8 @@ vim.api.nvim_create_autocmd('VimLeavePre', {
     if _G.terminal_instances then
       for _, term in pairs(_G.terminal_instances) do
         if term and term.job_id then
-          local pid = vim.fn.jobpid(term.job_id)
-          if pid then
+          local ok, pid = pcall(vim.fn.jobpid, term.job_id)
+          if ok and pid then
             vim.fn.system('kill -9 ' .. pid)
           end
         end
