@@ -26,7 +26,9 @@ return {
     { "f", mode = { "n", "x", "o" }, function() 
       vim.cmd('nohlsearch')
       vim.diagnostic.enable(false)
+      pcall(vim.cmd, 'ColorizerDetachFromBuffer')
       require("flash").jump()
+      pcall(vim.cmd, 'ColorizerAttachToBuffer')
       vim.diagnostic.enable(true)
     end, desc = "Flash" },
   },

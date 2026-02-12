@@ -20,8 +20,8 @@ return {
         vim.api.nvim_set_hl(0, 'StlFt', { fg = '#ffffff', bg = stl_bg })
         vim.api.nvim_set_hl(0, 'StlLines', { fg = '#ffffff', bg = stl_bg })
 
-        vim.api.nvim_set_hl(0, 'FlashMatch', { fg = 'gold' })
-        vim.api.nvim_set_hl(0, 'FlashCurrent', { fg = color_table.light_green })
+        vim.api.nvim_set_hl(0, 'FlashMatch', { bg = 'yellow', fg = 'Black' })
+        vim.api.nvim_set_hl(0, 'FlashCurrent', { bg = color_table.light_green, fg = 'Black' })
         vim.api.nvim_set_hl(0, 'zshComment', {
           fg = color_table.light_green,
         })
