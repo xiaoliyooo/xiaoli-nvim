@@ -26,13 +26,6 @@ local terminal_configs = {
         LG_CONFIG_FILE = os.getenv('HOME') .. '/.config/lazygit/config.yml',
       },
       close_on_exit = true,
-      on_exit = function(term)
-        vim.schedule(function()
-          if term:is_open() then
-            term:close()
-          end
-        end)
-      end,
     },
   },
   normal = {
@@ -53,13 +46,6 @@ local terminal_configs = {
         end,
       },
       close_on_exit = true,
-      on_exit = function(term)
-        vim.schedule(function()
-          if term:is_open() then
-            term:close()
-          end
-        end)
-      end,
     },
   },
   opencode = {
@@ -83,13 +69,6 @@ local terminal_configs = {
         vim.keymap.set('n', '<C-y>', function()
           vim.api.nvim_chan_send(term.job_id, '\x1b[57;5u') -- Ctrl+9
         end, opts)
-      end,
-      on_exit = function(term)
-        vim.schedule(function()
-          if term:is_open() then
-            term:close()
-          end
-        end)
       end,
     },
   },
@@ -135,11 +114,6 @@ local function create_terminal(count, cmd, extra_opts)
     float_opts = {
       border = border,
     },
-    on_open = function(term)
-      vim.api.nvim_win_call(term.window, function()
-        vim.cmd('normal! gg0') -- 重置终端左上角, 避免内容偏移
-      end)
-    end,
   }
 
   if cmd then
@@ -148,6 +122,27 @@ local function create_terminal(count, cmd, extra_opts)
 
   if extra_opts then
     opts = vim.tbl_deep_extend('force', opts, extra_opts)
+  end
+
+  local existing_on_open = opts.on_open
+  local existing_on_close = opts.on_close
+
+  opts.on_open = function(term)
+    vim.api.nvim_win_call(term.window, function()
+      vim.cmd('normal! gg0') -- 重置终端左上角, 避免内容偏移
+      pcall(vim.cmd, 'ColorizerDetachFromBuffer')
+    end)
+
+    if existing_on_open then
+      existing_on_open(term)
+    end
+  end
+
+  opts.on_close = function(term)
+    if existing_on_close then
+      existing_on_close(term)
+    end
+    pcall(vim.cmd, 'ColorizerAttachToBuffer')
   end
 
   return Terminal:new(opts)
