@@ -46,6 +46,8 @@ map({ 'n', 'i' }, '<D-s>', save)
 -- 交换搜索方向
 map('n', '#', '*')
 map('n', '*', '#')
+map('n', '[t', 'gT')
+map('n', ']t', 'gt')
 
 map('n', '=', function()
   vim.cmd('vertical resize +2')
