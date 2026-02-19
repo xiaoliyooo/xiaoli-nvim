@@ -4,7 +4,6 @@ function M.reset()
   local diff_green = '#47552c'
 
   vim.api.nvim_set_hl(0, 'DiffDelete', {
-    fg = '#6b1d1a',
     bg = '#6b1d1a',
   })
 
