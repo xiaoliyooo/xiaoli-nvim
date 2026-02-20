@@ -71,5 +71,5 @@ return function()
   --   bold = true,
   -- })
 
-  vim.lsp.inlay_hint.enable()
+  -- vim.lsp.inlay_hint.enable()
 end
