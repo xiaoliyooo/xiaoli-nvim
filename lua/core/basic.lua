@@ -21,7 +21,7 @@ opt.swapfile = false
 opt.cursorcolumn = false
 opt.cursorline = true
 opt.showtabline = is_kitty_scrollback and 0 or 2 -- kitty-scrollback.nvim 启动时隐藏顶部tab标签
-opt.wrap = false -- 防止包裹
+opt.wrap = true
 opt.encoding = 'utf-8'
 opt.fileencoding = 'utf-8'
 opt.mouse:append('a') -- 启用鼠标
