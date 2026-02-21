@@ -8,14 +8,10 @@ local function map(m, k, v)
   vim.keymap.set(m, k, v, { silent = true })
 end
 
-vim.keymap.set({ 'n', 'x', 'o' }, 'j', 'v:count == 0 ? \'gj\' : \'j\'', { expr = true, silent = true })
-vim.keymap.set({ 'n', 'x', 'o' }, 'k', 'v:count == 0 ? \'gk\' : \'k\'', { expr = true, silent = true })
-
-map({ 'n', 'x', 'o' }, 'J', '5gj')
-map({ 'n', 'x', 'o' }, 'K', '5gk')
-map({ 'n', 'x', 'o' }, 'H', 'g^')
-map({ 'n', 'x', 'o' }, 'L', 'g$')
-
+map({ 'v', 'n' }, 'J', '5j')
+map({ 'v', 'n' }, 'K', '5k')
+map({ 'x', 'o', 'n' }, 'H', '^')
+map({ 'x', 'o', 'n' }, 'L', 'g_')
 map('n', '<C-e>', '3<C-e>')
 map('n', '<C-y>', '3<C-y>')
 
