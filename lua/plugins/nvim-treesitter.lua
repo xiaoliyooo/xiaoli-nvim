@@ -111,5 +111,9 @@ return {
       zindex = 20, -- The Z-index of the context window
       on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
     })
+
+    vim.api.nvim_create_user_command('TSContextToggle', function(opts)
+      vim.cmd('TSContext toggle')
+    end, { desc = 'Toggle TSContext' })
   end,
 }
