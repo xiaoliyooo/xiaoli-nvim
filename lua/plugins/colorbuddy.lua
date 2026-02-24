@@ -37,6 +37,10 @@ return {
           bg = '#6e7681',
         })
 
+        vim.api.nvim_set_hl(0, 'TreesitterContext', {
+          bg = '#303030',
+        })
+
         vim.api.nvim_set_hl(0, 'GitSignsCurrentLineBlame', {
           fg = '#bfbfbf',
           bold = true,
