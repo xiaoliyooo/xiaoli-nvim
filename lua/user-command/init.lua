@@ -47,9 +47,12 @@ end, {
 })
 
 user_cmd('DiffBuffer', function()
+  vim.cmd('diffoff!')
   vim.cmd('only')
+  local ft = vim.bo.filetype
   vim.cmd('vnew')
+  vim.bo.filetype = ft
   vim.cmd('windo diffthis')
 end, {
-  desc = 'Close other windows, open a new empty buffer in vsplit, and diff them',
+  desc = 'Close other windows, split vertically with empty buffer, and diff them',
 })
