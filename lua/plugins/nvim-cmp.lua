@@ -26,6 +26,10 @@ return {
   config = function()
     local cmp = require('cmp')
     local cmp_helper = require('helper.nvim-cmp')
+    -- load custom cmdline source
+    local cmdline_enhanced = require('helper.cmp-cmdline-enhanced')
+    cmp.register_source('cmdline_enhanced', cmdline_enhanced.new())
+
     local symbol_map = cmp_helper.symbol_map
     local is_in_start_tag = cmp_helper.is_in_start_tag
     local has_words_before = cmp_helper.has_words_before
@@ -253,7 +257,7 @@ return {
         { name = 'path' },
       }, {
         {
-          name = 'cmdline',
+          name = 'cmdline_enhanced',
           option = {
             ignore_cmds = { 'Man', '!' },
           },
