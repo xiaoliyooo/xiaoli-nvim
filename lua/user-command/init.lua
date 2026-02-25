@@ -45,3 +45,11 @@ user_cmd('TermV', function()
 end, {
   desc = 'vsp打开终端',
 })
+
+user_cmd('DiffBuffer', function()
+  vim.cmd('only')
+  vim.cmd('vnew')
+  vim.cmd('windo diffthis')
+end, {
+  desc = 'Close other windows, open a new empty buffer in vsplit, and diff them',
+})

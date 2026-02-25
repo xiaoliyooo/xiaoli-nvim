@@ -53,3 +53,7 @@ vim.filetype.add({
     fs = 'glsl',
   },
 })
+
+vim.opt.fillchars = {
+  diff = '╱',
+}

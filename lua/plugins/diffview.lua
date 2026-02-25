@@ -6,9 +6,6 @@ return {
   cmd = { 'FileHistory', 'BranchHistory', 'DiffviewOpen', 'DiffviewClose' },
 
   config = function()
-    vim.opt.fillchars = {
-      diff = '╱',
-    }
     require('diffview').setup({
       enhanced_diff_hl = true,
       file_panel = {
