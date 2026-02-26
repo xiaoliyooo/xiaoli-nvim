@@ -17,10 +17,9 @@ return {
     'franco-ruggeri/codecompanion-spinner.nvim',
   },
   enabled = not is_leetcode_context(),
-  init = function()
-    require('helper.codecompanion-fidget-spinner'):init()
-  end,
   config = function()
+    require('helper.codecompanion-fidget-spinner'):init()
+
     require('codecompanion').setup({
       extensions = {
         spinner = {},

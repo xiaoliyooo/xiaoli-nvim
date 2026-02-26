@@ -1,3 +1,4 @@
+require('core.early')
 require('core')
 require('setup')
 
