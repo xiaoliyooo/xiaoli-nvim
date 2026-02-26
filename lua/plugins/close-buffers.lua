@@ -13,11 +13,11 @@ return {
     })
 
     vim.api.nvim_create_user_command('Bdh', function()
-      vim.cmd('lua require(\'close_buffers\').delete({type = \'hidden\'})')
+      require('close_buffers').delete({ type = 'hidden', force = true })
     end, { desc = 'Delete hidden buffers' })
 
     vim.api.nvim_create_user_command('Bdo', function()
-      vim.cmd('lua require(\'close_buffers\').delete({type = \'other\'})')
-    end, { desc = 'Delete hidden buffers' })
+      require('close_buffers').delete({ type = 'other', force = true })
+    end, { desc = 'Delete other buffers' })
   end,
 }
