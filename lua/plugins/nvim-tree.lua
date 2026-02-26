@@ -8,13 +8,23 @@ return {
     { '<leader>nn', '<CMD>NvimTreeToggle<CR>', desc = 'Toggle NvimTree' },
   },
   init = function()
-    -- 如果打开的是目录，立即加载
-    if vim.fn.argc() > 0 then
-      local arg = vim.fn.argv(0)
-      if vim.fn.isdirectory(arg) == 1 then
-        require('lazy').load({ plugins = { 'nvim-tree.lua' } })
-      end
+    if vim.fn.argc() == 0 then
+      return
     end
+
+    local arg = vim.fn.argv(0)
+    if vim.fn.isdirectory(arg) ~= 1 then
+      return
+    end
+
+    vim.api.nvim_create_autocmd('UIEnter', {
+      once = true,
+      callback = function()
+        require('lazy').load({ plugins = { 'nvim-tree.lua' } })
+        require('nvim-tree.api').tree.open({ current_window = true })
+      end,
+      desc = 'Load and open nvim-tree after first screen for directory arg',
+    })
   end,
   config = function()
     -- set termguicolors to enable highlight groups
