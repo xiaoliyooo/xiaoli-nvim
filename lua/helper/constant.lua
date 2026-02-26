@@ -42,4 +42,6 @@ M.no_git_repo_found = {
   '                           \\______/                                         |__/                                                                      ',
 }
 
+M.ai_cmd = 'codebuddy' -- opencode|codebuddy|gemini
+
 return M

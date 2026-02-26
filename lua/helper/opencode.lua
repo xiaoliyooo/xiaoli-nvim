@@ -1,13 +1,14 @@
 local M = {}
+local ai_cmd = require('helper.constant').ai_cmd
 
 local function get_opencode_terminal()
-  return _G.terminal_instances and _G.terminal_instances['opencode']
+  return _G.terminal_instances and _G.terminal_instances[ai_cmd]
 end
 
 local function send_to_terminal(text)
   local term = get_opencode_terminal()
   if not term then
-    vim.notify('opencode 终端未初始化', vim.log.levels.ERROR)
+    vim.notify(ai_cmd .. ' 终端未初始化', vim.log.levels.ERROR)
     return
   end
 

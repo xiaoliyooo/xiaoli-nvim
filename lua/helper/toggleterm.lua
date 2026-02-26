@@ -5,7 +5,7 @@ _G.terminal_instances = _G.terminal_instances or {}
 
 local Terminal = require('toggleterm.terminal').Terminal
 local auto_keyboard = require('helper.auto-keyboard-layout')
-local ai_cmd = 'opencode' -- opencode/gemini
+local ai_cmd = require('helper.constant').ai_cmd
 
 -- 终端配置表
 local terminal_configs = {
@@ -33,10 +33,12 @@ local terminal_configs = {
     cmd = nil,
     extra_opts = {},
   },
-  gemini = {
+  codebuddy = {
     count = 3,
-    cmd = 'gemini',
+    -- 和nvm懒加载冲突，先置空cmd
+    cmd = nil,
     extra_opts = {
+      clear_env = false,
       float_opts = {
         width = function()
           return math.floor(vim.o.columns * 0.8)
@@ -210,7 +212,7 @@ function M.toggle_lazygit()
   toggle_terminal('lazygit')
 end
 
--- Ai 终端(gemini/opencode)
+-- Ai 终端
 function M.toggle_ai()
   toggle_terminal(ai_cmd)
 end
