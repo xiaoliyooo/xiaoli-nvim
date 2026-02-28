@@ -44,9 +44,8 @@ opt.shortmess:append('I') -- 隐藏内置intro
 opt.sidescrolloff = 10
 
 vim.filetype.add({
-  filename = {
-    ['gitconfig'] = 'gitconfig',
-    ['.gitconfig'] = 'gitconfig',
+  pattern = {
+    ['.*gitconfig.*'] = 'gitconfig',
   },
   extension = {
     vs = 'glsl',
