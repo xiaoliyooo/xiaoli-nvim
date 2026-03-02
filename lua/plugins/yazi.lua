@@ -26,7 +26,7 @@ return {
         replace_in_directory = '<c-g>',
         cycle_open_buffers = false,
         copy_relative_path_to_selected_files = '<c-y>',
-        send_to_quickfix_list = '<C-;>',
+        send_to_quickfix_list = false,
         change_working_directory = false,
         open_and_pick_window = false,
       },
