@@ -11,6 +11,7 @@ return {
     { '<leader>fb', mode = { 'n', 'x' }, desc = 'Comment box trigger' },
     { '<leader>fs', desc = 'Search symbols in current file' },
     { '<leader>dp', desc = 'node_modules' },
+    { '<D-b>', mode = { 'n', 'i' }, desc = 'Find open buffers' },
     { '<D-l>', mode = { 'n', 'i' }, desc = 'Find recent files with frecency algorithm' },
     { '<D-p>', mode = { 'n', 'i' }, desc = 'Fuzzy find files' },
     { '<D-S-f>', mode = { 'n', 'i' }, desc = 'Find string with shortcuts' },
@@ -193,11 +194,13 @@ return {
     keymap.set('n', '<leader>dp', '<CMD>Telescope node_modules list<CR>', { desc = 'node_modules', silent = true })
     --  +-------------------------------+ cmd +-------------------------------+
     keymap.set({ 'n', 'i' }, '<D-l>', function()
-      require('telescope').extensions.frecency.frecency({
-        workspace = 'CWD',
-        hide_current_buffer = true,
+      tele_builtin.buffers({
+        sort_mru = true,
+        ignore_current_buffer = true,
+        show_all_buffers = true,
+        sort_lastused = true,
       })
-    end, { desc = 'Find recent files with frecency algorithm' })
+    end, { desc = 'Find open buffers' })
 
     keymap.set(
       { 'n', 'i' },
