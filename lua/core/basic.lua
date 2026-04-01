@@ -51,6 +51,9 @@ vim.filetype.add({
     vs = 'glsl',
     fs = 'glsl',
   },
+  filename = {
+    ['kitty.conf'] = 'kitty',
+  },
 })
 
 vim.opt.fillchars = {

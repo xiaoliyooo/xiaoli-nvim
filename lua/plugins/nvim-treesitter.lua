@@ -11,6 +11,18 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
   },
   config = function()
+    -- kitty parser
+    local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+    -- Branch: master，branch配置的是main
+    parser_configs.kitty = {
+      install_info = {
+        url = 'https://github.com/OXY2DEV/tree-sitter-kitty',
+        files = { 'src/parser.c' },
+        branch = 'main',
+      },
+      filetype = 'kitty',
+    }
+
     require('nvim-treesitter.configs').setup({
       -- 启用语法高亮
       highlight = {
@@ -50,6 +62,7 @@ return {
         'markdown_inline',
         'yaml',
         'vimdoc',
+        'kitty',
       },
       textobjects = {
         move = {
