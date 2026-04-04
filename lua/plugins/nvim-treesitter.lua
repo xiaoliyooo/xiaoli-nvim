@@ -63,6 +63,7 @@ return {
         'yaml',
         'vimdoc',
         'kitty',
+        'python',
       },
       textobjects = {
         move = {
