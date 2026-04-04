@@ -40,7 +40,7 @@ return {
         zsh = { 'shfmt' },
         toml = { 'taplo' },
         python = {
-          'ruff_fix',
+          -- 'ruff_fix',
           -- To run the Ruff formatter.
           'ruff_format',
           -- To organize the imports.
