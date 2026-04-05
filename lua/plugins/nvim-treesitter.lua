@@ -69,12 +69,13 @@ return {
         move = {
           enable = true,
           set_jumps = true,
-          goto_next_start = {
-            [','] = '@parameter.inner',
-          },
-          goto_previous_start = {
-            ['<'] = '@parameter.inner',
-          },
+          -- goto_next_start = {
+          --   [','] = '@parameter.inner',
+          -- },
+          -- 影响代码缩进，先注释
+          -- goto_previous_start = {
+          --   ['<'] = '@parameter.inner',
+          -- },
           goto_next = {
             [']d'] = '@conditional.outer',
           },
