@@ -3,6 +3,7 @@ local M = {}
 local log_formats = {
   javascript = 'console.log(\'<C-R>a:\', <C-R>a);',
   lua = 'print(\'<C-R>a:\', vim.inspect(<C-R>a))',
+  python = 'print(\'<C-R>a:\', <C-R>a)',
   rust = 'println!("<C-R>a: {:?}", <C-R>a);',
 }
 
