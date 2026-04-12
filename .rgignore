@@ -19,6 +19,7 @@ target
 .next
 .nuxt
 .output
+output
 .cache
 __pycache__
 coverage
