@@ -8,8 +8,8 @@ local function map(m, k, v)
   vim.keymap.set(m, k, v, { silent = true })
 end
 
-map({ 'v', 'n' }, 'J', '5j')
-map({ 'v', 'n' }, 'K', '5k')
+map({ 'v', 'n' }, 'J', '3j')
+map({ 'v', 'n' }, 'K', '3k')
 map({ 'x', 'o', 'n' }, 'H', '^')
 map({ 'x', 'o', 'n' }, 'L', 'g_')
 map('n', '<C-e>', '3<C-e>')
