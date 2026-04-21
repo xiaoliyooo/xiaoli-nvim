@@ -13,6 +13,18 @@ return {
   config = function()
     -- kitty parser
     local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+
+    -- GitHub仓库分支和tag同时存在名称main，导致 tarball 下载歧义报错
+    -- 使用具体 tag 版本号，更新时需同步修改版本号
+    parser_configs.zsh = {
+      install_info = {
+        url = 'https://github.com/georgeharker/tree-sitter-zsh',
+        files = { 'src/parser.c', 'src/scanner.c' },
+        branch = 'v0.63.3',
+      },
+      filetype = 'zsh',
+    }
+
     -- Branch: master，branch配置的是main
     parser_configs.kitty = {
       install_info = {
@@ -43,9 +55,13 @@ return {
           node_decremental = 'grm',
         },
       },
+      -- TODO 将treesitter迁移到nvim 0.12 内置的配置方式
+      -- 防止个别sh文件报错：attempt to call method 'range' (a nil value)
+      vim.treesitter.language.register('zsh', 'sh'),
+
       -- 确保安装的语言解析器
       ensure_installed = {
-        'bash',
+        -- 'bash',
         'css',
         'html',
         'javascript',
@@ -63,6 +79,7 @@ return {
         'yaml',
         'vimdoc',
         'kitty',
+        'zsh',
         'python',
       },
       textobjects = {
