@@ -12,10 +12,12 @@ return {
   build = {
     'npm i -g bash-language-server',
     'npm i -g vscode-langservers-extracted',
+    'npm i -g dockerfile-language-server-nodejs',
     'npm i -g eslint',
     'npm i -g yaml-language-server',
     'npm install -g @vlabo/cspell-lsp',
     'brew install rust-analyzer',
+    'brew install marksman',
   },
   config = function()
     require('plugins.lsp.mason')()

@@ -21,6 +21,9 @@ return function()
       'vtsls', -- vue script部分和ts文件的ts解析
       'vue_ls', -- vue模板和css解析
       'pyright',
+      'dockerls',
+      'marksman',
+      'taplo',
     },
   })
 end

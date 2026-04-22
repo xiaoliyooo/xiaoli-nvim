@@ -2,8 +2,14 @@ return function()
   -- Bash / Zsh
   require('plugins.lsp.servers.bash')()
 
+  -- Dockerfile
+  require('plugins.lsp.servers.docker')()
+
   -- Lua
   require('plugins.lsp.servers.lua')()
+
+  -- Markdown
+  require('plugins.lsp.servers.marksman')()
 
   -- Vue
   require('plugins.lsp.servers.vue')()
@@ -28,6 +34,9 @@ return function()
 
   -- Json
   require('plugins.lsp.servers.json')()
+
+  -- Toml
+  require('plugins.lsp.servers.taplo')()
 
   -- Spell Checker
   require('plugins.lsp.servers.spell')()
