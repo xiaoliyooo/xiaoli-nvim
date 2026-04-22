@@ -22,9 +22,13 @@ return {
 
         vim.api.nvim_set_hl(0, 'FlashMatch', { bg = 'yellow', fg = 'Black' })
         vim.api.nvim_set_hl(0, 'FlashCurrent', { bg = color_table.light_green, fg = 'Black' })
-        vim.api.nvim_set_hl(0, 'Comment', {
+
+        vim.api.nvim_set_hl(0, '@comment', {
           fg = color_table.light_green,
         })
+        vim.api.nvim_set_hl(0, 'zshComment', { link = '@comment' })
+        vim.api.nvim_set_hl(0, 'shComment', { link = '@comment' })
+
         vim.api.nvim_set_hl(0, 'CustomYankHighlight', { link = 'PmenuKindSel' })
         vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'NONE' })
         vim.api.nvim_set_hl(0, 'FloatTitle', { bg = 'NONE' })
