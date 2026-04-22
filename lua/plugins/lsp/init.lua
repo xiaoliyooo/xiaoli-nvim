@@ -10,6 +10,7 @@ return {
     'nvimdev/lspsaga.nvim',
   },
   build = {
+    'npm i -g bash-language-server',
     'npm i -g vscode-langservers-extracted',
     'npm i -g eslint',
     'npm i -g yaml-language-server',

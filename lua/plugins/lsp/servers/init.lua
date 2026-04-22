@@ -1,4 +1,7 @@
 return function()
+  -- Bash / Zsh
+  require('plugins.lsp.servers.bash')()
+
   -- Lua
   require('plugins.lsp.servers.lua')()
 

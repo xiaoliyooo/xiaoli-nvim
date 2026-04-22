@@ -14,6 +14,7 @@ return function()
   require('mason-lspconfig').setup({
     automatic_enable = false,
     ensure_installed = {
+      'bashls',
       'lua_ls',
       'eslint',
       'emmet_language_server', -- :MasonInstall emmet-language-server 逆天安装名称对不上
