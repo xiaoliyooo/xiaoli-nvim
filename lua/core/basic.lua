@@ -35,7 +35,7 @@ opt.ignorecase = true
 opt.smartcase = true
 opt.termguicolors = true
 opt.signcolumn = 'yes'
-opt.showmatch = true
+opt.showmatch = false -- 输入闭合符时不要把光标跳到对应左括号（会造成视觉闪烁，如输入 <'a> 时的 >）
 opt.tabline = '%!v:lua.tabline_fn()'
 opt.undofile = true -- 持久化撤销历史
 opt.shortmess:append('I') -- 隐藏内置intro
