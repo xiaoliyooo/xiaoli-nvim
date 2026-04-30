@@ -29,6 +29,7 @@ return {
         html = { 'prettier' },
         vue = { 'prettier' },
         json = { 'prettier' },
+        json5 = { 'prettier' },
         yaml = { 'prettier' },
         yml = { 'prettier' },
         -- markdown = { 'prettier' },
