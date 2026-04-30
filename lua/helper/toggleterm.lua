@@ -209,6 +209,9 @@ end
 
 -- Lazygit 终端
 function M.toggle_lazygit()
+  local result = vim.fn.systemlist('git rev-parse --is-inside-work-tree')
+  local in_git = vim.v.shell_error == 0 and result[1] == 'true'
+  terminal_configs.lazygit.extra_opts.dir = in_git and 'git_dir' or vim.fn.getcwd()
   toggle_terminal('lazygit')
 end
 
