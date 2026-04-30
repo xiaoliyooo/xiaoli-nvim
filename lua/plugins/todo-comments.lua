@@ -1,11 +1,45 @@
 -- todo comments
 
+-- Workaround for upstream bug: https://github.com/folke/todo-comments.nvim/issues/380
+-- Fix PR (not merged yet):    https://github.com/folke/todo-comments.nvim/pull/381
+-- 切换到 nvim_buf_set_extmark 后端后，end_col 严格校验，导致关键字位于行尾或多行场景越界报错
+-- 'Invalid end_col: out of range'。这里在每次 install/update 后自动给本地插件文件打补丁。
+local function patch_highlight()
+  local file = vim.fn.stdpath('data') .. '/lazy/todo-comments.nvim/lua/todo-comments/highlight.lua'
+  local f = io.open(file, 'r')
+  if not f then
+    return
+  end
+  local src = f:read('*a')
+  f:close()
+  if src:find('line_length', 1, true) then
+    return -- 已经打过补丁
+  end
+  local needle =
+    'local function add_highlight(buf, ns, hl, line, from, to)\n  vim.api.nvim_buf_set_extmark(buf, ns, line, from, {'
+  local repl = [[local function add_highlight(buf, ns, hl, line, from, to)
+  local line_length = vim.api.nvim_buf_get_lines(buf, line, line + 1, false)[1]:len()
+  if to > line_length then
+    to = line_length
+  end
+  vim.api.nvim_buf_set_extmark(buf, ns, line, from, {]]
+  local patched, n = src:gsub(vim.pesc(needle), repl, 1)
+  if n == 1 then
+    local out = io.open(file, 'w')
+    if out then
+      out:write(patched)
+      out:close()
+    end
+  end
+end
+
 return {
   'folke/todo-comments.nvim',
   dependencies = {
     'nvim-lua/plenary.nvim',
   },
   event = 'VeryLazy',
+  build = patch_highlight,
   opts = {
     signs = false,
     keywords = {
