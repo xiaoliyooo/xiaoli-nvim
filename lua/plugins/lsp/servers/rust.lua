@@ -1,17 +1,13 @@
 return function()
-  local cwd_helper = require('helper.cwd')
-  local get_project_root = cwd_helper.get_project_root
-
   vim.lsp.config('rust_analyzer', {
     settings = {
       ['rust-analyzer'] = {
         checkOnSave = true,
-        check = {
-          command = 'clippy',
-          extraArgs = { '--no-deps' },
-        },
-        diagnostics = {
-          enable = true,
+        check = { command = 'clippy', extraArgs = { '--no-deps' } },
+        diagnostics = { enable = true },
+        inlayHints = {
+          closureReturnTypeHints = { enable = 'always' },
+          closingBraceHints = { enable = false, minLines = 25 },
         },
       },
     },

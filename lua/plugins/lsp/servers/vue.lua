@@ -70,6 +70,4 @@ return function()
   --   fg = color_table.vue_component_color,
   --   bold = true,
   -- })
-
-  -- vim.lsp.inlay_hint.enable()
 end

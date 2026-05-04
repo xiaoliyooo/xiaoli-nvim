@@ -49,4 +49,26 @@ return function()
 
   -- Rust
   require('plugins.lsp.servers.rust')()
+
+  local inlay_hint_clients = {
+    rust_analyzer = true,
+  }
+
+  vim.api.nvim_create_autocmd({ 'LspAttach', 'LspProgress' }, {
+    group = vim.api.nvim_create_augroup('lsp-inlay-hint', { clear = true }),
+    callback = function(args)
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      if not client or not inlay_hint_clients[client.name] then
+        return
+      end
+      -- LspProgress 只在阶段结束时刷新，避免频繁请求
+      if args.event == 'LspProgress' and args.data.params.value.kind ~= 'end' then
+        return
+      end
+      for _, buf in ipairs(vim.lsp.get_buffers_by_client_id(client.id)) do
+        vim.lsp.inlay_hint.enable(true, { bufnr = buf })
+      end
+    end,
+    desc = 'Enable inlay hints for whitelisted LSP clients',
+  })
 end
