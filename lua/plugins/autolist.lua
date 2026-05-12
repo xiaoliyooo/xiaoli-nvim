@@ -25,5 +25,8 @@ return {
     -- functions to recalculate list on edit
     vim.keymap.set('n', '>>', '>><cmd>AutolistRecalculate<cr>')
     vim.keymap.set('n', '<<', '<<<cmd>AutolistRecalculate<cr>')
+
+    vim.keymap.set('n', 'dd', 'dd<cmd>AutolistRecalculate<cr>')
+    vim.keymap.set('v', 'd', 'd<cmd>AutolistRecalculate<cr>')
   end,
 }
