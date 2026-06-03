@@ -19,7 +19,7 @@ return {
         log_options = {
           git = {
             single_file = {
-              all = true,
+              all = false,
             },
             multi_file = {},
           },
