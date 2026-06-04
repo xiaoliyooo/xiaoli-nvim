@@ -39,6 +39,7 @@ opt.showmatch = false -- 输入闭合符时不要把光标跳到对应左括号�
 opt.tabline = '%!v:lua.tabline_fn()'
 opt.undofile = true -- 持久化撤销历史
 opt.shortmess:append('I') -- 隐藏内置intro
+opt.shortmess:append('S') -- 关闭内置搜索计数（上限 99 硬编码），改为自定义实现
 -- 水平滚动光标距离左/右侧保持10列间距
 -- opt.scrolloff = 10
 opt.sidescrolloff = 10
