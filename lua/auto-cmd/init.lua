@@ -103,34 +103,36 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'FileType' }, {
   end,
 })
 
-local search_count_grp = vim.api.nvim_create_augroup('CustomSearchCount', { clear = true })
-local function echo_search_count()
-  if vim.api.nvim_get_mode().mode == 'c' then
-    return
-  end
-  local s = vim.v.hlsearch == 1 and vim.fn.searchcount({ maxcount = 9999, timeout = 500 }) or {}
-  if (s.total or 0) == 0 then
-    vim.api.nvim_echo({ { '' } }, false, {})
-    return
-  end
+if not is_kitty_scrollback then
+  local search_count_grp = vim.api.nvim_create_augroup('CustomSearchCount', { clear = true })
+  local function echo_search_count()
+    if vim.api.nvim_get_mode().mode == 'c' then
+      return
+    end
+    local s = vim.v.hlsearch == 1 and vim.fn.searchcount({ maxcount = 9999, timeout = 500 }) or {}
+    if (s.total or 0) == 0 then
+      vim.api.nvim_echo({ { '' } }, false, {})
+      return
+    end
 
-  local msg
-  if s.incomplete == 1 then
-    msg = '[?/?]'
-  elseif s.incomplete == 2 then
-    msg = s.current > s.maxcount and string.format('[>%d/>%d]', s.maxcount, s.maxcount)
-      or string.format('[%d/>%d]', s.current, s.maxcount)
-  else
-    msg = string.format('[%d/%d]', s.current, s.total)
-  end
+    local msg
+    if s.incomplete == 1 then
+      msg = '[?/?]'
+    elseif s.incomplete == 2 then
+      msg = s.current > s.maxcount and string.format('[>%d/>%d]', s.maxcount, s.maxcount)
+        or string.format('[%d/>%d]', s.current, s.maxcount)
+    else
+      msg = string.format('[%d/%d]', s.current, s.total)
+    end
 
-  vim.api.nvim_echo({ { msg, 'Question' }, { '  ' }, { '/' .. vim.fn.getreg('/'), 'Comment' } }, false, {})
+    vim.api.nvim_echo({ { msg, 'Question' }, { '  ' }, { '/' .. vim.fn.getreg('/'), 'Comment' } }, false, {})
+  end
+  vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorHold', 'CmdlineLeave' }, {
+    group = search_count_grp,
+    callback = vim.schedule_wrap(echo_search_count),
+    desc = '自定义搜索计数显示',
+  })
 end
-vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorHold', 'CmdlineLeave' }, {
-  group = search_count_grp,
-  callback = vim.schedule_wrap(echo_search_count),
-  desc = '自定义搜索计数显示',
-})
 
 -- 终端退出时自动关闭缓冲区，无需回车确认
 vim.api.nvim_create_autocmd('TermClose', {
