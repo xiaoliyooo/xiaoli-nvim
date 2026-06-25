@@ -12,6 +12,9 @@ return {
         'treesitter',
       },
       delay = 30,
+      should_enable = function(bufnr)
+        return vim.b[bufnr].bigfile ~= true
+      end,
       modes_denylist = { 'v', 'V', '\22' }, -- 在可视模式下禁用
     })
 

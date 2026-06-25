@@ -1,5 +1,33 @@
 local is_kitty_scrollback = require('helper.env').is_kitty_scrollback()
 
+local bigfile_group = vim.api.nvim_create_augroup('BigFile', { clear = true })
+local bigfile_size = 1 * 1024 * 1024 -- 1M
+
+vim.api.nvim_create_autocmd('BufReadPre', {
+  group = bigfile_group,
+  callback = function(args)
+    local file = vim.api.nvim_buf_get_name(args.buf)
+    local ok, stat = pcall(vim.uv.fs_stat, file)
+    if not ok or not stat or stat.size <= bigfile_size then
+      return
+    end
+
+    vim.b[args.buf].bigfile = true
+    vim.b[args.buf].matchup_matchparen_enabled = 0
+    vim.b[args.buf].matchup_matchparen_fallback = 0
+    vim.diagnostic.enable(false, { bufnr = args.buf })
+  end,
+})
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = bigfile_group,
+  callback = function(args)
+    if vim.b[args.buf].bigfile then
+      vim.diagnostic.enable(false, { bufnr = args.buf })
+    end
+  end,
+})
+
 if not is_kitty_scrollback then
   require('helper.auto-keyboard-layout').register_auto_keyboard_layout()
 end

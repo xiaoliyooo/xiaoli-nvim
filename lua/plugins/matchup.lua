@@ -1,6 +1,9 @@
 return {
   'andymass/vim-matchup',
   event = { 'VeryLazy', 'BufReadPre' },
+  cond = function()
+    return not vim.b.bigfile
+  end,
   config = function()
     require('match-up').setup({
       treesitter = { enable = true, stopline = 500 },

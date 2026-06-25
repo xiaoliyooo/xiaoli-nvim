@@ -3,8 +3,23 @@
 return {
   'catgoose/nvim-colorizer.lua',
   event = 'BufReadPre',
+  cond = function()
+    return not vim.b.bigfile
+  end,
   config = function()
-    require('colorizer').setup({
+    local colorizer = require('colorizer')
+    local attach_to_buffer = colorizer.attach_to_buffer
+
+    colorizer.attach_to_buffer = function(bufnr, opts, bo_type)
+      bufnr = bufnr == 0 and vim.api.nvim_get_current_buf() or bufnr
+      if vim.b[bufnr].bigfile then
+        return
+      end
+
+      return attach_to_buffer(bufnr, opts, bo_type)
+    end
+
+    colorizer.setup({
       filetypes = { '*' }, -- Filetype options.  Accepts table like `user_default_options`
       buftypes = {}, -- Buftype options.  Accepts table like `user_default_options`
       -- Boolean | List of usercommands to enable.  See User commands section.
