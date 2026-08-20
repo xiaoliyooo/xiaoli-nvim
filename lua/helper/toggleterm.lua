@@ -16,10 +16,10 @@ local terminal_configs = {
       dir = 'git_dir',
       float_opts = {
         width = function()
-          return math.floor(vim.o.columns)
+          return math.max(vim.o.columns - 2, 1)
         end,
         height = function()
-          return math.floor(vim.o.lines)
+          return math.max(vim.o.lines - 2, 1)
         end,
       },
       env = {
@@ -33,33 +33,17 @@ local terminal_configs = {
     cmd = nil,
     extra_opts = {},
   },
-  codebuddy = {
-    count = 3,
-    -- 和nvm懒加载冲突，先置空cmd
-    cmd = nil,
-    extra_opts = {
-      clear_env = false,
-      float_opts = {
-        width = function()
-          return math.floor(vim.o.columns * 0.8)
-        end,
-        height = function()
-          return math.floor(vim.o.lines * 0.8)
-        end,
-      },
-      close_on_exit = true,
-    },
-  },
   opencode = {
     count = 4,
     cmd = 'opencode',
     extra_opts = {
       float_opts = {
         width = function()
-          return math.floor(vim.o.columns * 0.8)
+          -- return math.floor(vim.o.columns * 0.9)
+          return math.floor(vim.o.columns)
         end,
         height = function()
-          return math.floor(vim.o.lines * 0.95)
+          return math.floor(vim.o.lines * 0.8)
         end,
       },
       close_on_exit = true,
@@ -131,7 +115,7 @@ local function create_terminal(count, cmd, extra_opts)
 
   opts.on_open = function(term)
     vim.api.nvim_win_call(term.window, function()
-      vim.cmd('normal! gg0') -- 重置终端左上角, 避免内容偏移
+        vim.cmd('normal! gg0') -- 重置终端左上角, 避免内容偏移
       pcall(vim.cmd, 'ColorizerDetachFromBuffer')
     end)
 
@@ -194,6 +178,36 @@ function M.recreate_all_terminals()
   end
 
   _G.terminal_instances = {}
+end
+
+function M.setup_resize_autocmd()
+  local group = vim.api.nvim_create_augroup('ToggleTermResize', { clear = true })
+
+  vim.api.nvim_create_autocmd('VimResized', {
+    group = group,
+    callback = function()
+      local ui = require('toggleterm.ui')
+      for key, term in pairs(_G.terminal_instances or {}) do
+        if term and term:is_open() and term:is_float() then
+          ui.update_float(term)
+
+          if key == 'lazygit' and term.job_id then
+            local width = vim.api.nvim_win_get_width(term.window)
+            local height = vim.api.nvim_win_get_height(term.window)
+            pcall(vim.fn.jobresize, term.job_id, width, height)
+            pcall(vim.api.nvim_chan_send, term.job_id, 'R')
+            vim.api.nvim_win_call(term.window, function()
+              local view = vim.fn.winsaveview()
+              view.leftcol = 0
+              vim.fn.winrestview(view)
+            end)
+          end
+        end
+      end
+      vim.cmd('redraw!')
+    end,
+    desc = 'Resize toggleterm floats after Kitty window resize',
+  })
 end
 
 -- 通用终端切换函数
@@ -263,6 +277,7 @@ end
 -- 初始化
 function M.init_and_warmup()
   M.setup_global_functions()
+  M.setup_resize_autocmd()
   M.warmup_terminals()
 end
 

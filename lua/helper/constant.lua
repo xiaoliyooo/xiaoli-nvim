@@ -1,6 +1,6 @@
 local M = {}
 
-M.ai_cmd = 'opencode' -- opencode|codebuddy|gemini
+M.ai_cmd = 'opencode'
 
 M.special_filetypes = {
   'help',
