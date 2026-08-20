@@ -135,6 +135,20 @@ local function create_terminal(count, cmd, extra_opts)
       pcall(vim.cmd, 'ColorizerDetachFromBuffer')
     end)
 
+    local keymap_opts = { buffer = term.bufnr, noremap = true, silent = true }
+    local kitty_directions = {
+      ['<S-Left>'] = 'left',
+      ['<S-Down>'] = 'bottom',
+      ['<S-Up>'] = 'top',
+      ['<S-Right>'] = 'right',
+    }
+    for key, direction in pairs(kitty_directions) do
+      local neighbor = 'neighbor:' .. direction
+      vim.keymap.set('t', key, function()
+        vim.system({ 'kitten', '@', 'focus-window', '--match', neighbor })
+      end, keymap_opts)
+    end
+
     if existing_on_open then
       existing_on_open(term)
     end
