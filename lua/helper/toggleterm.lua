@@ -115,7 +115,7 @@ local function create_terminal(count, cmd, extra_opts)
 
   opts.on_open = function(term)
     vim.api.nvim_win_call(term.window, function()
-        vim.cmd('normal! gg0') -- 重置终端左上角, 避免内容偏移
+      vim.api.nvim_win_set_cursor(term.window, { 1, 0 }) -- 重置终端左上角, 避免内容偏移
       pcall(vim.cmd, 'ColorizerDetachFromBuffer')
     end)
 
@@ -142,7 +142,6 @@ local function create_terminal(count, cmd, extra_opts)
     if existing_on_close then
       existing_on_close(term)
     end
-    pcall(vim.cmd, 'ColorizerAttachToBuffer')
   end
 
   return Terminal:new(opts)
@@ -225,9 +224,10 @@ local function toggle_terminal(key)
   end
 
   local term = M.get_or_create_terminal(key, config.count, config.cmd, config.extra_opts)
-  vim.schedule(function()
-    term:toggle()
-  end)
+  -- TODO 后续切换终端有报错再加回
+  -- vim.schedule(function()
+  term:toggle()
+  -- end)
 end
 
 -- 普通终端
