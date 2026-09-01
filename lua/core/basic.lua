@@ -57,6 +57,13 @@ vim.filetype.add({
   },
 })
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'kitty',
+  callback = function()
+    vim.bo.commentstring = '# %s'
+  end,
+})
+
 vim.opt.fillchars = {
   diff = '╱',
 }
