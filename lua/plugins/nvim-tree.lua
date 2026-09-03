@@ -21,7 +21,7 @@ return {
       once = true,
       callback = function()
         require('lazy').load({ plugins = { 'nvim-tree.lua' } })
-        require('nvim-tree.api').tree.open({ current_window = true })
+        require('nvim-tree.api').tree.open({ path = arg, current_window = true })
       end,
       desc = 'Load and open nvim-tree after first screen for directory arg',
     })
