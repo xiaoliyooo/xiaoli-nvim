@@ -14,7 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 if not is_kitty_scrollback then
-  require('helper.auto-keyboard-layout').check_imselect()
+  require('helper.auto-keyboard-layout').check_macism()
 end
 
 -- is_kitty_scrollback 时只加载必要插件

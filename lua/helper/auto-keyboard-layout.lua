@@ -1,19 +1,23 @@
 local M = {}
 
-local IM_SELECT_PATH = '/opt/homebrew/bin/im-select'
+local MACISM_SOURCE = 'com.apple.keylayout.ABC'
 
-function M.check_imselect()
-  -- 检查文件是否存在
-  if vim.fn.filereadable(IM_SELECT_PATH) == 0 then
+local function macism_path()
+  return vim.fn.exepath('macism')
+end
+
+function M.check_macism()
+  if macism_path() == '' then
     local choice = vim.fn.confirm(
-      '缺少依赖 im-select，无法自动切换英文输入法，是否现在安装？',
+      '缺少依赖 macism，无法自动切换英文输入法，是否现在安装？',
       '&Yes\n&No\n&Skip',
       1
     )
     if choice == 1 then
-      vim.fn.system('brew tap daipeihust/tap && brew install im-select')
+      vim.fn.system({ 'brew', 'tap', 'laishulu/homebrew' })
+      vim.fn.system({ 'brew', 'install', 'macism' })
       if vim.v.shell_error ~= 0 then
-        vim.notify('安装 im-select 失败', vim.log.levels.ERROR)
+        vim.notify('安装 macism 失败', vim.log.levels.ERROR)
         return false
       end
     elseif choice == 2 then
@@ -28,11 +32,15 @@ end
 --          │                       自动切英文                        │
 --          ╘═════════════════════════════════════════════════════════╛
 function M.auto_switch_abc()
-  local current_im = vim.fn.system(IM_SELECT_PATH):gsub('%s+', '')
-  local target_im = 'com.apple.keylayout.ABC' -- mac原生英文输入法
+  local macism = macism_path()
+  if macism == '' then
+    return
+  end
 
-  if current_im ~= target_im then
-    vim.fn.system(IM_SELECT_PATH .. ' ' .. target_im)
+  local current_im = vim.fn.system({ macism }):gsub('%s+', '')
+
+  if current_im ~= MACISM_SOURCE then
+    vim.fn.system({ macism, MACISM_SOURCE })
   end
 end
 
