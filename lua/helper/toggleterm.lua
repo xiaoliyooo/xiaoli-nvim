@@ -171,7 +171,12 @@ end
 
 -- 创建或获取终端实例
 function M.get_or_create_terminal(key, count, cmd, extra_opts)
-  local current_dir = key == 'normal' and project_dir() or vim.fn.getcwd()
+  local current_dir
+  if key == 'normal' or (key == 'lazygit' and extra_opts and extra_opts.dir == 'git_dir') then
+    current_dir = project_dir()
+  else
+    current_dir = vim.fn.resolve(vim.fn.getcwd())
+  end
 
   if _G.terminal_instances[key] and _G.terminal_instances[key].dir == current_dir then
     return _G.terminal_instances[key]
