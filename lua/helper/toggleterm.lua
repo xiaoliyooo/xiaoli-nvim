@@ -7,6 +7,28 @@ local Terminal = require('toggleterm.terminal').Terminal
 local auto_keyboard = require('helper.auto-keyboard-layout')
 local ai_cmd = require('helper.constant').ai_cmd
 
+local function project_dir()
+  local cwd = vim.fn.getcwd()
+  local result = vim.fn.systemlist({ 'git', '-C', cwd, 'rev-parse', '--show-toplevel' })
+
+  if vim.v.shell_error == 0 and result[1] and result[1] ~= '' then
+    return vim.fn.resolve(result[1])
+  end
+
+  return vim.fn.resolve(cwd)
+end
+
+local function tmux_session_name(dir)
+  local basename = vim.fn.fnamemodify(dir, ':t'):gsub('[^%w_-]', '-')
+  return basename .. '-' .. vim.fn.sha256(dir)
+end
+
+local function tmux_command()
+  local dir = project_dir()
+  local session = tmux_session_name(dir)
+  return string.format('tmux new-session -A -s %s -c %s', vim.fn.shellescape(session), vim.fn.shellescape(dir))
+end
+
 -- 终端配置表
 local terminal_configs = {
   lazygit = {
@@ -30,7 +52,7 @@ local terminal_configs = {
   },
   normal = {
     count = 2,
-    cmd = nil,
+    cmd = tmux_command,
     extra_opts = {},
   },
   opencode = {
@@ -149,14 +171,24 @@ end
 
 -- 创建或获取终端实例
 function M.get_or_create_terminal(key, count, cmd, extra_opts)
-  local current_dir = vim.fn.getcwd()
+  local current_dir = key == 'normal' and project_dir() or vim.fn.getcwd()
 
   if _G.terminal_instances[key] and _G.terminal_instances[key].dir == current_dir then
     return _G.terminal_instances[key]
   end
 
+  if _G.terminal_instances[key] then
+    _G.terminal_instances[key]:shutdown()
+  end
+
+  local terminal_opts = vim.deepcopy(extra_opts or {})
+  if key == 'normal' then
+    terminal_opts.dir = current_dir
+  end
+
   -- 创建新的终端实例
-  local terminal = create_terminal(count, cmd, extra_opts)
+  local terminal_cmd = type(cmd) == 'function' and cmd() or cmd
+  local terminal = create_terminal(count, terminal_cmd, terminal_opts)
   _G.terminal_instances[key] = terminal
 
   return terminal

@@ -7,7 +7,7 @@ function M.exit_terminal_mode()
 
   if buf_type == 'terminal' then
     local buf_name = vim.api.nvim_buf_get_name(current_buf)
-    if buf_name:match('lazygit') or buf_name:match(ai_cmd) then
+    if buf_name:match('lazygit') or buf_name:match(ai_cmd) or buf_name:match('tmux') then
       return '<Esc>'
     end
   end
