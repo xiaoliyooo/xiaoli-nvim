@@ -293,29 +293,10 @@ function M.setup_global_functions()
   _G._AI_TOGGLE = M.toggle_ai
 end
 
--- 预热终端
-function M.warmup_terminals()
-  -- 预热普通终端
-  local normal_config = terminal_configs.normal
-  local normal_term =
-    M.get_or_create_terminal('normal', normal_config.count, normal_config.cmd, normal_config.extra_opts)
-  if normal_term and normal_term.spawn then
-    normal_term:spawn()
-  end
-
-  -- 预热 ai 终端
-  local ai_config = terminal_configs[ai_cmd]
-  local ai_term = M.get_or_create_terminal(ai_cmd, ai_config.count, ai_config.cmd, ai_config.extra_opts)
-  if ai_term and ai_term.spawn then
-    ai_term:spawn()
-  end
-end
-
 -- 初始化
 function M.init_and_warmup()
   M.setup_global_functions()
   M.setup_resize_autocmd()
-  M.warmup_terminals()
 end
 
 return M
