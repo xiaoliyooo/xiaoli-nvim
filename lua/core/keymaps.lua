@@ -89,6 +89,8 @@ map('n', '<C-Tab>', '<C-^>') -- 上一个buffer
 
 vim.keymap.set({ 'n', 'x' }, '<leader>ll', auto_console_log, { expr = true, desc = 'Auto console.log' })
 vim.keymap.set('t', '<Esc>', exit_terminal_mode, { desc = 'Exit terminal mode', expr = true })
+-- nvim终端打开tmux再打开 OpenCode 支持时shift enter换行问题
+vim.keymap.set('t', '<S-CR>', '<C-j>', { desc = 'Terminal newline (Shift+Enter)' })
 vim.keymap.set({ 'i', 't' }, '<C-]><C-]>', function()
   return '<C-\\><C-n>'
 end, { desc = 'Exit terminal mode', expr = true, noremap = true })
