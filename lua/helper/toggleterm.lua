@@ -136,7 +136,9 @@ local function create_terminal(count, cmd, extra_opts)
   local existing_on_close = opts.on_close
 
   opts.on_open = function(term)
+    vim.diagnostic.enable(false, { bufnr = term.bufnr })
     vim.api.nvim_win_call(term.window, function()
+      vim.wo.spell = false
       vim.api.nvim_win_set_cursor(term.window, { 1, 0 }) -- 重置终端左上角, 避免内容偏移
       pcall(vim.cmd, 'ColorizerDetachFromBuffer')
     end)
