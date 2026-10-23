@@ -91,8 +91,16 @@ vim.keymap.set({ 'n', 'x' }, '<leader>ll', auto_console_log, { expr = true, desc
 vim.keymap.set('t', '<Esc>', exit_terminal_mode, { desc = 'Exit terminal mode', expr = true })
 -- nvim终端打开tmux再打开 OpenCode 支持时shift enter换行问题
 vim.keymap.set('t', '<S-CR>', '<C-j>', { desc = 'Terminal newline (Shift+Enter)' })
-vim.keymap.set({ 'i', 't' }, '<C-]><C-]>', function()
+vim.keymap.set({ 'i', 't' }, '<C-\\><C-\\>', function()
   return '<C-\\><C-n>'
 end, { desc = 'Exit terminal mode', expr = true, noremap = true })
+
+-- 终端中原样发送 Ctrl+[ / Ctrl+]，供 zsh 按单词跳转
+vim.keymap.set('t', '<C-[>', function()
+  vim.api.nvim_chan_send(vim.b.terminal_job_id, '\27[91;5u')
+end, { desc = 'Terminal send Ctrl+[ (CSI u)' })
+vim.keymap.set('t', '<C-]>', function()
+  vim.api.nvim_chan_send(vim.b.terminal_job_id, '\27[93;5u')
+end, { desc = 'Terminal send Ctrl+] (CSI u)' })
 
 kv_textobjs.setup()
