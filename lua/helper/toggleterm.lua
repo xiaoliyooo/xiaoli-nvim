@@ -53,7 +53,16 @@ local terminal_configs = {
   normal = {
     count = 2,
     cmd = tmux_command,
-    extra_opts = {},
+    extra_opts = {
+      float_opts = {
+        width = function()
+          return math.max(math.floor(vim.o.columns * 0.99), 1)
+        end,
+        height = function()
+          return math.max(vim.o.lines - 2, 1)
+        end,
+      },
+    },
   },
   opencode = {
     count = 4,
