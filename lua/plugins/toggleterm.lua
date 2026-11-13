@@ -9,6 +9,7 @@ return {
     config = function()
       require('toggleterm').setup({
         direction = 'float',
+        persist_mode = false,
         float_opts = {
           border = 'double',
         },
