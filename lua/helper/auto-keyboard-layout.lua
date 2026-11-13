@@ -37,11 +37,8 @@ function M.auto_switch_abc()
     return
   end
 
-  local current_im = vim.fn.system({ macism }):gsub('%s+', '')
-
-  if current_im ~= MACISM_SOURCE then
-    vim.fn.system({ macism, MACISM_SOURCE })
-  end
+  -- 异步
+  vim.system({ macism, MACISM_SOURCE })
 end
 
 function M.register_auto_keyboard_layout()
