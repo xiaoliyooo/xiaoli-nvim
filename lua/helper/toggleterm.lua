@@ -48,6 +48,13 @@ local terminal_configs = {
         LG_CONFIG_FILE = os.getenv('HOME') .. '/.config/lazygit/config.yml',
       },
       close_on_exit = true,
+      on_open = function(term)
+        vim.schedule(function()
+          if vim.api.nvim_get_current_win() == term.window and vim.api.nvim_get_mode().mode ~= 't' then
+            vim.cmd('startinsert')
+          end
+        end)
+      end,
     },
   },
   normal = {
