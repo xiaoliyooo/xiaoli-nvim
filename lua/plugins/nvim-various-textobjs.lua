@@ -59,14 +59,6 @@ return {
       debug = false,
     })
 
-    -- css selector (queries/css/textobjects.scm)
-    vim.keymap.set({ 'o', 'x' }, 'ic', function()
-      require('nvim-treesitter.textobjects.select').select_textobject('@selector.inner', 'textobjects')
-    end, { silent = true })
-    vim.keymap.set({ 'o', 'x' }, 'ac', function()
-      require('nvim-treesitter.textobjects.select').select_textobject('@selector.outer', 'textobjects')
-    end, { silent = true })
-
     -- quote: between any unescaped ", ', or ` in one line
     vim.keymap.set({ 'o', 'x' }, 'q', '<cmd>lua require("various-textobjs").anyQuote("inner")<CR>')
     vim.keymap.set({ 'o', 'x' }, 'iq', '<cmd>lua require("various-textobjs").anyQuote("inner")<CR>')

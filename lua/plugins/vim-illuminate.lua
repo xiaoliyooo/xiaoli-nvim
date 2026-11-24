@@ -9,11 +9,12 @@ return {
     illuminate.configure({
       providers = {
         'lsp',
-        'treesitter',
+        'regex',
       },
       delay = 30,
       should_enable = function(bufnr)
-        return vim.b[bufnr].bigfile ~= true
+        -- 只在普通文件 buffer 启用，避免 regex 在 NvimTree、终端等特殊 buffer 中误高亮
+        return vim.b[bufnr].bigfile ~= true and vim.bo[bufnr].buftype == ''
       end,
       modes_denylist = { 'v', 'V', '\22' }, -- 在可视模式下禁用
     })

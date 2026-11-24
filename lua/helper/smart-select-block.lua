@@ -53,27 +53,27 @@ local function smart_select_block()
     end
   else
     -- treesitter...
-    pcall(function()
-      local ts_utils = require('nvim-treesitter.ts_utils')
-      local node = ts_utils.get_node_at_cursor()
-
-      if node then
-        while node do
-          local node_type = node:type()
-          if
-            node_type == 'function_definition'
-            or node_type == 'function_declaration'
-            or node_type == 'table_constructor'
-            or node_type == 'block'
-            or node_type == 'chunk'
-          then
-            ts_utils.select_node(node)
-            return
-          end
-          node = node:parent()
+    local node = vim.treesitter.get_node()
+    while node do
+      local node_type = node:type()
+      if
+        node_type == 'function_definition'
+        or node_type == 'function_declaration'
+        or node_type == 'table_constructor'
+        or node_type == 'block'
+        or node_type == 'chunk'
+      then
+        local sr, sc, er, ec = node:range()
+        if ec == 0 and er > sr then
+          er, ec = er - 1, #vim.fn.getline(er)
         end
+        vim.api.nvim_win_set_cursor(0, { sr + 1, sc })
+        vim.cmd('normal! v')
+        vim.api.nvim_win_set_cursor(0, { er + 1, math.max(ec - 1, 0) })
+        return
       end
-    end)
+      node = node:parent()
+    end
 
     vim.cmd('normal! 0vg_')
   end

@@ -2,4 +2,4 @@
 ; extends
 
 ; &:hover, &.active (SCSS nesting)
-(nesting_selector) @selector.inner @selector.outer
+(nesting_selector) @class.inner @class.outer

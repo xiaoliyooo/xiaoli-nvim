@@ -2,131 +2,96 @@
 
 return {
   'nvim-treesitter/nvim-treesitter',
-  build = ':TSUpdate',
-  branch = 'master',
-  event = 'VeryLazy',
+  branch = 'main',
+  lazy = false,
+  build = {
+    'brew install tree-sitter-cli',
+    ':TSUpdate',
+  },
   enabled = true,
   dependencies = {
     'nvim-treesitter/nvim-treesitter-context',
-    'nvim-treesitter/nvim-treesitter-textobjects',
+    { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
   },
   config = function()
-    -- kitty parser
-    local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
+    -- 防止个别 sh 文件报错，复用 zsh 解析器
+    vim.treesitter.language.register('zsh', 'sh')
 
-    -- GitHub仓库分支和tag同时存在名称main，导致 tarball 下载歧义报错
-    -- 使用具体 tag 版本号，更新时需同步修改版本号
-    parser_configs.zsh = {
-      install_info = {
-        url = 'https://github.com/georgeharker/tree-sitter-zsh',
-        files = { 'src/parser.c', 'src/scanner.c' },
-        branch = 'v0.63.3',
-      },
-      filetype = 'zsh',
+    -- 确保安装的语言解析器
+    local ensure_installed = {
+      -- 'bash',
+      'css',
+      'html',
+      'javascript',
+      'json',
+      'lua',
+      'rust',
+      'toml',
+      'typescript',
+      'tsx',
+      'vim',
+      'vue',
+      'scss',
+      'markdown',
+      'markdown_inline',
+      'yaml',
+      'vimdoc',
+      'kitty',
+      'zsh',
+      'python',
     }
 
-    -- Branch: master，branch配置的是main
-    parser_configs.kitty = {
-      install_info = {
-        url = 'https://github.com/OXY2DEV/tree-sitter-kitty',
-        files = { 'src/parser.c' },
-        branch = 'main',
-      },
-      filetype = 'kitty',
-    }
+    -- 已安装的会自动跳过
+    require('nvim-treesitter').install(ensure_installed)
 
-    require('nvim-treesitter.configs').setup({
-      -- 启用语法高亮
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
-      -- 启用代码缩进
-      indent = {
-        enable = true,
-      },
-      -- 启用增量选择
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = 'gnn',
-          node_incremental = 'grn',
-          scope_incremental = 'grc',
-          node_decremental = 'grm',
-        },
-      },
-      -- TODO 将treesitter迁移到nvim 0.12 内置的配置方式
-      -- 防止个别sh文件报错：attempt to call method 'range' (a nil value)
-      vim.treesitter.language.register('zsh', 'sh'),
-
-      -- 确保安装的语言解析器
-      ensure_installed = {
-        -- 'bash',
-        'css',
-        'html',
-        'javascript',
-        'json',
-        'lua',
-        'rust',
-        'toml',
-        'typescript',
-        'tsx',
-        'vim',
-        'vue',
-        'scss',
-        'markdown',
-        'markdown_inline',
-        'yaml',
-        'vimdoc',
-        'kitty',
-        'zsh',
-        'python',
-      },
-      textobjects = {
-        move = {
-          enable = true,
-          set_jumps = true,
-          -- goto_next_start = {
-          --   [','] = '@parameter.inner',
-          -- },
-          -- 影响代码缩进，先注释
-          -- goto_previous_start = {
-          --   ['<'] = '@parameter.inner',
-          -- },
-          goto_next = {
-            [']d'] = '@conditional.outer',
-          },
-          goto_previous = {
-            ['[d'] = '@conditional.outer',
-          },
-        },
-        select = {
-          enable = true,
-          lookahead = true,
-          keymaps = {
-            ['af'] = '@function.outer',
-            ['if'] = '@function.inner',
-            ['ac'] = '@class.outer',
-            ['ic'] = '@class.inner',
-            ['aa'] = '@parameter.outer',
-            ['ia'] = '@parameter.inner',
-            -- react jsx
-            ['at'] = '@tag.outer',
-            ['it'] = '@tag.inner',
-          },
-        },
-        swap = {
-          -- 交换参数位置
-          enable = true,
-          swap_next = {
-            ['<leader>cl'] = '@parameter.inner',
-          },
-          swap_previous = {
-            ['<leader>ch'] = '@parameter.inner',
-          },
-        },
-      },
+    -- 启用语法高亮和代码缩进
+    vim.api.nvim_create_autocmd('FileType', {
+      callback = function(args)
+        if not pcall(vim.treesitter.start, args.buf) then
+          return
+        end
+        local lang = vim.treesitter.language.get_lang(args.match)
+        if #vim.treesitter.query.get_files(lang, 'indents') > 0 then
+          vim.bo[args.buf].indentexpr = 'v:lua.require\'nvim-treesitter\'.indentexpr()'
+        end
+      end,
     })
+
+    require('nvim-treesitter-textobjects').setup({
+      select = { lookahead = true },
+    })
+
+    local select = require('nvim-treesitter-textobjects.select')
+    for lhs, query in pairs({
+      ['af'] = '@function.outer',
+      ['if'] = '@function.inner',
+      ['ac'] = '@class.outer', -- css/scss 下为选择器（queries/css/textobjects.scm）
+      ['ic'] = '@class.inner',
+      ['aa'] = '@parameter.outer',
+      ['ia'] = '@parameter.inner',
+    }) do
+      vim.keymap.set({ 'x', 'o' }, lhs, function()
+        select.select_textobject(query, 'textobjects')
+      end)
+    end
+
+    -- 没有解析器的 buffer 中 move 会报错
+    local move = require('nvim-treesitter-textobjects.move')
+    vim.keymap.set({ 'n', 'x', 'o' }, ']d', function()
+      pcall(move.goto_next, '@conditional.outer', 'textobjects')
+    end)
+    vim.keymap.set({ 'n', 'x', 'o' }, '[d', function()
+      pcall(move.goto_previous, '@conditional.outer', 'textobjects')
+    end)
+
+    -- 交换参数位置
+    local swap = require('nvim-treesitter-textobjects.swap')
+    vim.keymap.set('n', '<leader>cl', function()
+      swap.swap_next('@parameter.inner')
+    end)
+    vim.keymap.set('n', '<leader>ch', function()
+      swap.swap_previous('@parameter.inner')
+    end)
 
     require('treesitter-context').setup({
       enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)

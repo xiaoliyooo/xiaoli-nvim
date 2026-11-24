@@ -4,8 +4,6 @@ local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
 local sorters = require('telescope.sorters')
 
-local flatten = vim.tbl_flatten
-
 -- i would like to be able to do telescope
 -- and have telescope do some filtering on files and some grepping
 
@@ -53,21 +51,18 @@ return function(opts)
         table.insert(args, string.format(opts.pattern, pattern))
       end
 
-      return flatten({
-        args,
-        {
-          '--fixed-strings',
-          '--color=never',
-          '--no-heading',
-          '--with-filename',
-          '--line-number',
-          '--column',
-          '--ignore-case',
-          '--hidden',
-          '--no-ignore',
-          '--ignore-file',
-          vim.fn.stdpath('config') .. '/.rgignore',
-        },
+      return vim.list_extend(args, {
+        '--fixed-strings',
+        '--color=never',
+        '--no-heading',
+        '--with-filename',
+        '--line-number',
+        '--column',
+        '--ignore-case',
+        '--hidden',
+        '--no-ignore',
+        '--ignore-file',
+        vim.fn.stdpath('config') .. '/.rgignore',
       })
     end,
     entry_maker = make_entry.gen_from_vimgrep(opts),
