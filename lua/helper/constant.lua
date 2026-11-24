@@ -11,7 +11,6 @@ M.special_filetypes = {
   'mason',
   'notify',
   'toggleterm',
-  'codecompanion',
   'grug-far',
   'DiffviewFiles',
   'leetcode.nvim',
