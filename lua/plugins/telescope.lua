@@ -4,7 +4,7 @@ local use_package_json_root = true -- 默认使用 package.json 根目录
 return {
   'nvim-telescope/telescope.nvim',
   enabled = true,
-  cmd = { 'Telescope' },
+  cmd = { 'Telescope', 'ChatHistory' },
   keys = {
     { '<leader>fm', desc = 'show all marks' },
     { '<leader>fh', desc = 'Fuzzy find highlights' },
@@ -211,5 +211,15 @@ return {
 
     keymap.set({ 'n', 'i' }, '<D-S-f>', require('helper.multi-ripgrep'), { desc = 'Find string with shortcuts' })
     --  +-----------------------------+ cmd end +-----------------------------+
+
+    vim.api.nvim_create_user_command('ChatHistory', function(opts)
+      require('helper.ai-history').search(opts.args ~= '' and opts.args or nil)
+    end, {
+      nargs = '?',
+      complete = function()
+        return require('helper.ai-history').agents
+      end,
+      desc = '检索 claude / opencode / agy 的历史对话',
+    })
   end,
 }
