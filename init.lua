@@ -2,7 +2,7 @@ require('core.early')
 require('core')
 require('setup')
 
-if require('helper.env').is_kitty_scrollback() then
+if require('helper.env').is_minimal() then
   vim.cmd('colorscheme industry')
   vim.api.nvim_set_hl(0, 'FlashLabel', { bg = 'Red', fg = 'White', bold = true })
 end

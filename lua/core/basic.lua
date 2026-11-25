@@ -2,7 +2,7 @@ require('auto-cmd')
 require('user-command')
 
 local opt = vim.opt
-local is_kitty_scrollback = require('helper.env').is_kitty_scrollback()
+local is_minimal = require('helper.env').is_minimal()
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -20,7 +20,7 @@ opt.jumpoptions = 'stack' -- gd ctrl+o 跳转模型
 opt.swapfile = false
 opt.cursorcolumn = false
 opt.cursorline = true
-opt.showtabline = is_kitty_scrollback and 0 or 2 -- kitty-scrollback.nvim 启动时隐藏顶部tab标签
+opt.showtabline = is_minimal and 0 or 2 -- 精简模式（kitty-scrollback 等）隐藏顶部tab标签
 opt.wrap = false -- 防止包裹
 opt.encoding = 'utf-8'
 opt.fileencoding = 'utf-8'

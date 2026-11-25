@@ -1,4 +1,6 @@
-local is_kitty_scrollback = require('helper.env').is_kitty_scrollback()
+local env = require('helper.env')
+local is_kitty_scrollback = env.is_kitty_scrollback()
+local is_minimal = env.is_minimal()
 
 local bigfile_group = vim.api.nvim_create_augroup('BigFile', { clear = true })
 local bigfile_size = 1 * 1024 * 1024 -- 1M
@@ -28,7 +30,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-if not is_kitty_scrollback then
+if not is_minimal then
   require('helper.auto-keyboard-layout').register_auto_keyboard_layout()
 end
 

@@ -351,7 +351,7 @@ function M.open_pane_scrollback()
     .. 'end) })'
   local rm_part = tmpfile ~= '' and ('rm -f ' .. vim.fn.shellescape(tmpfile) .. '; ') or ''
   local sh_cmd = string.format(
-    '%s -n -c %s %s; %stmux swap-pane -Z -s %s -t "$TMUX_PANE" >/dev/null 2>&1; tmux kill-pane -t "$TMUX_PANE" >/dev/null 2>&1',
+    'NVIM_MINIMAL=true %s -n -c %s %s; %stmux swap-pane -Z -s %s -t "$TMUX_PANE" >/dev/null 2>&1; tmux kill-pane -t "$TMUX_PANE" >/dev/null 2>&1',
     vim.fn.shellescape(vim.v.progpath),
     vim.fn.shellescape('lua ' .. init_lua),
     vim.fn.shellescape(target_file),

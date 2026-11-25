@@ -1,4 +1,4 @@
-local is_kitty_scrollback = require('helper.env').is_kitty_scrollback()
+local is_minimal = require('helper.env').is_minimal()
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -13,13 +13,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-if not is_kitty_scrollback then
+if not is_minimal then
   require('helper.auto-keyboard-layout').check_macism()
 end
 
--- is_kitty_scrollback 时只加载必要插件
+-- 精简模式时只加载必要插件
 local imports = { { import = 'plugins-minimal' } }
-if not is_kitty_scrollback then
+if not is_minimal then
   table.insert(imports, { import = 'plugins' })
 end
 
