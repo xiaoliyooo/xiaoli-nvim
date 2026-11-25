@@ -347,10 +347,7 @@ function M.open_pane_scrollback()
     .. 'vim.wo.number = false; vim.wo.relativenumber = false; vim.wo.signcolumn = "no"; '
     .. 'vim.wo.wrap = true; vim.wo.linebreak = true; vim.bo.modifiable = false; '
     .. 'vim.cmd("normal! Gzb"); '
-    .. 'local o = { buffer = 0, silent = true, nowait = true }; '
-    .. 'vim.keymap.set("n", "q", "<cmd>qa!<CR>", o); '
-    .. 'vim.keymap.set("n", "<Esc>", "<cmd>qa!<CR>", o); '
-    .. 'vim.keymap.set("x", "<CR>", "y<cmd>qa!<CR>", o) '
+    .. 'vim.keymap.set("n", "q", "<cmd>qa!<CR>", { buffer = 0, silent = true, nowait = true }) '
     .. 'end) })'
   local rm_part = tmpfile ~= '' and ('rm -f ' .. vim.fn.shellescape(tmpfile) .. '; ') or ''
   local sh_cmd = string.format(
