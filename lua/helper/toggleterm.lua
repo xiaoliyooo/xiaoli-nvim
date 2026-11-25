@@ -69,6 +69,18 @@ local terminal_configs = {
           return math.max(vim.o.lines - 2, 1)
         end,
       },
+      on_open = function(term)
+        local function bmap(lhs, rhs, desc)
+          vim.keymap.set({ 't', 'n' }, lhs, rhs, { buffer = term.bufnr, noremap = true, silent = true, desc = desc })
+        end
+        bmap('<C-f>', [[<C-\><C-n><cmd>lua require('helper.tmux-flash').flash_pick()<CR>]], 'Tmux Flash 字符跳转')
+        bmap('<C-g>', [[<C-\><C-n><cmd>lua require('helper.tmux-flash').flash_line()<CR>]], 'Tmux Flash 行首跳转')
+        bmap(
+          '<C-,>',
+          [[<cmd>lua require('helper.tmux-flash').open_pane_scrollback()<CR>]],
+          'Tmux 分屏会话热交换'
+        )
+      end,
     },
   },
   opencode = {
