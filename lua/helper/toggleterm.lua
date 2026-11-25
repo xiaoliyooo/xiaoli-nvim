@@ -81,6 +81,11 @@ local terminal_configs = {
           'Tmux 分屏会话热交换'
         )
         bmap('<C-;>', [[<cmd>lua require('helper.tmux-flash').focus_pane()<CR>]], 'Tmux 分屏标签聚焦')
+        for _, lhs in ipairs({ '<D-Up>', '<D-Down>', '<D-u>', '<D-d>' }) do
+          vim.keymap.set('t', lhs, function()
+            require('helper.tmux-flash').scroll_app(lhs)
+          end, { buffer = term.bufnr, desc = 'Tmux 全屏应用滚动' })
+        end
       end,
     },
   },

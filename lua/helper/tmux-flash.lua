@@ -17,7 +17,7 @@ local PANE_FMT = '#{pane_id}\t#{pane_active}\t#{pane_left}\t#{pane_top}\t#{pane_
   .. '\t#{status}\t#{status-position}\t#{window_offset_x}\t#{window_offset_y}'
   .. '\t#{pane_in_mode}\t#{scroll_position}\t#{pane_current_command}\t#{pane_tty}'
   .. '\t#{pane_current_path}\t#{session_name}\t#{@origin_pane}\t#{@view_tmpfile}'
-local PANE_FIELDS = 18
+  .. '\t#{alternate_on}\t#{mouse_sgr_flag}'
 
 -- nvim 终端的 pty 就是 tmux client 的 tty，据此定位 client 当前所在窗口的全部分屏
 local function resolve_tmux_window_panes(term_buf)
@@ -50,31 +50,31 @@ local function resolve_tmux_window_panes(term_buf)
   local panes, active = {}, nil
   for line in raw:gmatch('[^\r\n]+') do
     local p = vim.split(line, '\t', { plain = true })
-    if #p >= PANE_FIELDS then
-      local pane = {
-        id = p[1],
-        active = p[2] == '1',
-        left = tonumber(p[3]) or 0,
-        top = tonumber(p[4]) or 0,
-        width = tonumber(p[5]) or 80,
-        height = tonumber(p[6]) or 24,
-        status = p[7] or 'on',
-        status_pos = p[8] or 'bottom',
-        win_offset_x = tonumber(p[9]) or 0,
-        win_offset_y = tonumber(p[10]) or 0,
-        in_mode = (tonumber(p[11]) or 0) > 0,
-        scroll_pos = tonumber(p[12]) or 0,
-        cmd = p[13] or '',
-        tty = p[14] or '',
-        cwd = p[15] or '',
-        session = p[16] or '',
-        origin_pane = p[17] or '',
-        view_tmpfile = p[18] or '',
-      }
-      table.insert(panes, pane)
-      if pane.active then
-        active = pane
-      end
+    local pane = {
+      id = p[1],
+      active = p[2] == '1',
+      left = tonumber(p[3]) or 0,
+      top = tonumber(p[4]) or 0,
+      width = tonumber(p[5]) or 80,
+      height = tonumber(p[6]) or 24,
+      status = p[7] or 'on',
+      status_pos = p[8] or 'bottom',
+      win_offset_x = tonumber(p[9]) or 0,
+      win_offset_y = tonumber(p[10]) or 0,
+      in_mode = (tonumber(p[11]) or 0) > 0,
+      scroll_pos = tonumber(p[12]) or 0,
+      cmd = p[13] or '',
+      tty = p[14] or '',
+      cwd = p[15] or '',
+      session = p[16] or '',
+      origin_pane = p[17] or '',
+      view_tmpfile = p[18] or '',
+      alt_on = p[19] == '1',
+      mouse_sgr = p[20] == '1',
+    }
+    table.insert(panes, pane)
+    if pane.active then
+      active = pane
     end
   end
   return (#panes > 0 and panes or nil), (active or panes[1])
@@ -377,6 +377,28 @@ function M.focus_pane()
   vim.api.nvim_buf_clear_namespace(term_buf, focus_ns, 0, -1)
   if ok and targets[key:lower()] then
     tmux('select-pane', '-t', targets[key:lower()])
+  end
+end
+
+local SCROLL_ACTIONS = {
+  ['<D-Up>'] = { wheel = 64, key = 'Up', times = 3 },
+  ['<D-Down>'] = { wheel = 65, key = 'Down', times = 3 },
+  ['<D-u>'] = { key = 'PageUp', times = 1 },
+  ['<D-d>'] = { key = 'PageDown', times = 1 },
+}
+
+-- 终端模式 <D-Up>/<D-Down>/<D-u>/<D-d> 滚动当前分屏内的全屏应用（Claude Code / opencode / agy）
+function M.scroll_app(lhs)
+  local _, pane = resolve_tmux_window_panes(vim.api.nvim_get_current_buf())
+  if not pane or not pane.alt_on then
+    return
+  end
+  local action = SCROLL_ACTIONS[lhs]
+  if action.wheel and pane.mouse_sgr then
+    local seq = ('\27[<%d;%d;%dM'):format(action.wheel, math.floor(pane.width / 2) + 1, math.floor(pane.height / 2) + 1)
+    tmux('send-keys', '-t', pane.id, '-l', seq:rep(action.times))
+  else
+    tmux('send-keys', '-t', pane.id, '-N', tostring(action.times), action.key)
   end
 end
 
