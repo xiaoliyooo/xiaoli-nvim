@@ -80,6 +80,7 @@ local terminal_configs = {
           [[<cmd>lua require('helper.tmux-flash').open_pane_scrollback()<CR>]],
           'Tmux 分屏会话热交换'
         )
+        bmap('<C-;>', [[<cmd>lua require('helper.tmux-flash').focus_pane()<CR>]], 'Tmux 分屏标签聚焦')
       end,
     },
   },

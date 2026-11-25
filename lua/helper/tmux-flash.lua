@@ -293,6 +293,93 @@ function M.flash_line()
   })
 end
 
+local FOCUS_LABELS = 'asdfghjklqwertyuiopzxcvbnm'
+
+-- JetBrains Mono NL Bold 20px 光栅化的小写字母（12x10），半格方块（▀▄█）每格表示上下两个像素，| 分隔行
+local FOCUS_FONT = {
+  a = '||  ▄▄████▄▄|  ▀▀▀  ▀██▄|  ▄▄███████| ███    ███| ███▄▄▄████|  ▀▀▀▀▀ ▀▀▀||',
+  b = ' ▄▄▄| ███| ███▄████▄| ███▀  ▀██▄| ███    ███| ███    ███| ████▄▄███| ▀▀▀ ▀▀▀▀||',
+  c = '||   ▄████▄▄|  ██▀  ▀███| ███| ███    ▄▄▄|  ███▄▄▄██▀|   ▀▀▀▀▀▀||',
+  d = '        ▄▄▄|        ███|  ▄████▄███| ▄██▀  ▀███| ███    ███| ███    ███|  ███▄▄████|   ▀▀▀▀ ▀▀▀||',
+  e = '||  ▄▄████▄▄| ▄██▀  ▀██▄| ███▄▄▄▄███| ███|  ██▄▄▄▄██|   ▀▀▀▀▀▀||',
+  f = '     ▄▄▄▄▄▄|    ███▀▀▀▀|    ███| ██████████|    ███|    ███|    ███|    ▀▀▀||',
+  g = '||  ▄████▄██▄| ▄██▀  ▀███| ███    ███| ███    ███|  ▀████▀███|    ▀▀  ██▀|   ▄▄▄▄███|   ▀▀▀▀▀',
+  h = ' ▄▄▄| ███| ███▄████▄| ███▀  ▀██▄| ███    ███| ███    ███| ███    ███| ▀▀▀    ▀▀▀||',
+  i = '     ███|      ▀|  ██████|  ▀▀▀███|     ███|     ███| ▄▄▄▄███▄▄▄| ▀▀▀▀▀▀▀▀▀▀||',
+  j = '      ███|       ▀| ▄███████|  ▀▀▀▀▀██|       ██|       ██|       ██|      ▄██|  ██████▀|  ▀▀▀▀',
+  k = '  ▄▄|  ██|  ██    ███|  ██  ▄██▀|  ██████▀|  ██▀▀███|  ██   ▀██▄|  ▀▀    ▀▀▀||',
+  l = '▄▄▄▄▄▄▄|▀▀▀▀███|    ███|    ███|    ███|    ███|    ▀██▄▄▄▄|      ▀▀▀▀▀||',
+  m = '|| ██▄██▄▄██▄| ██  ██  ██| ██  ██  ██| ██  ██  ██| ██  ██  ██| ▀▀  ▀▀  ▀▀||',
+  n = '|| ▄██▄████▄| ███▀  ▀██▄| ███    ███| ███    ███| ███    ███| ▀▀▀    ▀▀▀||',
+  o = '||  ▄▄████▄▄| ▄██▀  ▀██▄| ███    ███| ███    ███|  ███▄▄███|   ▀▀▀▀▀▀||',
+  p = '|| ▄██▄████▄| ███▀  ▀██▄| ███    ███| ███    ███| ████▄▄███| ███ ▀▀▀▀| ███|  ▀▀',
+  q = '||  ▄████▄██▄| ▄██▀  ▀███| ███    ███| ███    ███|  ███▄▄████|   ▀▀▀▀ ███|        ███|        ▀▀',
+  r = '||  ██▄▄███▄|  ███▀ ▀███|  ███   ▀▀▀|  ███|  ███|  ▀▀▀||',
+  s = '||  ▄██████▄| ███   ▀▀▀|  █████▄▄▄|    ▀▀▀▀██▄| ▀██▄▄▄▄██▀|   ▀▀▀▀▀▀▀||',
+  t = '    ▄▄|    ██| █████████▄| ▀▀▀██▀▀▀▀|    ██|    ██|    ███▄▄▄▄|     ▀▀▀▀▀▀||',
+  u = '|| ▄██    ██▄| ███    ███| ███    ███| ███    ███|  ███▄▄███|   ▀▀▀▀▀▀||',
+  v = '|| ██▄    ▄██| ▀██    ██▀|  ███  ███|   ██▄▄██|   ▀████▀|    ▀▀▀▀||',
+  w = '||▄█▄  ██   █▄| ██ ▄███ ██| ██ ████ ██| ██▄█  █▄██|  ███  ███|  ▀▀▀  ▀▀▀||',
+  x = '|| ▀██▄  ▄██▀|  ▀██▄▄██▀|    ████|   ▄████▄|  ███  ███| ▀▀▀    ▀▀▀||',
+  y = '|| ██▄    ▄██|  ██▄  ▄██▀|  ▀██  ██▀|   ▀█████|    ████|    ▄██▀|    ██▀|    ▀▀',
+  z = '||  ████████|  ▀▀▀▀███▀|     ███▀|   ▄██▀| ▄███▄▄▄▄▄▄| ▀▀▀▀▀▀▀▀▀▀||',
+}
+
+local focus_ns = vim.api.nvim_create_namespace('tmux_focus_pane')
+
+-- 在分屏中央绘制标签：空间足够时为放大字形，否则退化为单个字母
+local function draw_focus_label(term_win, box, key)
+  local big = box.height >= 12 and box.width >= 14
+  local glyph = big and vim.split(FOCUS_FONT[key], '|', { plain = true }) or { key }
+  local info = vim.fn.getwininfo(term_win)[1]
+  local buf = vim.api.nvim_win_get_buf(term_win)
+  local top = info.topline - info.winrow + box.row + math.floor((box.height - #glyph) / 2)
+  local left = box.col - info.wincol + 1 - info.textoff + math.floor((box.width - (big and 12 or 1)) / 2)
+
+  for i, row in ipairs(glyph) do
+    local lnum = top + i - 1
+    if lnum >= 0 and lnum < vim.api.nvim_buf_line_count(buf) then
+      for pos, run in row:gmatch('()(%S+)') do
+        vim.api.nvim_buf_set_extmark(buf, focus_ns, lnum, 0, {
+          virt_text = { { run, 'TmuxFocusLabel' } },
+          virt_text_pos = 'overlay',
+          virt_text_win_col = left + vim.fn.strdisplaywidth(row:sub(1, pos - 1)),
+          hl_mode = 'combine',
+        })
+      end
+    end
+  end
+end
+
+-- <C-;> 在当前窗口每个 Tmux 分屏中央显示字母标签，按对应字母聚焦该分屏
+function M.focus_pane()
+  auto_keyboard.auto_switch_abc()
+
+  local term_win = vim.api.nvim_get_current_win()
+  local term_buf = vim.api.nvim_get_current_buf()
+  local panes = resolve_tmux_window_panes(term_buf)
+  if not panes or #panes < 2 then
+    return
+  end
+
+  vim.api.nvim_set_hl(0, 'TmuxFocusLabel', { fg = '#a6e22e', bold = true })
+  local targets = {}
+  for i, p in ipairs(panes) do
+    local key = FOCUS_LABELS:sub(i, i)
+    if key ~= '' and not p.active then
+      targets[key] = p.id
+      draw_focus_label(term_win, get_pane_geometry(term_win, p), key)
+    end
+  end
+
+  vim.cmd('redraw')
+  local ok, key = pcall(vim.fn.getcharstr)
+  vim.api.nvim_buf_clear_namespace(term_buf, focus_ns, 0, -1)
+  if ok and targets[key:lower()] then
+    tmux('select-pane', '-t', targets[key:lower()])
+  end
+end
+
 -- <C-,> 基于 tmux swap-pane 将当前分屏与极简会话 Neovim 真分屏原地热交换
 function M.open_pane_scrollback()
   auto_keyboard.auto_switch_abc()
