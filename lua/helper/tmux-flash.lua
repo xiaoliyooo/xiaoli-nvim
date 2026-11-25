@@ -312,7 +312,7 @@ function M.open_pane_scrollback()
   end
 
   local vis_lines = capture_lines('-t', pane.id) or {}
-  local ok_cs, cs = pcall(require, 'helper.ai-history.current-session')
+  local ok_cs, cs = pcall(require, 'helper.chat-history.current-session')
   local md_path, live_lines = nil, nil
   if ok_cs then
     md_path, live_lines = cs.resolve_for_pane(pane, vis_lines)

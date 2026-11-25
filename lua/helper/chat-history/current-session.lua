@@ -1,7 +1,7 @@
 -- 复用 export.lua 增量导出，定位当前活跃 Tmux 分屏对应的会话 Markdown 文件路径
 local M = {}
 
-local cache_root = vim.fn.stdpath('cache') .. '/ai-history'
+local cache_root = vim.fn.stdpath('cache') .. '/chat-history'
 local export_script = vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2)), 'export.lua')
 
 local function norm_dir(p)

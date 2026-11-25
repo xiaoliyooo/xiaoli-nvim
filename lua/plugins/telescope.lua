@@ -213,11 +213,11 @@ return {
     --  +-----------------------------+ cmd end +-----------------------------+
 
     vim.api.nvim_create_user_command('ChatHistory', function(opts)
-      require('helper.ai-history').search(opts.args ~= '' and opts.args or nil)
+      require('helper.chat-history').search(opts.args ~= '' and opts.args or nil)
     end, {
       nargs = '?',
       complete = function()
-        return require('helper.ai-history').agents
+        return require('helper.chat-history').agents
       end,
       desc = '检索 claude / opencode / agy 的历史对话',
     })

@@ -5,7 +5,7 @@ local M = {}
 
 M.agents = { 'claude', 'opencode', 'agy' }
 
-local root = vim.fn.stdpath('cache') .. '/ai-history'
+local root = vim.fn.stdpath('cache') .. '/chat-history'
 local script = vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, 'S').source:sub(2)), 'export.lua')
 local syncing = false
 
