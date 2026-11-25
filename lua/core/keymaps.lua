@@ -43,9 +43,16 @@ map('n', 'T', '<Nop>')
 map('i', 'jk', '<Esc>')
 map('n', 'vv', '^vg_') -- 选中整行（不含换行符）
 map({ 'n', 'i' }, '<D-s>', save)
+
 -- 交换搜索方向
 map('n', '#', '*')
 map('n', '*', '#')
+-- 可视模式的 * / # 是 Neovim 内置的默认映射（:h v_star-default）
+local v_star = vim.fn.maparg('*', 'x', false, true).callback
+local v_hash = vim.fn.maparg('#', 'x', false, true).callback
+vim.keymap.set('x', '*', v_hash, { expr = true, silent = true })
+vim.keymap.set('x', '#', v_star, { expr = true, silent = true })
+
 map('n', '[t', 'gT')
 map('n', ']t', 'gt')
 
