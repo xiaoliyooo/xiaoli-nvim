@@ -380,25 +380,24 @@ function M.focus_pane()
   end
 end
 
+local SCROLL_TIMES = 3
 local SCROLL_ACTIONS = {
-  ['<D-Up>'] = { wheel = 64, key = 'Up', times = 3 },
-  ['<D-Down>'] = { wheel = 65, key = 'Down', times = 3 },
-  ['<D-u>'] = { key = 'PageUp', times = 1 },
-  ['<D-d>'] = { key = 'PageDown', times = 1 },
+  ['<D-u>'] = { wheel = 64, key = 'Up' },
+  ['<D-d>'] = { wheel = 65, key = 'Down' },
 }
 
--- 终端模式 <D-Up>/<D-Down>/<D-u>/<D-d> 滚动当前分屏内的全屏应用（Claude Code / opencode / agy）
+-- 终端模式 <D-u>/<D-d> 滚动当前分屏内的全屏应用（Claude Code / opencode / agy）
 function M.scroll_app(lhs)
   local _, pane = resolve_tmux_window_panes(vim.api.nvim_get_current_buf())
   if not pane or not pane.alt_on then
     return
   end
   local action = SCROLL_ACTIONS[lhs]
-  if action.wheel and pane.mouse_sgr then
+  if pane.mouse_sgr then
     local seq = ('\27[<%d;%d;%dM'):format(action.wheel, math.floor(pane.width / 2) + 1, math.floor(pane.height / 2) + 1)
-    tmux('send-keys', '-t', pane.id, '-l', seq:rep(action.times))
+    tmux('send-keys', '-t', pane.id, '-l', seq:rep(SCROLL_TIMES))
   else
-    tmux('send-keys', '-t', pane.id, '-N', tostring(action.times), action.key)
+    tmux('send-keys', '-t', pane.id, '-N', tostring(SCROLL_TIMES), action.key)
   end
 end
 
