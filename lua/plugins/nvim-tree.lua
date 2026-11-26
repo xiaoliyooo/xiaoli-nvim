@@ -54,6 +54,18 @@ return {
       vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('nav parent'))
       vim.keymap.set('n', 'l', function()
         api.node.open.preview()
+        -- 文件已显示但焦点留在树里：广播给关心的插件（如 vellum）
+        local node = api.tree.get_node_under_cursor()
+        local path = node and node.type == 'file' and vim.uv.fs_realpath(node.absolute_path)
+        if not path then
+          return
+        end
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          if vim.uv.fs_realpath(vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(win))) == path then
+            vim.api.nvim_exec_autocmds('User', { pattern = 'FilePreview', data = { win = win } })
+            return
+          end
+        end
       end, opts('open / preview'))
 
       -- 跳转到当前文件夹的第一个
